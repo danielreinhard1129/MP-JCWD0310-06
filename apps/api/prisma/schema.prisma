@@ -17,11 +17,9 @@ model User {
   password      String
   avatar        String?
   role          String    @default("user")
-  isDeleted     Boolean   @default(false)
-  deletedAt     DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   referral_code String
 
-  @@map("users") // if you want to use snake_case format
+  @@map("users")
 }

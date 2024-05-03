@@ -11,7 +11,7 @@ import { PORT } from './config';
 import { AuthRouter } from './routers/auth.router';
 
 export default class App {
-  private app: Express;
+  readonly app: Express;
 
   constructor() {
     this.app = express();
@@ -40,7 +40,7 @@ export default class App {
     this.app.use(
       (err: Error, req: Request, res: Response, next: NextFunction) => {
         if (req.path.includes('/api/')) {
-          console.error('Error : ', err.stack);
+          // console.error('Error : ', err.stack);
           res.status(500).send(err.message);
         } else {
           next();
@@ -51,7 +51,6 @@ export default class App {
 
   private routes(): void {
     const authRouter = new AuthRouter();
-
     this.app.use('/api/auth', authRouter.getRouter());
   }
 
