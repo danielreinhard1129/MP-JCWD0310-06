@@ -14,12 +14,12 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 
-export function DatePicker({
+export function DatePickerRange({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
   const [date, setDate] = React.useState<DateRange | undefined>({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
+    from: new Date(2024, 0, 20),
+    to: addDays(new Date(2024, 0, 20), 20),
   });
 
   return (
@@ -30,11 +30,11 @@ export function DatePicker({
             id="date"
             variant={'ghost'}
             className={cn(
-              'w-full justify-start text-left font-normal hover:bg-inherit',
+              'w-full justify-start text-left font-normal hover:bg-inherit p-0 rounded-none',
               !date && 'text-muted-foreground',
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <CalendarIcon className="mr-2 h-4 w-4 opacity-60" />
             {date?.from ? (
               date.to ? (
                 <>
