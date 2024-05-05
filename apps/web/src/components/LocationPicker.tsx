@@ -41,7 +41,7 @@ export function LocationPicker() {
           variant="ghost"
           role="combobox"
           aria-expanded={open}
-          className="mx-auto w-fit gap-2 hover:bg-inherit p-0 rounded-none"
+          className="mx-auto w-fit gap-2 rounded-none p-0 hover:bg-inherit"
         >
           <MapPin className="h-4 w-4 shrink-0 opacity-50" />
           {value
@@ -50,32 +50,35 @@ export function LocationPicker() {
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-fit p-0">
-        <Command>
-          <CommandInput placeholder="Search location..." />
-          <CommandEmpty>No location found.</CommandEmpty>
-          <CommandGroup>
-            <CommandList>
-              {locations.map((location) => (
-                <CommandItem
-                  key={location.value}
-                  value={location.value}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? '' : currentValue);
-                    setOpen(false);
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      'mr-2 h-4 w-4',
-                      value === location.value ? 'opacity-100' : 'opacity-0',
-                    )}
-                  />
-                  {location.label}
-                </CommandItem>
-              ))}
-            </CommandList>
-          </CommandGroup>
-        </Command>
+        {/* Ensure PopoverContent is not rendered during SSR */}
+        {open && (
+          <Command>
+            <CommandInput placeholder="Search location..." />
+            <CommandEmpty>No location found.</CommandEmpty>
+            <CommandGroup>
+              <CommandList>
+                {locations.map((location) => (
+                  <CommandItem
+                    key={location.value}
+                    value={location.value}
+                    onSelect={(currentValue) => {
+                      setValue(currentValue === value ? '' : currentValue);
+                      setOpen(false);
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        'mr-2 h-4 w-4',
+                        value === location.value ? 'opacity-100' : 'opacity-0',
+                      )}
+                    />
+                    {location.label}
+                  </CommandItem>
+                ))}
+              </CommandList>
+            </CommandGroup>
+          </Command>
+        )}
       </PopoverContent>
     </Popover>
   );
