@@ -1,8 +1,7 @@
-import { hashPassword } from '@/libs/bcrypt';
+import { comparePassword } from '@/libs/bcrypt';
 import prisma from '@/prisma';
 import { appConfig } from '@/utils/config';
 import { User } from '@prisma/client';
-import { compare } from 'bcrypt';
 import { sign } from 'jsonwebtoken';
 
 export const loginService = async (body: Pick<User, 'email' | 'password'>) => {
@@ -17,7 +16,7 @@ export const loginService = async (body: Pick<User, 'email' | 'password'>) => {
       throw new Error('Incorrect email address or password !');
     }
 
-    const isPasswordValid = await compare(password, user.password);
+    const isPasswordValid = await comparePassword(password, user.password);
 
     if (!isPasswordValid) {
       throw new Error('Incorrect email address or password !');

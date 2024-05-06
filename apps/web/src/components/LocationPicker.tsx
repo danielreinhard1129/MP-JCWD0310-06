@@ -1,7 +1,11 @@
 'use client';
 
 import * as React from 'react';
+<<<<<<< HEAD
 import { Check, MapPin } from 'lucide-react';
+=======
+import { Check, ChevronsUpDown } from 'lucide-react';
+>>>>>>> develop
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -41,15 +45,22 @@ export function LocationPicker() {
           variant="ghost"
           role="combobox"
           aria-expanded={open}
+<<<<<<< HEAD
           className="mx-auto w-fit gap-2 rounded-none p-0 hover:bg-inherit"
         >
           <MapPin className="h-4 w-4 shrink-0 opacity-50" />
+=======
+          className="w-fit mx-auto gap-2 hover:bg-inherit"
+        >
+          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+>>>>>>> develop
           {value
             ? locations.find((location) => location.value === value)?.label
             : 'Select location...'}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-fit p-0">
+<<<<<<< HEAD
         {/* Ensure PopoverContent is not rendered during SSR */}
         {open && (
           <Command>
@@ -79,6 +90,34 @@ export function LocationPicker() {
             </CommandGroup>
           </Command>
         )}
+=======
+        <Command>
+          <CommandInput placeholder="Search location..." />
+          <CommandEmpty>No location found.</CommandEmpty>
+          <CommandGroup>
+            <CommandList>
+              {locations.map((location) => (
+                <CommandItem
+                  key={location.value}
+                  value={location.value}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? '' : currentValue);
+                    setOpen(false);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      'mr-2 h-4 w-4',
+                      value === location.value ? 'opacity-100' : 'opacity-0',
+                    )}
+                  />
+                  {location.label}
+                </CommandItem>
+              ))}
+            </CommandList>
+          </CommandGroup>
+        </Command>
+>>>>>>> develop
       </PopoverContent>
     </Popover>
   );

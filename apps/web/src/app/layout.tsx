@@ -23,9 +23,15 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <StoreProvider>
+<<<<<<< HEAD
           {showNavbarAndFooter && <Navbar />}
           {children}
           {showNavbarAndFooter && <Footer />}
+=======
+          <Navbar />
+          {children}
+          <Footer />
+>>>>>>> develop
         </StoreProvider>
       </body>
     </html>
