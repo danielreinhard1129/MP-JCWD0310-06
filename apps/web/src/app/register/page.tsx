@@ -1,7 +1,7 @@
 import RootLayout from '../layout';
 
 const Register = () => {
-  return <RootLayout showNavbarAndFooter={false}>Login</RootLayout>;
+  return <div>Register</div>;
 };
 
 export default Register;

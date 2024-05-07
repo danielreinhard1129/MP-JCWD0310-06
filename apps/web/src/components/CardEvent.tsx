@@ -21,8 +21,8 @@ const CardEvent = () => {
         />
         <Badge className="absolute bottom-4 right-4 z-50">Jakarta</Badge>
       </CardHeader>
-      <CardContent className="px-4">
-        <h1 className="py-3">Pestapora Music Fest</h1>
+      <CardContent className="px-3">
+        <h1 className="py-2 text-xl font-semibold">Pestapora Music Fest</h1>
         <p className="text-black">
           Thu, Apr 2 <span>-</span> 8:00 PM
         </p>
