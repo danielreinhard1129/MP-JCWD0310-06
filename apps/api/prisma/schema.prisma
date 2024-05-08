@@ -20,152 +20,21 @@ model User {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   referral_code String
-  Organizer     Organizer[]
-  Review        Review[]
-  Transaction   Transaction[]
-  Referral_code Referral_code[]
-  Referral      Referral[]
+  Event         Event[]
 
   @@map("users")
 }
 
 model Event {
-  id            Int      @id @default(autoincrement())
-  tittle        String
-  start_date    DateTime
-  end_date      DateTime
-  time          DateTime
-  description   String
+  id            Int       @id @default(autoincrement())
+  title         String    @unique
+  description   String    @db.LongText()
   thumbnail_url String
-  limit         Int
-  booked        Int
-  isAvailable   Boolean
-
-  category_id Int
-  vanue_id    Int
-
-  vanue    Vanue    @relation(references: [id], fields: [vanue_id])
-  category Category @relation(references: [id], fields: [category_id])
-  Review   Review[]
-  Ticket   Ticket[]
+  userId        Int
+  user          User      @relation(fields: [userId], references: [id])
+  deletedAt     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 
   @@map("events")
-}
-
-model Category {
-  id            Int     @id @default(autoincrement())
-  category_name String
-  Event         Event[]
-
-  @@map("categories")
-}
-
-model Vanue {
-  id      Int     @id @default(autoincrement())
-  name    String
-  address String
-  map_url String
-  city    String
-  Event   Event[]
-
-  @@map("vanues")
-}
-
-model Organizer {
-  id      Int    @id @default(autoincrement())
-  name    String
-  address String
-  contact String
-
-  user_id Int
-  user    User @relation(fields: [user_id], references: [id])
-
-  @@map("organizer")
-}
-
-model Review {
-  id       Int    @id @default(autoincrement())
-  comment  String
-  rating   Int
-  user_id  Int
-  event_id Int
-
-  user  User  @relation(fields: [user_id], references: [id])
-  event Event @relation(fields: [event_id], references: [id])
-
-  @@map("reviews")
-}
-
-model Ticket {
-  id          Int    @id @default(autoincrement())
-  ticket_type String
-  price       Int
-  event_id    Int
-
-  event              Event                @relation(references: [id], fields: [event_id])
-  Transaction_detail Transaction_detail[]
-
-  @@map("tickets")
-}
-
-model Transaction_detail {
-  id             Int @id @default(autoincrement())
-  qty            Int
-  transaction_id Int
-  ticket_id      Int
-
-  transaction Transaction @relation(fields: [transaction_id], references: [id])
-  ticket      Ticket      @relation(references: [id], fields: [ticket_id])
-
-  @@map("transaction_details")
-}
-
-model Discount {
-  id        Int      @id @default(autoincrement())
-  discount  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  expiredAt DateTime
-
-  @@map("discounts")
-}
-
-model Referral_code {
-  id        Int      @id @default(autoincrement())
-  total     Int
-  expiredAt DateTime
-  user_id   Int
-
-  user User @relation(references: [id], fields: [user_id])
-
-  @@map("referral_codes")
-}
-
-model Referral {
-  id                Int      @id @default(autoincrement())
-  code              String
-  createdAt         DateTime @default(now())
-  referral_point_id Int
-  user_id           Int
-  user              User     @relation(references: [id], fields: [user_id])
-
-  @@map("referrals")
-}
-
-model Transaction {
-  id                Int      @id @default(autoincrement())
-  total             Int
-  status            String
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  user_id           Int
-  discount_id       Int
-  referral_point_id Int
-  rewards_id        Int
-  voucher_id        Int
-
-  user               User                 @relation(references: [id], fields: [user_id])
-  Transaction_detail Transaction_detail[]
-
-  @@map("transactions")
 }

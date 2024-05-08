@@ -22,6 +22,7 @@ export const Footer = () => {
             src={purwapora}
             alt="bg"
             draggable="false"
+            priority
             className="absolute -bottom-4 w-full object-cover md:-bottom-20"
           />
         </div>

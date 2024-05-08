@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useFormik } from 'formik';
 import { Loader2 } from 'lucide-react';
 import React from 'react';
-import useForgotPassword from '../hooks/api/auth/useForgotPassword';
+import useForgotPassword from '../../hooks/api/auth/useForgotPassword';
 import { validationSchema } from './validationSchema';
 
 const ForgotPassword: React.FC = () => {
