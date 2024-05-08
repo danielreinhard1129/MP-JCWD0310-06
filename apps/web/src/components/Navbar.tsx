@@ -26,24 +26,24 @@ export const Navbar = () => {
         </div>
 
         {Boolean(id) ? (
-          <div className="flex items-center gap-10">
+          <div className="flex items-center gap-8">
             <Button
               className="hidden sm:block"
               variant="link"
-              onClick={() => router.push('/create-event')}
+              onClick={() => router.push('/create')}
             >
               Create Event
             </Button>
-            <Button variant="link" className="hidden md:block" onClick={logout}>
+            <Button variant="link" className="hidden md:block text-red-500" onClick={logout}>
               Logout
             </Button>
           </div>
         ) : (
-          <div className="flex items-center gap-10">
+          <div className="flex items-center gap-8">
             <Button
               className="hidden sm:block"
               variant="link"
-              onClick={() => router.push('/create-event')}
+              onClick={() => router.push('/create')}
             >
               Create Event
             </Button>

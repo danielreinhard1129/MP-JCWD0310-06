@@ -1,30 +1,25 @@
 'use client';
 
-import { HTMLInputTypeAttribute } from 'react';
 import { FormikHandlers } from 'formik';
 import { Label } from './ui/label';
-import { Input } from './ui/input';
+import { Textarea } from './ui/textarea';
 
 interface FormInputProps {
   name: string;
   placeholder: string;
-  type: HTMLInputTypeAttribute;
   onChange: FormikHandlers['handleChange'];
   onBlur: FormikHandlers['handleBlur'];
   value: string;
   isError: boolean;
-  label: string;
   error: string | undefined;
 }
 
-const FormInput: React.FC<FormInputProps> = ({
+const FormTextArea: React.FC<FormInputProps> = ({
   name,
   placeholder,
-  type,
   onChange,
   onBlur,
   value,
-  label,
   isError,
   error,
 }) => {
@@ -33,18 +28,18 @@ const FormInput: React.FC<FormInputProps> = ({
       <Label htmlFor={placeholder} className={isError ? 'text-red-500' : ''}>
         {placeholder}
       </Label>
-      <Input
+      <Textarea
         name={name}
         placeholder={placeholder}
-        type={type}
         onChange={onChange}
         onBlur={onBlur}
         value={value}
-        className="rounded-md border"
+        style={{ resize: 'none' }}
+        rows={8}
       />
       {isError ? <div className="text-xs text-red-500">{error}</div> : null}
     </div>
   );
 };
 
-export default FormInput;
+export default FormTextArea;

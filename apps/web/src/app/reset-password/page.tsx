@@ -7,7 +7,7 @@ import { useFormik } from 'formik';
 import { Loader2 } from 'lucide-react';
 import { notFound, useSearchParams } from 'next/navigation';
 import React from 'react';
-import useResetPassword from '../hooks/api/auth/useResetPassword';
+import useResetPassword from '../../hooks/api/auth/useResetPassword';
 import { validationSchema } from './validationSchema';
 
 const ResetPassword: React.FC = () => {

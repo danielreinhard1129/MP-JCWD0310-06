@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
-import useLogin from '../hooks/api/auth/useLogin';
+import useLogin from '../../hooks/api/auth/useLogin';
 import { validationSchema } from './validationSchema';
 
 const Login = () => {
@@ -41,8 +41,8 @@ const Login = () => {
                   label="Email"
                   error={errors.email}
                   isError={!!touched.email && !!errors.email}
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   placeholder="email"
                   type="email"
                   value={values.email}
@@ -54,8 +54,8 @@ const Login = () => {
                   label="Password"
                   error={errors.password}
                   isError={!!touched.password && !!errors.password}
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   placeholder="password"
                   type="password"
                   value={values.password}
