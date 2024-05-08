@@ -4,4 +4,5 @@ export interface User {
   email: string;
   password: string;
   referral_code: string;
+  point: number;
 }

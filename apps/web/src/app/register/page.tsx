@@ -41,8 +41,8 @@ const Register = () => {
                   label="Full Name"
                   error={errors.fullName}
                   isError={!!touched.fullName && !!errors.fullName}
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   placeholder="name"
                   type="text"
                   value={values.fullName}
@@ -53,8 +53,8 @@ const Register = () => {
                   label="Email"
                   error={errors.email}
                   isError={!!touched.email && !!errors.email}
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   placeholder="email"
                   type="email"
                   value={values.email}
@@ -65,8 +65,8 @@ const Register = () => {
                   label="Password"
                   error={errors.password}
                   isError={!!touched.password && !!errors.password}
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   placeholder="password"
                   type="password"
                   value={values.password}
@@ -78,8 +78,8 @@ const Register = () => {
                   label="Referral Code"
                   error={errors.referral_code}
                   isError={!!touched.referral_code && !!errors.referral_code}
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   placeholder="referral code"
                   type="text"
                   value={values.referral_code}

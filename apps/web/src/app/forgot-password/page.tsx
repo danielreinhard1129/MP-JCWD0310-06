@@ -40,8 +40,8 @@ const ForgotPassword: React.FC = () => {
                   label="Email"
                   error={errors.email}
                   isError={!!touched.email && !!errors.email}
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   placeholder="example@mail.com"
                   type="email"
                   value={values.email}

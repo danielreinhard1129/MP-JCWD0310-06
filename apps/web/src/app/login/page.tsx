@@ -41,8 +41,8 @@ const Login = () => {
                   label="Email"
                   error={errors.email}
                   isError={!!touched.email && !!errors.email}
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   placeholder="email"
                   type="email"
                   value={values.email}
@@ -54,8 +54,8 @@ const Login = () => {
                   label="Password"
                   error={errors.password}
                   isError={!!touched.password && !!errors.password}
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   placeholder="password"
                   type="password"
                   value={values.password}

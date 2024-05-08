@@ -10,8 +10,8 @@ interface FormInputProps {
   label: string;
   placeholder: string;
   type: HTMLInputTypeAttribute;
-  handleChange: FormikHandlers['handleChange'];
-  handleBlur: FormikHandlers['handleBlur'];
+  onChange: FormikHandlers['handleChange'];
+  onBlur: FormikHandlers['handleBlur'];
   value: string;
   isError: boolean;
   error: string | undefined;
@@ -22,8 +22,8 @@ const FormInput: React.FC<FormInputProps> = ({
   label,
   placeholder,
   type,
-  handleChange,
-  handleBlur,
+  onChange,
+  onBlur,
   value,
   isError,
   error,
@@ -37,10 +37,10 @@ const FormInput: React.FC<FormInputProps> = ({
         name={name}
         placeholder={placeholder}
         type={type}
-        onChange={handleChange}
+        onChange={onChange}
         value={value}
-        onBlur={handleBlur}
-        className='border'
+        onBlur={onBlur}
+        className="border"
       />
       {isError ? <div className="text-xs text-red-500">{error}</div> : null}
     </div>
