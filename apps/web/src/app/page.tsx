@@ -3,7 +3,9 @@ import { DatePickerRange } from '@/components/DatePickerRange';
 import { LocationPicker } from '@/components/LocationPicker';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import AuthGuard from '@/hoc/AuthGuard';
 import { Filter, Search } from 'lucide-react';
+import { homedir } from 'os';
 
 export default function Home() {
   return (

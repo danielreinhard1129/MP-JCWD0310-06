@@ -1,13 +1,19 @@
 'use client';
 
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { useRouter } from 'next/navigation';
 import { Button } from './ui/button';
-import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { logoutAction } from '@/redux/slices/userSlice';
 
 export const Navbar = () => {
   const dispatch = useAppDispatch();
   const { id } = useAppSelector((state) => state.user);
   const router = useRouter();
+
+  const logout = () => {
+    localStorage.removeItem('token');
+    dispatch(logoutAction());
+  };
 
   return (
     <>
@@ -28,7 +34,7 @@ export const Navbar = () => {
             >
               Create Event
             </Button>
-            <Button variant="link" className="hidden md:block">
+            <Button variant="link" className="hidden md:block" onClick={logout}>
               Logout
             </Button>
           </div>

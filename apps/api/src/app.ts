@@ -51,6 +51,11 @@ export default class App {
 
   private routes(): void {
     const authRouter = new AuthRouter();
+
+    this.app.get('/api', (req: Request, res: Response) => {
+      res.send(`Hello, Welcome to Blog API !`);
+    });
+
     this.app.use('/api/auth', authRouter.getRouter());
   }
 
