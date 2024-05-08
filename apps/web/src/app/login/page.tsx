@@ -1,7 +1,7 @@
 import RootLayout from '../layout';
 
 const Login = () => {
-  return <RootLayout showNavbarAndFooter={false}>Login</RootLayout>;
+  return <div>Login</div>;
 };
 
 export default Login;

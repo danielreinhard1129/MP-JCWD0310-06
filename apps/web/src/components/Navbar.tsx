@@ -11,8 +11,11 @@ export const Navbar = () => {
 
   return (
     <>
-      <nav className="container px-4 xl:px-0 sticky flex justify-between py-4">
-        <div className="place-content-center text-[24px] font-bold">
+      <nav className="container sticky flex justify-between px-4 py-4 xl:px-0">
+        <div
+          className="cursor-pointer place-content-center text-[24px] font-bold"
+          onClick={() => router.push('/')}
+        >
           purwa<span className="text-main_yellow">pora</span>
         </div>
 
@@ -55,7 +58,7 @@ export const Navbar = () => {
           </div>
         )}
       </nav>
-      <hr className='border-b-0 border-b-' />
+      <hr className="border-b- border-b-0" />
     </>
   );
 };
