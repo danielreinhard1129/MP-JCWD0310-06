@@ -20,6 +20,7 @@ model User {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   referral_code String
+  point         Int
   Organizer     Organizer[]
   Review        Review[]
   Transaction   Transaction[]

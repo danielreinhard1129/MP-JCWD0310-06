@@ -13,16 +13,6 @@ export const registerService = async (body: Omit<User, 'id'>) => {
     if (existingUser) {
       throw new Error('Email already exist!');
     }
-
-    const referralCode = await prisma.user.findFirst({
-      where: { referral_code: referral_code },
-    });
-
-    if (!referralCode) {
-      throw new Error('Invalid referral code')
-      
-    }
-
     const hashedPassword = await hashPassword(password);
     const GeneratereferralCode = await Math.random()
       .toString(36)
@@ -33,8 +23,23 @@ export const registerService = async (body: Omit<User, 'id'>) => {
         ...body,
         password: hashedPassword,
         referral_code: GeneratereferralCode,
+        point: 0,
       },
     });
+
+    const referralCode = await prisma.user.findFirst({
+      where: { referral_code: referral_code },
+    });
+
+    if (!referralCode) {
+      throw new Error('Invalid referral code');
+    }
+
+    const addPoint = await prisma.user.update({
+      where: { id: referralCode?.id },
+      data: { point: { increment: 10000 } },
+    });
+
     return {
       message: 'Register success !',
       data: newUser,
