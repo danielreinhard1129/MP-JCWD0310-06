@@ -9,7 +9,7 @@ import { homedir } from 'os';
 
 export default function Home() {
   return (
-    <>
+    <main>
       <div className="px-6 md:px-20">
         <div className="container relative my-6 flex-col px-0">
           {/* HERO POSTER */}
@@ -92,6 +92,6 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </>
+    </main>
   );
 }
