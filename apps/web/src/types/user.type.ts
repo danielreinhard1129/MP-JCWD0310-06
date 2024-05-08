@@ -1,5 +1,7 @@
 export interface User {
   id: number;
-  name: string;
+  fullName: string;
   email: string;
+  password: string;
+  referral_code: string;
 }
