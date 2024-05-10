@@ -4,11 +4,17 @@ import { useAppSelector } from '@/redux/hooks';
 import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-export default function AuthGuard(Component: any) {
+export default function AuthGuardUser(Component: any) {
   return function IsAuth(props: any) {
     const [isLoading, setIsLoading] = useState(true);
 
-    const { id, role } = useAppSelector((state) => state.user);
+    const { role,id } = useAppSelector((state) => state.user);
+
+    useEffect(() => {
+        if (!id && !isLoading) {
+          redirect('/login');
+        }
+      }, [id, isLoading]);
 
     useEffect(() => {
       setTimeout(() => {
@@ -17,14 +23,9 @@ export default function AuthGuard(Component: any) {
     }, []);
 
     useEffect(() => {
-      if (!id && !isLoading) {
+      if (role == 'organizer' && !isLoading) {
+        alert('u must login as an user tot');
         redirect('/login');
-      }
-    }, [id, isLoading]);
-
-    useEffect(() => {
-      if (role == 'user' && !isLoading) {
-        redirect('/organizer-register');
       }
     }, [role, isLoading]);
 

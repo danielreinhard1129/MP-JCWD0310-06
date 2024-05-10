@@ -11,16 +11,18 @@ datasource db {
 }
 
 model User {
-  id            Int             @id @default(autoincrement())
-  fullName      String
-  email         String          @unique
-  password      String
-  avatar        String?
-  role          String          @default("user")
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
-  referral_code String
-  Event         Event[]
+  id                Int      @id @default(autoincrement())
+  fullName          String
+  email             String   @unique
+  password          String
+  avatar            String?
+  role              String   @default("user")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  referral_code     String?  @unique
+  point             Int
+  point_expiredDate DateTime
+  Event             Event[]
 
   @@map("users")
 }

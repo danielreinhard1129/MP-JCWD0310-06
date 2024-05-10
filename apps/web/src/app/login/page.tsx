@@ -17,6 +17,7 @@ const Login = () => {
       initialValues: {
         email: '',
         password: '',
+        role: '',
       },
       validationSchema,
       onSubmit: (values) => {

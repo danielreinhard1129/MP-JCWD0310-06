@@ -5,7 +5,7 @@ import { loginAction } from '@/redux/slices/userSlice';
 import { User } from '@/types/user.type';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 interface LoginResponses {
   message: string;
@@ -13,7 +13,9 @@ interface LoginResponses {
   token: string;
 }
 
-interface LoginArgs extends Omit<User, 'id' | 'fullName' | 'referral_code'> {
+interface LoginArgs
+  extends Omit<User, 'id' | 'fullName' | 'referral_code' | 'point'> {
+  role: string;
   password: string;
 }
 const useLogin = () => {
@@ -28,7 +30,11 @@ const useLogin = () => {
 
       dispatch(loginAction(data.data));
       localStorage.setItem('token', data.token);
-      router.replace('/');
+      if (data.data.role === 'user') {
+        router.push('/');
+      } else {
+        router.push('/create');
+      }
     } catch (error) {
       if (error instanceof AxiosError) {
         // FIXME = change alert to toast
