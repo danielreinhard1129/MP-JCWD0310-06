@@ -1,3 +1,4 @@
+'use client';
 import Image from 'next/image';
 import thumbnail from '../../../public/samplecardimg.jpg';
 import { Badge } from '@/components/ui/badge';
@@ -5,6 +6,8 @@ import { Globe, Instagram, MapPinned } from 'lucide-react';
 import Maps from '@/components/Maps';
 import CardEvent from '@/components/CardEvent';
 import OrderCard from './components/OrderCard';
+import AuthGuard from '@/hoc/AuthGuard';
+import AuthGuardUser from '@/hoc/AuthGuardUser';
 
 const CardDetail = () => {
   const address =
@@ -140,4 +143,4 @@ const CardDetail = () => {
   );
 };
 
-export default CardDetail;
+export default AuthGuardUser(CardDetail);

@@ -5,6 +5,7 @@ import FormInput from '@/components/FormInput';
 import FormTextArea from '@/components/FormTextArea';
 import PreviewImages from '@/components/PreviewImages';
 import { Button } from '@/components/ui/button';
+import AuthGuard from '@/hoc/AuthGuard';
 import useCreateEvent from '@/hooks/api/event/useCreateEvent';
 import { useAppSelector } from '@/redux/hooks';
 import { IFormCreateEvent } from '@/types/event.type';
@@ -84,4 +85,4 @@ const Create = () => {
   );
 };
 
-export default Create;
+export default AuthGuard(Create);
