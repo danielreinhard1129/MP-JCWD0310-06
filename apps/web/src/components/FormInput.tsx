@@ -1,7 +1,7 @@
 'use client';
 
 import { HTMLInputTypeAttribute } from 'react';
-import { FormikHandlers } from 'formik';
+import { FormikErrors, FormikHandlers } from 'formik';
 import { Label } from './ui/label';
 import { Input } from './ui/input';
 
@@ -11,10 +11,10 @@ interface FormInputProps {
   type: HTMLInputTypeAttribute;
   onChange: FormikHandlers['handleChange'];
   onBlur: FormikHandlers['handleBlur'];
-  value: string;
+  value: string | number | Date;
   isError: boolean;
   label: string;
-  error: string | undefined;
+  error: string | FormikErrors<Date> | undefined;
 }
 
 const FormInput: React.FC<FormInputProps> = ({
@@ -39,10 +39,18 @@ const FormInput: React.FC<FormInputProps> = ({
         type={type}
         onChange={onChange}
         onBlur={onBlur}
-        value={value}
+        value={
+          typeof value === 'string' || typeof value === 'number'
+            ? value
+            : value.toISOString()
+        }
         className="rounded-md border"
       />
-      {isError ? <div className="text-xs text-red-500">{error}</div> : null}
+      {isError ? (
+        <div className="text-xs text-red-500">
+          {typeof error === 'string' ? error : JSON.stringify(error)}
+        </div>
+      ) : null}
     </div>
   );
 };

@@ -1,12 +1,15 @@
 import { User } from './user.type';
-import { Venue } from './venue.type';
+
+export interface Location {
+  id: number;
+  city: string;
+}
 
 export interface Event {
   id: number;
   title: string;
   start_date: Date;
   end_date: Date;
-  time: Date;
   description: string;
   thumbnail_url: string;
   limit: number;
@@ -15,16 +18,27 @@ export interface Event {
   deletedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
+  time: string;
+  venue_name: string | null;
+  venue_address: string | null;
 
-  venue: Venue;
+  location: Location;
   user: User;
 }
 
 export interface IFormCreateEvent {
   title: string;
   description: string;
-  // limit: number;
-  // booked: number;
   thumbnail_url: File[];
+  limit: number;
+  start_date: Date;
+  end_date: Date | null;
+  time: string;
+  venue_name: string | null;
+  venue_address: string | null;
   userId?: number;
+  locationId?: number;
+  location: {
+    city: string;
+  };
 }

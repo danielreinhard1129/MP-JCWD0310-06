@@ -11,14 +11,14 @@ datasource db {
 }
 
 model User {
-  id            Int             @id @default(autoincrement())
+  id            Int      @id @default(autoincrement())
   fullName      String
-  email         String          @unique
+  email         String   @unique
   password      String
   avatar        String?
-  role          String          @default("user")
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  role          String   @default("user")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
   referral_code String
   Event         Event[]
 
@@ -30,11 +30,30 @@ model Event {
   title         String    @unique
   description   String    @db.LongText()
   thumbnail_url String
-  userId        Int
-  user          User      @relation(fields: [userId], references: [id])
   deletedAt     DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
+  limit         Int
+  isAvailable   Boolean   @default(true)
+  start_date    DateTime
+  end_date      DateTime?
+  time          String
+  venue_name    String?
+  venue_address String?
+
+  locationId Int
+  location   Location? @relation(fields: [locationId], references: [id])
+
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
 
   @@map("events")
+}
+
+model Location {
+  id    Int     @id @default(autoincrement())
+  city  String  @unique
+  Event Event[]
+
+  @@map("cities")
 }

@@ -15,18 +15,31 @@ const useCreateEvent = () => {
         description,
         thumbnail_url,
         userId,
+        limit,
+        start_date,
+        end_date,
+        time,
+        locationId,
+        location
       } = payload;
 
       const createEventForm = new FormData();
 
       for (const [key, value] of Object.entries(payload)) {
-        console.log('key', key);
-        console.log('value', value);
+        console.log(key, value);
       }
+
+      const timeToString = String(time);
 
       createEventForm.append('title', title);
       createEventForm.append('description', description);
+      createEventForm.append('limit', String(limit));
       createEventForm.append('userId', String(userId));
+      createEventForm.append('start_date', new Date(start_date).toISOString());
+      createEventForm.append('end_date', new Date(end_date || 0).toISOString());
+      createEventForm.append('time', timeToString);
+      createEventForm.append('locationId', String(locationId));
+      createEventForm.append('location.city', location.city);
 
       thumbnail_url.forEach((file: FileWithPath) => {
         createEventForm.append('thumbnail_url', file);
@@ -37,7 +50,9 @@ const useCreateEvent = () => {
       router.push('/');
     } catch (error) {
       if (error instanceof AxiosError) {
-        console.log(error);
+        console.log('Axios error:', error);
+      } else {
+        console.log('Other error', error);
       }
     }
   };
