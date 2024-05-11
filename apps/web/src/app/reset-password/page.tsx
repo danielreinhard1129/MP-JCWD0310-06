@@ -50,8 +50,8 @@ const ResetPassword: React.FC = () => {
                   placeholder="Password"
                   error={errors.password}
                   isError={!!touched.password && !!errors.password}
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   value={values.password}
                 />
                 <FormInput
@@ -63,8 +63,8 @@ const ResetPassword: React.FC = () => {
                   isError={
                     !!touched.confirmPassword && !!errors.confirmPassword
                   }
-                  handleBlur={handleBlur}
-                  handleChange={handleChange}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
                   value={values.confirmPassword}
                 />
                 <Button

@@ -7,8 +7,8 @@ export class EventRouter {
   private eventController: EventController;
 
   constructor() {
-    this.router = Router();
     this.eventController = new EventController();
+    this.router = Router();
     this.initializeRoutes();
   }
 

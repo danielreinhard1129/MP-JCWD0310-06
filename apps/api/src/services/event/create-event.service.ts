@@ -2,14 +2,16 @@ import prisma from '@/prisma';
 import { Event } from '@prisma/client';
 
 interface CreateEventBody
-  extends Omit<Event, 'id' | 'deletedAt' | 'createdAt' | 'updatedAt'> {}
+  extends Omit<Event, 'id' | 'deletedAt' | 'createdAt' | 'updatedAt'> {
+  city: string;
+}
 
 export const createEventService = async (
   body: CreateEventBody,
   file: Express.Multer.File,
 ) => {
   try {
-    const { title, userId } = body;
+    const { title, userId, limit } = body;
 
     const existingTitle = await prisma.event.findFirst({
       where: { title },
@@ -31,6 +33,7 @@ export const createEventService = async (
       data: {
         ...body,
         thumbnail_url: `/images/${file.filename}`,
+        limit: Number(limit),
         userId: Number(userId),
       },
     });

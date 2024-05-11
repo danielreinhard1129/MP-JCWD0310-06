@@ -18,14 +18,14 @@ export class EventController {
       next(error);
     }
   }
-  async getEventController(req: Request,res:Response,next: NextFunction) {
+  async getEventController(req: Request, res: Response, next: NextFunction) {
     try {
       const id = req.params.id;
       const result = await getEventService(Number(id));
 
-      return res.status(200).send(result)
+      return res.status(200).send(result);
     } catch (error) {
-      next(error)
+      next(error);
     }
   }
 }

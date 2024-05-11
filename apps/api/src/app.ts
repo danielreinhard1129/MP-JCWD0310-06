@@ -6,10 +6,12 @@ import express, {
   Request,
   Response,
   urlencoded,
+  static as static_,
 } from 'express';
 import { PORT } from './config';
 import { AuthRouter } from './routers/auth.router';
 import { EventRouter } from './routers/event.router';
+import { join } from 'path';
 
 export default class App {
   readonly app: Express;
@@ -25,6 +27,7 @@ export default class App {
     this.app.use(cors());
     this.app.use(json());
     this.app.use(urlencoded({ extended: true }));
+    this.app.use('/api/assets', static_(join(__dirname, '../public')));
   }
 
   private handleError(): void {
@@ -41,7 +44,6 @@ export default class App {
     this.app.use(
       (err: Error, req: Request, res: Response, next: NextFunction) => {
         if (req.path.includes('/api/')) {
-          // console.error('Error : ', err.stack);
           res.status(500).send(err.message);
         } else {
           next();

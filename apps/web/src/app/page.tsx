@@ -3,6 +3,8 @@ import { DatePickerRange } from '@/components/DatePickerRange';
 import { LocationPicker } from '@/components/LocationPicker';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import AuthGuard from '@/hoc/AuthGuard';
 import { useAppSelector } from '@/redux/hooks';
 import { Filter, Search } from 'lucide-react';
 
@@ -27,11 +29,13 @@ export default function Home() {
             <div className="flex w-full place-items-center">
               <Search className="mr-2 h-4 w-4 opacity-60" />
               <Input placeholder="Search" />
+              <Separator orientation="vertical" />
             </div>
-            <div className="place-items-centers w-full md:flex">
-              <div className="w-full">
-                <DatePickerRange className="w-full md:border-x-[1px] md:pl-4" />
+            <div className="place-items-centers mx-auto w-full md:flex">
+              <div className="w-full md:pl-4">
+                <DatePickerRange />
               </div>
+              <Separator orientation="vertical" />
               <div className="w-full md:pl-4">
                 <LocationPicker />
               </div>
