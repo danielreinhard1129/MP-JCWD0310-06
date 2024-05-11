@@ -13,6 +13,7 @@ import { useFormik } from 'formik';
 
 const Create = () => {
   const { createEvent } = useCreateEvent();
+
   const { id } = useAppSelector((state) => state.user);
 
   const {
@@ -32,11 +33,8 @@ const Create = () => {
       start_date: new Date(),
       end_date: addDays(new Date(), 1),
       time: '',
-      venue_name: '',
-      venue_address: '',
-      location: {
-        city: '',
-      },
+      address: '',
+      location: '',
     },
     onSubmit: (values) => {
       createEvent({ ...values, userId: id });
@@ -120,37 +118,26 @@ const Create = () => {
           {/* VENUE INPUT */}
           <div>
             <FormInput
-              name="venue_name"
-              label="Venue Name"
-              error={errors.venue_name}
-              isError={!!touched.venue_name && !!errors.venue_name}
+              name="location"
+              label="Location"
+              error={errors.location}
+              isError={!!touched.location && !!errors.location}
               onBlur={handleBlur}
               onChange={handleChange}
-              placeholder="Venue Name"
+              placeholder="Location"
               type="text"
-              value={String(values.venue_name)}
+              value={values.location}
             />
             <FormInput
-              name="venue_address"
-              label="Venue Address"
-              error={errors.venue_address}
-              isError={!!touched.venue_address && !!errors.venue_address}
+              name="address"
+              label="Address"
+              error={errors.address}
+              isError={!!touched.address && !!errors.address}
               onBlur={handleBlur}
               onChange={handleChange}
-              placeholder="Venue Address"
+              placeholder="Address"
               type="text"
-              value={String(values.venue_address)}
-            />
-            <FormInput
-              name="location.city"
-              label="City"
-              error={errors.location?.city}
-              isError={!!touched.location?.city && !!errors.location?.city}
-              onBlur={handleBlur}
-              onChange={handleChange}
-              placeholder="City"
-              type="text"
-              value={values.location.city}
+              value={String(values.address)}
             />
           </div>
           {/* PREVIEW IMAGE */}

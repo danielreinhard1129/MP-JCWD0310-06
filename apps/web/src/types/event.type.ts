@@ -1,10 +1,5 @@
 import { User } from './user.type';
 
-export interface Location {
-  id: number;
-  city: string;
-}
-
 export interface Event {
   id: number;
   title: string;
@@ -19,10 +14,9 @@ export interface Event {
   createdAt: Date;
   updatedAt: Date;
   time: string;
-  venue_name: string | null;
-  venue_address: string | null;
+  location: string;
+  address: string | null;
 
-  location: Location;
   user: User;
 }
 
@@ -34,11 +28,7 @@ export interface IFormCreateEvent {
   start_date: Date;
   end_date: Date | null;
   time: string;
-  venue_name: string | null;
-  venue_address: string | null;
+  location: string;
+  address: string | null;
   userId?: number;
-  locationId?: number;
-  location: {
-    city: string;
-  };
 }
