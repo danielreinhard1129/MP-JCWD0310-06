@@ -13,6 +13,7 @@ export const Navbar = () => {
   const logout = () => {
     localStorage.removeItem('token');
     dispatch(logoutAction());
+    router.push('/');
   };
 
   return (
@@ -34,7 +35,11 @@ export const Navbar = () => {
             >
               Create Event
             </Button>
-            <Button variant="link" className="hidden md:block text-red-500" onClick={logout}>
+            <Button
+              variant="link"
+              className="hidden text-red-500 md:block"
+              onClick={logout}
+            >
               Logout
             </Button>
           </div>

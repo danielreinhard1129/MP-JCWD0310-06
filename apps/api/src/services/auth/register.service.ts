@@ -1,11 +1,10 @@
 import { hashPassword } from '@/libs/bcrypt';
 import prisma from '@/prisma';
 import { User } from '@prisma/client';
+import { addMonths } from 'date-fns';
 
 export const registerService = async (body: Omit<User, 'id'>) => {
   try {
-    const cron = require('node-cron');
-
     const { email, password, referral_code } = body;
 
     const existingUser = await prisma.user.findFirst({
@@ -26,7 +25,8 @@ export const registerService = async (body: Omit<User, 'id'>) => {
         ...body,
         password: hashedPassword,
         referral_code: GeneratereferralCode,
-        // point: 0,
+        point: 0,
+        point_expiredDate: new Date(),
       },
     });
 
@@ -38,10 +38,13 @@ export const registerService = async (body: Omit<User, 'id'>) => {
       if (!referralCode) {
         throw new Error('Invalid referral code');
       }
-      // const addPoint = await prisma.user.update({
-      //   where: { id: referralCode?.id },
-      //   data: { point: { increment: 10000 } },
-      // });
+      const today = new Date();
+      const expiredDate = addMonths(today, 3).toISOString();
+
+      await prisma.user.update({
+        where: { id: referralCode.id },
+        data: { point: { increment: 10000 }, point_expiredDate: expiredDate },
+      });
 
       // cron.schedule('*/15 * * * * *', async () => {
       //   if (referralCode.point <= 0) {
