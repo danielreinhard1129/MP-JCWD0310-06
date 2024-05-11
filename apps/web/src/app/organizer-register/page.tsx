@@ -3,14 +3,11 @@ import FormInput from '@/components/FormInput';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useFormik } from 'formik';
-import { useRouter } from 'next/navigation';
 import useRegister from '../../hooks/api/auth/useRegister';
 import { validationSchema } from './validationSchema';
 
-const Register = () => {
+const OrganizerRegister = () => {
   const { register } = useRegister();
-  const router = useRouter();
-
   const { handleBlur, handleChange, handleSubmit, errors, values, touched } =
     useFormik({
       initialValues: {
@@ -19,7 +16,7 @@ const Register = () => {
         password: '',
         referral_code: '',
         point: 0,
-        role: '',
+        role: 'organizer',
       },
 
       validationSchema,
@@ -33,7 +30,7 @@ const Register = () => {
         <Card className="w-[450px] rounded-lg p-4">
           <CardHeader>
             <CardTitle className="text-primary mb-5 text-center text-3xl">
-              Welcome to PurwaPora
+              Register
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -47,7 +44,7 @@ const Register = () => {
                   isError={!!touched.fullName && !!errors.fullName}
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  placeholder="full name"
+                  placeholder="name"
                   type="text"
                   value={values.fullName}
                 />
@@ -59,7 +56,7 @@ const Register = () => {
                   isError={!!touched.email && !!errors.email}
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  placeholder="email@mail.com"
+                  placeholder="email"
                   type="email"
                   value={values.email}
                 />
@@ -75,34 +72,10 @@ const Register = () => {
                   type="password"
                   value={values.password}
                 />
-
-                {/* REFERRAL CODE */}
-                <FormInput
-                  name="referral_code"
-                  label="Referral Code"
-                  error={errors.referral_code}
-                  isError={!!touched.referral_code && !!errors.referral_code}
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  placeholder="referral code"
-                  type="text"
-                  value={values.referral_code}
-                />
               </div>
               <Button className="mt-6 w-full" type="submit">
                 Register
               </Button>
-              <div className="mt-5 text-center text-sm">
-                <p>Want to create an Event?</p>
-                <Button
-                  variant="link"
-                  onClick={() => {
-                    router.push('/organizer-register');
-                  }}
-                >
-                  Register as an Event Organizer
-                </Button>
-              </div>
             </form>
           </CardContent>
         </Card>
@@ -111,4 +84,4 @@ const Register = () => {
   );
 };
 
-export default Register;
+export default OrganizerRegister;
