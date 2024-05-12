@@ -24,7 +24,8 @@ export default function AuthGuard(Component: any) {
 
     useEffect(() => {
       if (role == 'user' && !isLoading) {
-        redirect('/organizer-register');
+        alert('you must login as an event organizer');
+        redirect('/');
       }
     }, [role, isLoading]);
 

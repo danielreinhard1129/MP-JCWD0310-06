@@ -19,7 +19,6 @@ const Register = () => {
         password: '',
         referral_code: '',
         point: 0,
-        role: '',
       },
 
       validationSchema,
@@ -97,7 +96,7 @@ const Register = () => {
                 <Button
                   variant="link"
                   onClick={() => {
-                    router.push('/organizer-register');
+                    router.push('/organizer/register');
                   }}
                 >
                   Register as an Event Organizer

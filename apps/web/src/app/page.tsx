@@ -4,7 +4,6 @@ import { LocationPicker } from '@/components/LocationPicker';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
-import AuthGuard from '@/hoc/AuthGuard';
 import { Filter, Search } from 'lucide-react';
 
 export default function Home() {
@@ -64,14 +63,15 @@ export default function Home() {
             </Button>
           </div>
           <div className="container grid grid-cols-1 gap-6 p-0 py-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {/* <CardEvent />
-            <CardEvent />
-            <CardEvent />
-            <CardEvent />
-            <CardEvent />
-            <CardEvent />
-            <CardEvent />
-            <CardEvent /> */}
+            <CardEvent
+              title={''}
+              description={''}
+              start_date={new Date()}
+              end_date={new Date()}
+              location={''}
+              thumbnail_url={''}
+              eventId={0}
+            />
           </div>
           <div className="flex w-full place-items-center">
             <Button variant="secondary" className="mx-auto rounded-md px-16">
@@ -87,10 +87,15 @@ export default function Home() {
             </p>
           </div>
           <div className="container grid grid-cols-1 gap-6 p-0 py-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {/* <CardEvent />
-            <CardEvent />
-            <CardEvent />
-            <CardEvent /> */}
+            <CardEvent
+              title={''}
+              description={''}
+              start_date={new Date()}
+              end_date={new Date()}
+              location={''}
+              thumbnail_url={''}
+              eventId={0}
+            />
           </div>
         </div>
       </div>

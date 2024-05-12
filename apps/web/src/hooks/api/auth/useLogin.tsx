@@ -33,7 +33,7 @@ const useLogin = () => {
       if (data.data.role === 'user') {
         router.push('/');
       } else {
-        router.push('/create');
+        router.push('/organizer');
       }
     } catch (error) {
       if (error instanceof AxiosError) {

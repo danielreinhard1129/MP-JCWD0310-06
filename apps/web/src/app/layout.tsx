@@ -5,6 +5,7 @@ import { Navbar } from '@/components/Navbar';
 import { Footer } from '@/components/Footer';
 import StoreProvider from '@/providers/StoreProvider';
 import { AuthProvider } from '@/providers/AuthProvider';
+import { Toaster } from '@/components/ui/toaster';
 
 const inter = DM_Sans({ subsets: ['latin'] });
 
@@ -28,6 +29,7 @@ export default function RootLayout({
             <Footer />
           </AuthProvider>
         </StoreProvider>
+        <Toaster />
       </body>
     </html>
   );

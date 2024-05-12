@@ -23,6 +23,7 @@ model User {
   point             Int
   point_expiredDate DateTime
   Event             Event[]
+  Coupon            Coupon[]
 
   @@map("users")
 }
@@ -33,7 +34,7 @@ model Event {
   description   String    @db.LongText()
   thumbnail_url String
   deletedAt     DateTime?
-  createdAt     DateTime  @default(now()) 
+  createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   limit         Int
   isAvailable   Boolean   @default(true)
@@ -49,8 +50,21 @@ model Event {
   @@map("events")
 }
 
+model Coupon {
+  id             Int      @id @default(autoincrement())
+  code           String   @unique
+  discountAmount Float
+  expirationDate DateTime
+  user           User?    @relation(fields: [userId], references: [id])
+  userId         Int?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@map("coupons")
+}
+
 model TicketType {
-  id Int @id @default(autoincrement())
+  id    Int    @id @default(autoincrement())
   name  String
   price Int
 }

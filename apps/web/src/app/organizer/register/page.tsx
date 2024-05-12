@@ -3,7 +3,7 @@ import FormInput from '@/components/FormInput';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useFormik } from 'formik';
-import useRegister from '../../hooks/api/auth/useRegister';
+import useRegister from '../../../hooks/api/auth/useRegister';
 import { validationSchema } from './validationSchema';
 
 const OrganizerRegister = () => {

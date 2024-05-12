@@ -1,15 +1,13 @@
+import { format } from 'date-fns';
 import Image from 'next/image';
+import Link from 'next/link';
+import { FC } from 'react';
+import { Badge } from './ui/badge';
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
+  CardHeader
 } from './ui/card';
-import { Badge } from './ui/badge';
-import { FC } from 'react';
-import Link from 'next/link';
-import { format } from 'date-fns';
 
 interface CardEventProps {
   title: string;
