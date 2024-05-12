@@ -20,16 +20,6 @@ export const registerService = async (body: Omit<User, 'id'>) => {
       .toString(36)
       .substring(2, 7);
 
-    const newUser = await prisma.user.create({
-      data: {
-        ...body,
-        password: hashedPassword,
-        referral_code: GeneratereferralCode,
-        point: 0,
-        point_expiredDate: new Date(),
-      },
-    });
-
     if (referral_code) {
       const referralCode = await prisma.user.findFirst({
         where: { referral_code: referral_code },
@@ -38,6 +28,15 @@ export const registerService = async (body: Omit<User, 'id'>) => {
       if (!referralCode) {
         throw new Error('Invalid referral code');
       }
+      const newUser = await prisma.user.create({
+        data: {
+          ...body,
+          password: hashedPassword,
+          referral_code: GeneratereferralCode,
+          point: 0,
+          point_expiredDate: new Date(),
+        },
+      });
       const today = new Date();
       const expiredDate = addMonths(today, 3).toISOString();
 
@@ -46,20 +45,26 @@ export const registerService = async (body: Omit<User, 'id'>) => {
         data: { point: { increment: 10000 }, point_expiredDate: expiredDate },
       });
 
-      // cron.schedule('*/15 * * * * *', async () => {
-      //   if (referralCode.point <= 0) {
-      //     await prisma.user.update({
-      //       where: { id: referralCode.id },
-      //       data: { point: { decrement: 10000 } },
-      //     });
-      //   }
-      // });
-    }
+      const randomString = Math.random()
+        .toString(36)
+        .substring(2, 6)
+        .toUpperCase();
+      const couponCode = `${newUser.fullName.substring(0, 3).toUpperCase()}${randomString}`;
 
-    return {
-      message: 'Register success !',
-      data: newUser,
-    };
+      await prisma.coupon.create({
+        data: {
+          code: couponCode,
+          discountAmount: 10,
+          expirationDate: expiredDate,
+          userId: newUser.id,
+        },
+      });
+
+      return {
+        message: 'Register success !',
+        data: newUser,
+      };
+    }
   } catch (error) {
     throw error;
   }

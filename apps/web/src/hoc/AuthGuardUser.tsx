@@ -25,7 +25,7 @@ export default function AuthGuardUser(Component: any) {
     useEffect(() => {
       if (role == 'organizer' && !isLoading) {
         alert('u must login as an user tot');
-        redirect('/login');
+        redirect('/');
       }
     }, [role, isLoading]);
 

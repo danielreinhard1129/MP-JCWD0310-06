@@ -47,7 +47,7 @@ const Login = () => {
                   placeholder="email"
                   type="email"
                   value={values.email}
-                />
+                /> 
 
                 {/* PASSWORD */}
                 <FormInput

@@ -1,4 +1,4 @@
-import { Event } from "./event.type";
+import { Event } from './event.type';
 
 export interface User {
   id: number;
@@ -7,7 +7,7 @@ export interface User {
   password: string;
   referral_code: string;
   point: number;
-  role: string;
+  role?: string;
 
-  event: Event;
+  event?: Event;
 }

@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Globe, Instagram, MapPinned } from 'lucide-react';
 import OrderCard from './components/OrderCard';
 import CardEvent from '@/components/CardEvent';
+import AuthGuardUser from '@/hoc/AuthGuardUser';
 
 const BlogDetail = ({ params }: { params: { id: string } }) => {
   const { event, isLoading } = useGetEvent(Number(params.id));
@@ -135,4 +136,4 @@ const BlogDetail = ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default BlogDetail;
+export default AuthGuardUser(BlogDetail);
