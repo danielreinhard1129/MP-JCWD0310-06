@@ -5,9 +5,13 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useFormik } from 'formik';
 import useRegister from '../../../hooks/api/auth/useRegister';
 import { validationSchema } from './validationSchema';
+import registerImage from '../../../../public/register.jpg';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 const OrganizerRegister = () => {
   const { register } = useRegister();
+  const router = useRouter();
   const { handleBlur, handleChange, handleSubmit, errors, values, touched } =
     useFormik({
       initialValues: {
@@ -25,17 +29,17 @@ const OrganizerRegister = () => {
       },
     });
   return (
-    <main className="container mx-auto">
-      <div className="flex justify-center">
-        <Card className="w-[450px] rounded-lg p-4">
+    <main className="container fixed left-0 right-0 z-50 mx-auto grid h-[90vh] grid-flow-col grid-cols-1 bg-inherit p-0 xl:grid-cols-2">
+      <section className="flex items-center justify-center xl:justify-start">
+        <Card className="w-[450px] border-none p-0 shadow-none">
           <CardHeader>
-            <CardTitle className="text-primary mb-5 text-center text-3xl">
-              Register
+            <CardTitle className="text-primary mb-8 text-3xl">
+              Register As Organizer
             </CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit}>
-              <div className="grid w-full items-center gap-4 p-4">
+              <div className="grid w-full items-center gap-4 p-0">
                 {/* NAME */}
                 <FormInput
                   name="fullName"
@@ -73,13 +77,57 @@ const OrganizerRegister = () => {
                   value={values.password}
                 />
               </div>
-              <Button className="mt-6 w-full" type="submit">
+              <Button className="mt-6 w-full rounded-md" type="submit">
                 Register
               </Button>
+              <div className='flex justify-between w-full'>
+                <div className="flex justify-end pt-0">
+                  <p className="text-xs">
+                    Already have account?{' '}
+                    <span>
+                      <Button
+                        variant="link"
+                        className="p-0 text-xs"
+                        onClick={() => {
+                          router.push('/login');
+                        }}
+                      >
+                        Login
+                      </Button>
+                    </span>
+                  </p>
+                </div>
+                <div className="flex justify-end">
+                  <p className="text-xs">
+                    Not an organizer?{' '}
+                    <span>
+                      <Button
+                        variant="link"
+                        className="p-0 text-xs"
+                        onClick={() => {
+                          router.push('/register');
+                        }}
+                      >
+                        Register as user
+                      </Button>
+                    </span>
+                  </p>
+                </div>
+              </div>
             </form>
           </CardContent>
         </Card>
-      </div>
+      </section>
+      <section className="hidden h-full w-full bg-inherit pt-4 md:flex">
+        <div className="relative h-full w-full overflow-hidden rounded-lg">
+          <Image
+            src={registerImage}
+            alt="register"
+            fill
+            className="object-cover"
+          />
+        </div>
+      </section>
     </main>
   );
 };

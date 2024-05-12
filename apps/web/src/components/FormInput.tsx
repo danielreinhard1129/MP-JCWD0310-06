@@ -30,8 +30,8 @@ const FormInput: React.FC<FormInputProps> = ({
 }) => {
   return (
     <div className="flex flex-col space-y-1.5">
-      <Label htmlFor={placeholder} className={isError ? 'text-red-500' : ''}>
-        {placeholder}
+      <Label htmlFor={label} className={isError ? 'text-red-500' : ''}>
+        {label}
       </Label>
       <Input
         name={name}
