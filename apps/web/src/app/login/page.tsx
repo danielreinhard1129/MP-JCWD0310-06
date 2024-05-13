@@ -7,6 +7,8 @@ import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import useLogin from '../../hooks/api/auth/useLogin';
 import { validationSchema } from './validationSchema';
+import loginImage from '../../../public/login.jpg';
+import Image from 'next/image';
 
 const Login = () => {
   const { login } = useLogin();
@@ -25,13 +27,11 @@ const Login = () => {
       },
     });
   return (
-    <main className="container mx-auto">
-      <div className="flex justify-center">
-        <Card className="w-[450px] rounded-lg p-4">
+    <main className="container fixed left-0 right-0 z-50 mx-auto grid h-[90vh] w-screen grid-flow-col grid-cols-1 bg-inherit p-0 xl:grid-cols-2">
+      <section className="flex w-full items-center justify-center xl:justify-start">
+        <Card className="w-[450px] rounded-lg border-none p-0 shadow-none">
           <CardHeader>
-            <CardTitle className="text-primary mb-5 text-center text-3xl">
-              Welcome to PurwaPora
-            </CardTitle>
+            <CardTitle className="text-primary mb-8 text-3xl">Login</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit}>
@@ -44,10 +44,10 @@ const Login = () => {
                   isError={!!touched.email && !!errors.email}
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  placeholder="email"
+                  placeholder="email@mail.com"
                   type="email"
                   value={values.email}
-                /> 
+                />
 
                 {/* PASSWORD */}
                 <FormInput
@@ -61,21 +61,43 @@ const Login = () => {
                   type="password"
                   value={values.password}
                 />
-
-                <p
-                  className="cursor-pointer text-end text-xs"
+              </div>
+              <Button className="mt-6 w-full rounded-md" type="submit">
+                Login
+              </Button>
+              <div className="flex w-full justify-between py-4">
+                <p className="text-xs">
+                  Don't have account?{' '}
+                  <Button
+                    variant="link"
+                    className="p-0 text-xs font-semibold"
+                    onClick={() => router.push('/register')}
+                  >
+                    Register
+                  </Button>
+                </p>
+                <Button
+                  variant="link"
+                  className="cursor-pointer p-0 text-end text-xs"
                   onClick={() => router.push('/forgot-password')}
                 >
                   Forgot Password
-                </p>
+                </Button>
               </div>
-              <Button className="mt-6 w-full" type="submit">
-                Login
-              </Button>
             </form>
           </CardContent>
         </Card>
-      </div>
+      </section>
+      <section className="hidden h-full w-full bg-inherit pt-4 xl:flex">
+        <div className="relative h-full w-full overflow-hidden rounded-lg">
+          <Image
+            src={loginImage}
+            alt="login image"
+            fill
+            className="absolute h-full w-full object-cover"
+          />
+        </div>
+      </section>
     </main>
   );
 };

@@ -6,6 +6,8 @@ import { useFormik } from 'formik';
 import { useRouter } from 'next/navigation';
 import useRegister from '../../hooks/api/auth/useRegister';
 import { validationSchema } from './validationSchema';
+import registerImage from '../../../public/register.jpg';
+import Image from 'next/image';
 
 const Register = () => {
   const { register } = useRegister();
@@ -27,17 +29,17 @@ const Register = () => {
       },
     });
   return (
-    <main className="container mx-auto">
-      <div className="flex justify-center">
-        <Card className="w-[450px] rounded-lg p-4">
+    <main className="container fixed left-0 right-0 z-50 mx-auto grid h-[90vh] w-screen grid-flow-col grid-cols-1 bg-inherit p-0 xl:grid-cols-2">
+      <section className="flex items-center justify-center xl:justify-start">
+        <Card className="w-[450px] border-none p-0 shadow-none">
           <CardHeader>
-            <CardTitle className="text-primary mb-5 text-center text-3xl">
-              Welcome to PurwaPora
+            <CardTitle className="text-primary mb-8 text-3xl">
+              Register
             </CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit}>
-              <div className="grid w-full items-center gap-4 p-4">
+              <div className="grid w-full items-center gap-4 p-0">
                 {/* NAME */}
                 <FormInput
                   name="fullName"
@@ -78,7 +80,7 @@ const Register = () => {
                 {/* REFERRAL CODE */}
                 <FormInput
                   name="referral_code"
-                  label="Referral Code"
+                  label="Referral Code (optional)"
                   error={errors.referral_code}
                   isError={!!touched.referral_code && !!errors.referral_code}
                   onBlur={handleBlur}
@@ -88,24 +90,57 @@ const Register = () => {
                   value={values.referral_code}
                 />
               </div>
-              <Button className="mt-6 w-full" type="submit">
+              <Button className="mt-6 w-full rounded-md" type="submit">
                 Register
               </Button>
-              <div className="mt-5 text-center text-sm">
-                <p>Want to create an Event?</p>
-                <Button
-                  variant="link"
-                  onClick={() => {
-                    router.push('/organizer/register');
-                  }}
-                >
-                  Register as an Event Organizer
-                </Button>
+              <div className="flex flex-col justify-between w-full mt-2">
+                <div className="flex items-center justify-start text-xs">
+                  <p>
+                    Already have account?{' '}
+                    <span>
+                      <Button
+                        variant="link"
+                        className="p-0 text-xs"
+                        onClick={() => {
+                          router.push('/organizer/register');
+                        }}
+                      >
+                        Login
+                      </Button>
+                    </span>
+                  </p>
+                </div>
+                <div className="flex -mt-2 items-center justify-start text-xs">
+                  <p>
+                    Want to create event?{' '}
+                    <span>
+                      <Button
+                        variant="link"
+                        className="p-0 text-xs"
+                        onClick={() => {
+                          router.push('/organizer/register');
+                        }}
+                      >
+                        Register as Organizer
+                      </Button>
+                    </span>
+                  </p>
+                </div>
               </div>
             </form>
           </CardContent>
         </Card>
-      </div>
+      </section>
+      <section className="hidden h-full w-full bg-inherit pt-4 md:flex">
+        <div className="relative h-full w-full overflow-hidden rounded-lg">
+          <Image
+            src={registerImage}
+            alt="register"
+            fill
+            className="object-cover"
+          />
+        </div>
+      </section>
     </main>
   );
 };

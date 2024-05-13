@@ -26,7 +26,7 @@ export const Navbar = () => {
 
   return (
     <>
-      <nav className="container sticky flex justify-between px-4 py-4 xl:px-0">
+      <nav className="container flex justify-between px-4 py-4 xl:px-0">
         <div
           className="cursor-pointer place-content-center text-[24px] font-bold"
           onClick={handleLogoClick}

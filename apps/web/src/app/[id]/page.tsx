@@ -30,7 +30,7 @@ const BlogDetail = ({ params }: { params: { id: string } }) => {
           src={`${appConfig.baseUrl}/assets${event.thumbnail_url}`}
           alt="thumbnail"
           fill
-          className="absolute bottom-0 top-0 z-10 my-auto"
+          className="absolute bottom-0 top-0 z-10 my-auto object-cover"
         />
       </section>
       <section className="flex h-fit w-full justify-between">

@@ -20,6 +20,16 @@ export const registerService = async (body: Omit<User, 'id'>) => {
       .toString(36)
       .substring(2, 7);
 
+    const newUser = await prisma.user.create({
+      data: {
+        ...body,
+        password: hashedPassword,
+        referral_code: GeneratereferralCode,
+        point: 0,
+        point_expiredDate: new Date(),
+      },
+    });
+    
     if (referral_code) {
       const referralCode = await prisma.user.findFirst({
         where: { referral_code: referral_code },
@@ -28,15 +38,6 @@ export const registerService = async (body: Omit<User, 'id'>) => {
       if (!referralCode) {
         throw new Error('Invalid referral code');
       }
-      const newUser = await prisma.user.create({
-        data: {
-          ...body,
-          password: hashedPassword,
-          referral_code: GeneratereferralCode,
-          point: 0,
-          point_expiredDate: new Date(),
-        },
-      });
       const today = new Date();
       const expiredDate = addMonths(today, 3).toISOString();
 

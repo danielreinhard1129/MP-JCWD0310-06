@@ -15,7 +15,7 @@ export const Footer = () => {
               <li>Twitter</li>
             </ul>
           </div>
-          <h3 className="relative z-50 px-6 pb-6 text-[14px] font-medium text-white md:absolute md:bottom-10 md:left-10 md:p-0">
+          <h3 className="relative z-40 px-6 pb-6 text-[14px] font-medium text-white md:absolute md:bottom-10 md:left-10 md:p-0">
             © 2024 Purwapora
           </h3>
           <Image
