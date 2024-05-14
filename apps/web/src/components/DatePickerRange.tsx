@@ -30,11 +30,11 @@ export function DatePickerRange({
             id="date"
             variant={"ghost"}
             className={cn(
-              "w-[300px] justify-start text-left font-normal hover: bg-inherit",
+              "w-fit justify-start text-left font-normal hover:bg-inherit bg-inherit p-0",
               !date && "text-muted-foreground"
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <CalendarIcon className="mr-2 h-4 w-4 opacity-50" />
             {date?.from ? (
               date.to ? (
                 <>

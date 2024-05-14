@@ -1,12 +1,28 @@
-import CardEvent from '@/components/CardEvent';
+'use client';
+
 import { DatePickerRange } from '@/components/DatePickerRange';
 import { LocationPicker } from '@/components/LocationPicker';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Filter, Search } from 'lucide-react';
+import { useState } from 'react';
+import useGetEvents from '@/hooks/api/event/useGetEvents';
+import CardEvent from '@/components/CardEvent';
+import { appConfig } from '@/utils/config';
+import Pagination from '@/components/Pagination';
+import Autocomplete from '@/components/Autocomplete';
 
 export default function Home() {
+  const [page, setPage] = useState<number>(1);
+  const { data: events, meta } = useGetEvents({
+    page,
+    take: 8,
+  });
+
+  const handleChangePaginate = ({ selected }: { selected: number }) => {
+    setPage(selected + 1);
+  };
   return (
     <main>
       <div className="px-6 md:px-20">
@@ -25,9 +41,10 @@ export default function Home() {
           {/* SEARCH AND FILTER */}
           <div className="left-0 right-0 mx-auto w-full overflow-hidden rounded-xl border border-black/40 bg-white px-6 py-2 md:absolute md:-bottom-10 md:flex md:w-4/5 md:rounded-3xl md:p-6">
             <div className="flex w-full place-items-center">
-              <Search className="mr-2 h-4 w-4 opacity-60" />
+              <Autocomplete />
+              {/* <Search className="h-4 w-4 opacity-60" />
               <Input placeholder="Search" />
-              <Separator orientation="vertical" />
+              <Separator orientation="vertical" /> */}
             </div>
             <div className="place-items-centers mx-auto w-full md:flex">
               <div className="w-full md:pl-4">
@@ -63,20 +80,30 @@ export default function Home() {
             </Button>
           </div>
           <div className="container grid grid-cols-1 gap-6 p-0 py-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <CardEvent
-              title={''}
-              description={''}
-              start_date={new Date()}
-              end_date={new Date()}
-              location={''}
-              thumbnail_url={''}
-              eventId={0}
-            />
+            {events.map((event, index) => {
+              return (
+                <CardEvent
+                  key={index}
+                  title={event.title}
+                  description={event.description}
+                  eventId={event.id}
+                  location={event.location}
+                  start_date={event.start_date}
+                  end_date={event.end_date}
+                  price={event.price}
+                  thumbnail_url={
+                    appConfig.baseUrl + `/assets${event.thumbnail_url}`
+                  }
+                />
+              );
+            })}
           </div>
-          <div className="flex w-full place-items-center">
-            <Button variant="secondary" className="mx-auto rounded-md px-16">
-              Show More
-            </Button>
+          <div className="mx-auto w-fit">
+            <Pagination
+              total={meta?.total || 0}
+              take={meta?.take || 0}
+              onChangePage={handleChangePaginate}
+            />
           </div>
         </div>
         {/* MORE EVENTS LIST */}
@@ -86,17 +113,7 @@ export default function Home() {
               More events you might like
             </p>
           </div>
-          <div className="container grid grid-cols-1 gap-6 p-0 py-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <CardEvent
-              title={''}
-              description={''}
-              start_date={new Date()}
-              end_date={new Date()}
-              location={''}
-              thumbnail_url={''}
-              eventId={0}
-            />
-          </div>
+          <div className="container grid grid-cols-1 gap-6 p-0 py-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
         </div>
       </div>
     </main>

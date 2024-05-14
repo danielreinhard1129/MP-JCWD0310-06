@@ -21,6 +21,8 @@ const useCreateEvent = () => {
         time,
         location,
         address,
+        category,
+        price,
       } = payload;
 
       const createEventForm = new FormData();
@@ -40,6 +42,8 @@ const useCreateEvent = () => {
       createEventForm.append('time', timeToString);
       createEventForm.append('location', location);
       createEventForm.append('address', String(address));
+      createEventForm.append('category', category);
+      createEventForm.append('price', String(price));
 
       thumbnail_url.forEach((file: FileWithPath) => {
         createEventForm.append('thumbnail_url', file);
