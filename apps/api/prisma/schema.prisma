@@ -43,6 +43,8 @@ model Event {
   time          String
   location      String
   address       String?
+  category      String
+  price         Int
 
   userId Int
   user   User @relation(fields: [userId], references: [id])

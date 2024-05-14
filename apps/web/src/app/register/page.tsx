@@ -31,7 +31,7 @@ const Register = () => {
   return (
     <main className="container fixed left-0 right-0 z-50 mx-auto grid h-[90vh] w-screen grid-flow-col grid-cols-1 bg-inherit p-0 xl:grid-cols-2">
       <section className="flex items-center justify-center xl:justify-start">
-        <Card className="w-[450px] border-none p-0 shadow-none">
+        <Card className="w-[450px] border-none p-8 xl:p-0 shadow-none">
           <CardHeader>
             <CardTitle className="text-primary mb-8 text-3xl">
               Register

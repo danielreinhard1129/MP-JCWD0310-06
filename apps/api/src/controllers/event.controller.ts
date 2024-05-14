@@ -29,4 +29,21 @@ export class EventController {
       next(error);
     }
   }
+  async getEventsController(req: Request, res: Response, next: NextFunction) {
+    try {
+      const query = {
+        take: parseInt(req.query.take as string) || 8,
+        page: parseInt(req.query.page as string) || 1,
+        sortBy: parseInt(req.query.sortBy as string) || 'start_date',
+        sortOrder: parseInt(req.query.sortOrder as string) || 'desc',
+        search: req.query.search as string,
+      }
+
+      const result = await getEventsService(query);
+
+      return res.status(200).send(result)
+    } catch (error) {
+      next(error);
+    }
+  }
 }

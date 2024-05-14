@@ -31,7 +31,7 @@ const OrganizerRegister = () => {
   return (
     <main className="container fixed left-0 right-0 z-50 mx-auto grid h-[90vh] grid-flow-col grid-cols-1 bg-inherit p-0 xl:grid-cols-2">
       <section className="flex items-center justify-center xl:justify-start">
-        <Card className="w-[450px] border-none p-0 shadow-none">
+        <Card className="w-[450px] border-none p-8 shadow-none xl:p-0">
           <CardHeader>
             <CardTitle className="text-primary mb-8 text-3xl">
               Register As Organizer
@@ -77,11 +77,11 @@ const OrganizerRegister = () => {
                   value={values.password}
                 />
               </div>
-              <Button className="mt-6 w-full rounded-md" type="submit">
+              <Button className="mt-6 mb-2 w-full rounded-md" type="submit">
                 Register
               </Button>
-              <div className='flex justify-between w-full'>
-                <div className="flex justify-end pt-0">
+              <div className="grid xl:flex justify-between">
+                <div className="flex pt-0">
                   <p className="text-xs">
                     Already have account?{' '}
                     <span>

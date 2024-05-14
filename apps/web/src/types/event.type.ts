@@ -16,6 +16,8 @@ export interface Event {
   time: string;
   location: string;
   address: string | null;
+  category: string;
+  price: number;
 
   user: User;
 }
@@ -31,4 +33,6 @@ export interface IFormCreateEvent {
   location: string;
   address: string | null;
   userId?: number;
+  category: string;
+  price: number;
 }

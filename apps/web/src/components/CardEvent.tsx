@@ -3,11 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 import { Badge } from './ui/badge';
-import {
-  Card,
-  CardContent,
-  CardHeader
-} from './ui/card';
+import { Card, CardContent, CardHeader } from './ui/card';
 
 interface CardEventProps {
   title: string;
@@ -17,6 +13,7 @@ interface CardEventProps {
   location: string;
   thumbnail_url: string;
   eventId: number;
+  price: number;
 }
 
 const CardEvent: FC<CardEventProps> = ({
@@ -27,10 +24,11 @@ const CardEvent: FC<CardEventProps> = ({
   location,
   thumbnail_url,
   eventId,
+  price,
 }) => {
   return (
     <Link href={`/${eventId}`}>
-      <Card className="overflow-hidden rounded-lg border-none pb-2 shadow-none hover:bg-neutral-100">
+      <Card className="overflow-hidden rounded-lg border-none p-3 shadow-none hover:bg-neutral-100/40">
         <CardHeader className="relative h-[175px] w-full">
           <Image
             src={thumbnail_url}
@@ -40,16 +38,20 @@ const CardEvent: FC<CardEventProps> = ({
           />
           <Badge className="absolute bottom-4 right-4 z-50">{location}</Badge>
         </CardHeader>
-        <CardContent className="px-3">
-          <h1 className="py-2 text-xl font-semibold">{title}</h1>
-          <p className="text-black">
-            {format(new Date(start_date), 'dd MMMM yyyy')} <span>-</span> {format(new Date(end_date), 'dd MMMM yyyy')}
+        <CardContent className="px-1">
+          <h1 className="py-2 text-xl font-semibold line-clamp-1">{title}</h1>
+          <p className="text-black text-base font-medium pb-1">
+            {format(new Date(start_date), 'dd MMMM yyyy')} <span>-</span>{' '}
+            {format(new Date(end_date), 'dd MMMM yyyy')}
           </p>
-          <p className="line-clamp-2">
-            {description}
-          </p>
+          <p className="line-clamp-2 text-sm">{description}</p>
           <p className="pt-2 text-[16px] font-semibold text-black">
-            From IDR <span>990.000</span>
+            {new Intl.NumberFormat('id-ID', {
+              style: 'currency',
+              currency: 'IDR',
+              maximumSignificantDigits: Math.trunc(Math.abs(price)).toFixed()
+                .length,
+            }).format(price)}
           </p>
         </CardContent>
       </Card>

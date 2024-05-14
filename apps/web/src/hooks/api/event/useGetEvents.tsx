@@ -2,22 +2,28 @@
 
 import { axiosInstance } from '@/lib/axios';
 import { Event } from '@/types/event.type';
-import { AxiosError } from 'axios';
+import { IPaginationMeta, IPaginationQueries } from '@/types/pagination.type';
 import { useEffect, useState } from 'react';
 
-const useGetEvents = (id: number) => {
-  const [data, setData] = useState<Event | null>(null);
+interface IGetEventsQuery extends IPaginationQueries {
+  search?: string;
+}
+
+const useGetEvents = (queries: IGetEventsQuery) => {
+  const [data, setData] = useState<Event[]>([]);
+  const [meta, setMeta] = useState<IPaginationMeta | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const getEvents = async () => {
     try {
-      const { data } = await axiosInstance.get<Event>(`/events`);
+      const { data } = await axiosInstance.get('/events', {
+        params: queries,
+      });
 
-      setData(data);
+      setData(data.data);
+      setMeta(data.meta);
     } catch (error) {
-      if (error instanceof AxiosError) {
-        console.log(error);
-      }
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
@@ -25,9 +31,9 @@ const useGetEvents = (id: number) => {
 
   useEffect(() => {
     getEvents();
-  }, []);
+  }, [queries?.page, queries?.search]);
 
-  return { event: data, isLoading, refetch: getEvents };
+  return { data, meta, isLoading };
 };
 
 export default useGetEvents;
