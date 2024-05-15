@@ -10,14 +10,6 @@ export const Navbar = () => {
   const { id, role } = useAppSelector((state) => state.user);
   const router = useRouter();
 
-  const handleLogoClick = () => {
-    if (role === 'organizer') {
-      router.push('/organizer');
-    } else {
-      router.push('/');
-    }
-  };
-
   const logout = () => {
     localStorage.removeItem('token');
     dispatch(logoutAction());
@@ -29,7 +21,7 @@ export const Navbar = () => {
       <nav className="container flex justify-between px-4 py-4 xl:px-0">
         <div
           className="cursor-pointer place-content-center text-[24px] font-bold"
-          onClick={handleLogoClick}
+          onClick={() => router.push('/')}
         >
           purwa<span className="text-main_yellow">pora</span>
         </div>

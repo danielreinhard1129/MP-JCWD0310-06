@@ -3,7 +3,6 @@
 import { DatePickerRange } from '@/components/DatePickerRange';
 import { LocationPicker } from '@/components/LocationPicker';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Separator } from '@/components/ui/separator';
 import { Filter, Search } from 'lucide-react';
 import { useState } from 'react';
@@ -39,12 +38,9 @@ export default function Home() {
             </div>
           </div>
           {/* SEARCH AND FILTER */}
-          <div className="left-0 right-0 mx-auto w-full overflow-hidden rounded-xl border border-black/40 bg-white px-6 py-2 md:absolute md:-bottom-10 md:flex md:w-4/5 md:rounded-3xl md:p-6">
+          <div className="left-0 right-0 mx-auto w-full overflow-visible rounded-xl border border-black/40 bg-white px-6 py-2 md:absolute md:-bottom-10 gap-10 md:flex md:w-4/5 md:rounded-3xl md:p-6">
             <div className="flex w-full place-items-center">
               <Autocomplete />
-              {/* <Search className="h-4 w-4 opacity-60" />
-              <Input placeholder="Search" />
-              <Separator orientation="vertical" /> */}
             </div>
             <div className="place-items-centers mx-auto w-full md:flex">
               <div className="w-full md:pl-4">
@@ -105,15 +101,6 @@ export default function Home() {
               onChangePage={handleChangePaginate}
             />
           </div>
-        </div>
-        {/* MORE EVENTS LIST */}
-        <div className="container px-0">
-          <div className="container flex place-items-center justify-between px-0 md:pt-10">
-            <p className="text-[24px] font-semibold">
-              More events you might like
-            </p>
-          </div>
-          <div className="container grid grid-cols-1 gap-6 p-0 py-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
         </div>
       </div>
     </main>

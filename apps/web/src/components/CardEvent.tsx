@@ -36,7 +36,7 @@ const CardEvent: FC<CardEventProps> = ({
             fill
             className="h-[175px] rounded-lg object-cover"
           />
-          <Badge className="absolute bottom-4 right-4 z-50">{location}</Badge>
+          <Badge className="absolute bottom-4 right-4 z-40">{location}</Badge>
         </CardHeader>
         <CardContent className="px-1">
           <h1 className="py-2 text-xl font-semibold line-clamp-1">{title}</h1>
