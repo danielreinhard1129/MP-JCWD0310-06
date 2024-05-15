@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 'use client';
 
 import Dropzone from '@/components/Dropzone';
@@ -8,7 +9,8 @@ import { Button } from '@/components/ui/button';
 import AuthGuard from '@/hoc/AuthGuard';
 import useCreateEvent from '@/hooks/api/event/useCreateEvent';
 import { useAppSelector } from '@/redux/hooks';
-import { IFormCreateEvent } from '@/types/event.type';
+import { IFormEvent } from '@/types/event.type';
+import { validationSchema } from './validationSchema';
 import { addDays } from 'date-fns';
 import { useFormik } from 'formik';
 
@@ -25,7 +27,7 @@ const Create = () => {
     handleChange,
     touched,
     setFieldValue,
-  } = useFormik<IFormCreateEvent>({
+  } = useFormik<IFormEvent>({
     initialValues: {
       title: '',
       thumbnail_url: [],
@@ -39,6 +41,7 @@ const Create = () => {
       price: 0,
       category: '',
     },
+    validationSchema,
     onSubmit: (values) => {
       createEvent({ ...values, userId: id });
     },

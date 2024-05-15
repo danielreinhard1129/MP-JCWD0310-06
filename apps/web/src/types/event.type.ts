@@ -1,6 +1,7 @@
 import { User } from './user.type';
 
 export interface Event {
+  date: string | number | Date;
   id: number;
   title: string;
   start_date: Date;
@@ -18,11 +19,12 @@ export interface Event {
   address: string | null;
   category: string;
   price: number;
+  userId: number;
 
   user: User;
 }
 
-export interface IFormCreateEvent {
+export interface IFormEvent {
   title: string;
   description: string;
   thumbnail_url: File[];

@@ -24,6 +24,7 @@
     "@radix-ui/react-toast": "^1.1.5",
     "@reduxjs/toolkit": "^2.2.3",
     "axios": "^1.6.8",
+    "chart.js": "^4.4.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "cmdk": "^1.0.0",
@@ -36,6 +37,7 @@
     "next-themes": "^0.3.0",
     "react": "^18",
     "react-aria": "^3.33.0",
+    "react-chartjs-2": "^5.2.0",
     "react-datepicker": "^6.9.0",
     "react-day-picker": "^8.10.1",
     "react-dom": "^18",
@@ -51,6 +53,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@types/googlemaps": "^3.43.3",
     "@types/lodash": "^4.17.1",
     "@types/node": "^20",

@@ -1,14 +1,14 @@
 'use client';
 
 import { axiosInstance } from '@/lib/axios';
-import { IFormCreateEvent } from '@/types/event.type';
+import { IFormEvent } from '@/types/event.type';
 import { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { FileWithPath } from 'react-dropzone';
 
 const useCreateEvent = () => {
   const router = useRouter();
-  const createEvent = async (payload: IFormCreateEvent) => {
+  const createEvent = async (payload: IFormEvent) => {
     try {
       const {
         title,
