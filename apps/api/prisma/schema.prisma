@@ -11,26 +11,27 @@ datasource db {
 }
 
 model User {
-  id                Int      @id @default(autoincrement())
+  id                Int           @id @default(autoincrement())
   fullName          String
-  email             String   @unique
+  email             String        @unique
   password          String
   avatar            String?
-  role              String   @default("user")
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  referral_code     String?  @unique
+  role              String        @default("user")
+  createdAt         DateTime      @default(now())
+  updatedAt         DateTime      @updatedAt
+  referral_code     String?       @unique
   point             Int
   point_expiredDate DateTime
   Event             Event[]
   Coupon            Coupon[]
+  Transaction       Transaction[]
 
   @@map("users")
 }
 
 model Event {
   id            Int       @id @default(autoincrement())
-  title         String    @unique
+  title         String
   description   String    @db.LongText()
   thumbnail_url String
   deletedAt     DateTime?
@@ -46,8 +47,9 @@ model Event {
   category      String
   price         Int
 
-  userId Int
-  user   User @relation(fields: [userId], references: [id])
+  userId      Int
+  user        User         @relation(fields: [userId], references: [id])
+  Transaction Transaction?
 
   @@map("events")
 }
@@ -65,8 +67,35 @@ model Coupon {
   @@map("coupons")
 }
 
-model TicketType {
-  id    Int    @id @default(autoincrement())
-  name  String
-  price Int
+model Transaction {
+  id           Int               @id @default(autoincrement())
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+  status       TransactionStatus @default(PENDING)
+  total        Int
+  userId       Int
+  eventId      Int               @unique
+  paymentProof String            @default("")
+
+  event             Event              @relation(fields: [eventId], references: [id])
+  user              User               @relation(fields: [userId], references: [id])
+  TransactionDetail TransactionDetail?
+
+  @@map("transactions")
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETE
+  ERROR
+  CANCELLED
+}
+
+model TransactionDetail {
+  id            Int      @id @default(autoincrement())
+  createdAt     DateTime @default(now())
+  qty           Int
+  transactionId Int      @unique
+
+  transaction Transaction @relation(fields: [transactionId], references: [id])
 }

@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 
 const useGetEvent = (id: number) => {
   const [data, setData] = useState<Event | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getEvent = async () => {
     try {
