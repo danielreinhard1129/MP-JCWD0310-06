@@ -1,5 +1,6 @@
 import { EventController } from '@/controllers/event.controller';
 import { uploader } from '@/libs/uploader';
+import { verifyToken } from '@/middlewares/verifyToken';
 import { Router } from 'express';
 
 export class EventRouter {
@@ -18,8 +19,17 @@ export class EventRouter {
       uploader('IMG', '/images').array('thumbnail_url', 1),
       this.eventController.createEvent,
     );
-    this.router.get('/:id', this.eventController.getEventController);
+    this.router.get(
+      '/organizer',
+      this.eventController.getEventsByOrganizerController,
+    );
     this.router.get('/', this.eventController.getEventsController);
+    this.router.patch(
+      '/:id',
+      uploader('IMG', '/images').array('thumbnail_url', 1),
+      this.eventController.updateEventsController,
+    );
+    this.router.get('/:id', this.eventController.getEventController);
   }
 
   getRouter(): Router {

@@ -1,16 +1,16 @@
 'use client';
 
+import Autocomplete from '@/components/Autocomplete';
+import CardEvent from '@/components/CardEvent';
 import { DatePickerRange } from '@/components/DatePickerRange';
 import { LocationPicker } from '@/components/LocationPicker';
+import Pagination from '@/components/Pagination';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Filter, Search } from 'lucide-react';
-import { useState } from 'react';
 import useGetEvents from '@/hooks/api/event/useGetEvents';
-import CardEvent from '@/components/CardEvent';
 import { appConfig } from '@/utils/config';
-import Pagination from '@/components/Pagination';
-import Autocomplete from '@/components/Autocomplete';
+import { Filter } from 'lucide-react';
+import { useState } from 'react';
 
 export default function Home() {
   const [page, setPage] = useState<number>(1);

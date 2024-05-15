@@ -35,6 +35,25 @@ export const Navbar = () => {
             >
               Create Event
             </Button>
+
+            {role === 'organizer' ? (
+              <Button
+                variant="link"
+                className="hidden sm:block"
+                onClick={() => router.push('/organizer')}
+              >
+                Dashboard
+              </Button>
+            ) : (
+              <Button
+                variant="link"
+                className="hidden sm:block"
+                onClick={() => router.push('/profile')}
+              >
+                Profile
+              </Button>
+            )}
+
             <Button
               variant="link"
               className="hidden text-red-500 md:block"

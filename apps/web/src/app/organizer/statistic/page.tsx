@@ -2,6 +2,8 @@
 
 import LeftSection from '@/components/LeftSection';
 import AuthGuard from '@/hoc/AuthGuard';
+import ChartByMonth from './components/ChartByMonth';
+import ChartByYear from './components/ChartByYear';
 
 const page = () => {
   return (
@@ -11,7 +13,10 @@ const page = () => {
       </div>
       <section className="grid w-full grid-cols-5 px-6 md:px-20 ">
         <LeftSection />
-        <div className="col-span-4">mid</div>
+        <div className="col-span-4">
+          <ChartByMonth />
+          <ChartByYear />
+        </div>
       </section>
     </main>
   );

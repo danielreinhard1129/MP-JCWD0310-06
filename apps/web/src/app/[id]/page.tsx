@@ -1,10 +1,10 @@
 'use client';
 
+import useGetEvent from '@/hooks/api/event/useGetEvent';
+import { appConfig } from '@/utils/config';
+import { format } from 'date-fns';
 import Image from 'next/image';
 import { notFound, useRouter } from 'next/navigation';
-import { appConfig } from '@/utils/config';
-import useGetEvent from '@/hooks/api/event/useGetEvent';
-import { format } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { Edit, MapPinned } from 'lucide-react';
 import OrderCard from './components/OrderCard';
@@ -15,11 +15,12 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import ModalOrderConfirmation from './components/ModalOrderConfirmation';
 import useGetEvents from '@/hooks/api/event/useGetEvents';
+import { boolean } from 'yup';
 
-const BlogDetail = ({ params }: { params: { id: string } }) => {
-  const router = useRouter();
-  const { id } = useAppSelector((state) => state.user);
+const EventDetail = ({ params }: { params: { id: string } }) => {
+  const { id, role } = useAppSelector((state) => state.user);
   const { event, isLoading } = useGetEvent(Number(params.id));
+  const router = useRouter();
   const [page, setPage] = useState(1);
   const { data: events } = useGetEvents({
     page,
@@ -111,19 +112,25 @@ const BlogDetail = ({ params }: { params: { id: string } }) => {
         </div>
         {/* RIGHT SECTION */}
         <div className="fixed bottom-5 left-0 right-0 z-50 mx-auto flex h-fit w-[92.5%] flex-col gap-4 xl:sticky xl:top-6 xl:w-[465px]">
-          {id === event.user.id && (
+          {/* {id === event.user.id && (
             <div className="flex items-center gap-4">
-              <Button
-                variant="outline"
-                size="icon"
-                onClick={() => router.push(`/${params.id}/edit`)}
-                className="rounded-full"
-              >
-                <Edit size="20px" />
-              </Button>
+              <OrderCard price={event.price} setOpen={() => setOpen(true)} />
             </div>
+          )} */}
+          {role === 'user' ? (
+            <div className="flex items-center gap-4">
+              <OrderCard price={event.price} setOpen={() => setOpen(true)} />
+            </div>
+          ) : (
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={() => router.push(`/${params.id}/update`)}
+              className="rounded-full"
+            >
+              <Edit size="20px" />
+            </Button>
           )}
-          <OrderCard price={event.price} setOpen={() => setOpen(true)} />
         </div>
       </section>
       <section className="grid gap-6 pt-10">
@@ -157,4 +164,4 @@ const BlogDetail = ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default BlogDetail;
+export default EventDetail;
