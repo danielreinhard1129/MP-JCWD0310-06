@@ -19,7 +19,7 @@ const Register = () => {
         fullName: '',
         email: '',
         password: '',
-        referral_code: '',
+        referralCode: '',
         point: 0,
       },
 
@@ -31,7 +31,7 @@ const Register = () => {
   return (
     <main className="container fixed left-0 right-0 z-50 mx-auto grid h-[90vh] w-screen grid-flow-col grid-cols-1 bg-inherit p-0 xl:grid-cols-2">
       <section className="flex items-center justify-center xl:justify-start">
-        <Card className="w-[450px] border-none p-8 xl:p-0 shadow-none">
+        <Card className="w-[450px] border-none p-8 shadow-none xl:p-0">
           <CardHeader>
             <CardTitle className="text-primary mb-8 text-3xl">
               Register
@@ -79,21 +79,21 @@ const Register = () => {
 
                 {/* REFERRAL CODE */}
                 <FormInput
-                  name="referral_code"
+                  name="referralCode"
                   label="Referral Code (optional)"
-                  error={errors.referral_code}
-                  isError={!!touched.referral_code && !!errors.referral_code}
+                  error={errors.referralCode}
+                  isError={!!touched.referralCode && !!errors.referralCode}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   placeholder="referral code"
                   type="text"
-                  value={values.referral_code}
+                  value={values.referralCode}
                 />
               </div>
               <Button className="mt-6 w-full rounded-md" type="submit">
                 Register
               </Button>
-              <div className="flex flex-col justify-between w-full mt-2">
+              <div className="mt-2 flex w-full flex-col justify-between">
                 <div className="flex items-center justify-start text-xs">
                   <p>
                     Already have account?{' '}
@@ -110,7 +110,7 @@ const Register = () => {
                     </span>
                   </p>
                 </div>
-                <div className="flex -mt-2 items-center justify-start text-xs">
+                <div className="-mt-2 flex items-center justify-start text-xs">
                   <p>
                     Want to create event?{' '}
                     <span>

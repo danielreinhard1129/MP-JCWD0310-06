@@ -65,7 +65,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
             <h1 className="text-xl font-bold xl:text-[40px]">{event.title}</h1>
           </div>
           {/* DESCRIPTION */}
-          <div className="grid gap-1 xl:gap-4">
+          <div className="  grid gap-1 xl:gap-4">
             <h2 className="text-base font-medium text-black xl:text-2xl">
               About this Event
             </h2>

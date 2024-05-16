@@ -18,7 +18,7 @@ const OrganizerRegister = () => {
         fullName: '',
         email: '',
         password: '',
-        referral_code: '',
+        referralCode: '',
         point: 0,
         role: 'organizer',
       },
