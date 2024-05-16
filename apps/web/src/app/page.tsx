@@ -58,12 +58,12 @@ export default function Home() {
           <div className="container flex place-items-center justify-between px-0 md:pt-10">
             <div className="relative w-fit">
               <h1 className="text-[24px] font-semibold">
-                Events in{' '}
+                Discover all{' '}
                 <span className="relative">
                   <svg className="absolute right-0 top-0 -z-10 h-full w-full -rotate-6">
                     <rect width="10em" height="10em" fill="#FFD739" />
                   </svg>
-                  Jakarta
+                  Event
                 </span>
               </h1>
             </div>

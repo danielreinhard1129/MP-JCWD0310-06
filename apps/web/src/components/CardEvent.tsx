@@ -39,7 +39,7 @@ const CardEvent: FC<CardEventProps> = ({
           <Badge className="absolute bottom-4 right-4 z-40">{location}</Badge>
         </CardHeader>
         <CardContent className="px-1">
-          <h1 className="line-clamp-1 py-2 text-xl font-semibold">{title}</h1>
+          <h1 className="line-clamp-1 my-2 text-[20px] font-semibold">{title}</h1>
           <p className="pb-1 text-base font-medium text-black">
             {format(new Date(start_date), 'dd MMMM yyyy')} <span>-</span>{' '}
             {format(new Date(end_date), 'dd MMMM yyyy')}

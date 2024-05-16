@@ -9,7 +9,7 @@ export const createTransactionService = async (
   file: Express.Multer.File,
 ) => {
   try {
-    const { eventId, userId, total } = body;
+    const { eventId, userId, qty } = body;
 
     const user = await prisma.user.findFirst({
       where: { id: Number(userId) },
@@ -19,14 +19,17 @@ export const createTransactionService = async (
       throw new Error('user not found');
     }
 
+    
     const event = await prisma.event.findFirst({
       where: { id: Number(eventId) },
     });
-
+    
     if (!event) {
       throw new Error('event not found');
     }
-
+    
+    const total = event?.price * qty;
+    
     return await prisma.transaction.create({
       data: {
         ...body,
@@ -34,6 +37,10 @@ export const createTransactionService = async (
         total: Number(total),
         userId: Number(userId),
         eventId: Number(eventId),
+      },
+      include: {
+        event: true,
+        user: true,
       },
     });
   } catch (error) {

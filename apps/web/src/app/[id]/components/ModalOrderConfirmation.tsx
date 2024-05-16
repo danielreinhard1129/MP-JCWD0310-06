@@ -1,3 +1,5 @@
+'use client';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -16,22 +18,28 @@ interface ModalOrderConfirmationProps {
   onTransactionDetails: () => void;
 }
 
-const ModalOrderConfirmation: FC<ModalOrderConfirmationProps> = ({open, setOpen, onTransactionDetails}) => {
+const ModalOrderConfirmation: FC<ModalOrderConfirmationProps> = ({
+  open,
+  setOpen,
+  onTransactionDetails,
+}) => {
+
   return (
     <AlertDialog open={open}>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Order Confimation</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your
-            account and remove your data from our servers.
+            <div></div>
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel onClick={() => setOpen(false)}>
             Cancel
           </AlertDialogCancel>
-          <AlertDialogAction onClick={onTransactionDetails}>Continue</AlertDialogAction>
+          <AlertDialogAction onClick={onTransactionDetails}>
+            Continue
+          </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>

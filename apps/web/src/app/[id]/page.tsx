@@ -15,7 +15,8 @@ import { Button } from '@/components/ui/button';
 import { useState } from 'react';
 import ModalOrderConfirmation from './components/ModalOrderConfirmation';
 import useGetEvents from '@/hooks/api/event/useGetEvents';
-import { boolean } from 'yup';
+import AuthGuardEvents from '@/hoc/AuthGuardEvents';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const EventDetail = ({ params }: { params: { id: string } }) => {
   const { id, role } = useAppSelector((state) => state.user);
@@ -62,14 +63,16 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
               {format(new Date(event.start_date), 'dd MMMM yyyy')}{' '}
               <span>-</span> {format(new Date(event.end_date), 'dd MMMM yyyy')}
             </h2>
-            <h1 className="text-xl font-bold xl:text-[40px]">{event.title}</h1>
+            <h1 className="break-words text-xl font-bold xl:text-4xl">
+              {event.title}
+            </h1>
           </div>
           {/* DESCRIPTION */}
           <div className="grid gap-1 xl:gap-4">
             <h2 className="text-base font-medium text-black xl:text-2xl">
               About this Event
             </h2>
-            <p className="text-justify text-sm xl:text-base">
+            <p className="break-words text-justify text-sm xl:text-base">
               {event.description}
             </p>
           </div>
@@ -99,24 +102,26 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
             {/* <Maps address={String(event.address)} /> */}
           </div>
           {/* ORGANIZED BY */}
-          <div className="grid gap-4">
+          <div className="grid gap-4 w-fit">
             <h2 className="text-base font-medium text-black xl:text-2xl">
               Organizer
             </h2>
-            <div className="flex justify-between rounded-md bg-[#f4f4f4] p-6">
-              <div className="w-full">
+            <div className="flex justify-between rounded-md bg-[#f4f4f4] py-4 px-6">
+              <div className="flex w-full gap-4 items-center">
+                <Avatar>
+                  <AvatarImage
+                    src="https://github.com/shadcn.png"
+                    alt="useravatar"
+                  />
+                  <AvatarFallback>{event.user.fullName.charAt(0)}</AvatarFallback>
+                </Avatar>
                 <h2 className="font-semibold">{event.user.fullName}</h2>
               </div>
             </div>
           </div>
         </div>
         {/* RIGHT SECTION */}
-        <div className="fixed bottom-5 left-0 right-0 z-50 mx-auto flex h-fit w-[92.5%] flex-col gap-4 xl:sticky xl:top-6 xl:w-[465px]">
-          {/* {id === event.user.id && (
-            <div className="flex items-center gap-4">
-              <OrderCard price={event.price} setOpen={() => setOpen(true)} />
-            </div>
-          )} */}
+        <div className="fixed bottom-5 left-0 right-0 z-50 mx-auto flex h-fit w-[92.5%] flex-col gap-4 xl:sticky xl:top-6 xl:mx-0 xl:w-[465px]">
           {role === 'user' ? (
             <div className="flex items-center gap-4">
               <OrderCard price={event.price} setOpen={() => setOpen(true)} />
@@ -158,10 +163,10 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
       <ModalOrderConfirmation
         open={open}
         setOpen={setOpen}
-        onTransactionDetails={() => alert('success')}
+        onTransactionDetails={() => router.push(`/${event.id}/transaction-details`)}
       />
     </main>
   );
 };
 
-export default EventDetail;
+export default AuthGuardEvents(EventDetail);
