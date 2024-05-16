@@ -5,9 +5,10 @@ export interface User {
   fullName: string;
   email: string;
   password: string;
-  referral_code: string;
+  referralCode?: string;
   point: number;
   role?: string;
+  userReward?: boolean;
 
   event?: Event;
 }
