@@ -88,7 +88,7 @@ export const Navbar = () => {
           </div>
         )}
       </nav>
-      <hr className="border-b- border-b-0" />
+      <hr className="border-b-0" />
     </>
   );
 };

@@ -55,13 +55,14 @@ model Event {
 }
 
 model Coupon {
-  id             Int      @id @default(autoincrement())
-  code           String   @unique
+  id             Int           @id @default(autoincrement())
+  code           String        @unique
   discountAmount Float
   expirationDate DateTime
   userId         Int?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  Transaction    Transaction[]
 
   @@map("coupons")
 }
@@ -71,11 +72,14 @@ model Transaction {
   createdAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
   status       TransactionStatus @default(PENDING)
+  qty          Int
   total        Int
   userId       Int
-  eventId      Int
-  paymentProof String?           @default("")
+  eventId      Int               @unique
+  paymentProof String            @default("")
+  couponId     Int?
 
+  coupon            Coupon?            @relation(fields: [couponId], references: [id])
   event             Event              @relation(fields: [eventId], references: [id])
   user              User               @relation(fields: [userId], references: [id])
   TransactionDetail TransactionDetail?
@@ -93,8 +97,9 @@ enum TransactionStatus {
 model TransactionDetail {
   id            Int      @id @default(autoincrement())
   createdAt     DateTime @default(now())
-  qty           Int
   transactionId Int      @unique
 
   transaction Transaction @relation(fields: [transactionId], references: [id])
+
+  @@map("transactionDetails")
 }

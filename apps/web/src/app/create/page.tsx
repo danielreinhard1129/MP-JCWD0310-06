@@ -13,6 +13,7 @@ import { IFormEvent } from '@/types/event.type';
 import { validationSchema } from './validationSchema';
 import { addDays } from 'date-fns';
 import { useFormik } from 'formik';
+import { categories, cities } from './list';
 
 const Create = () => {
   const { createEvent } = useCreateEvent();
@@ -145,17 +146,20 @@ const Create = () => {
           {/* DESCRIPTION & CATEGORY INPUT */}
           <div className="flex flex-col gap-4">
             <h1 className="text-xl font-semibold">Describe your event</h1>
-            <FormInput
+            <select
               name="category"
-              label="Category"
-              error={errors.category}
-              isError={!!touched.category && !!errors.category}
-              onBlur={handleBlur}
               onChange={handleChange}
-              placeholder="Category"
-              type="text"
+              onBlur={handleBlur}
               value={values.category}
-            />
+              className="rounded-md border p-2 text-sm text-black/70"
+            >
+              <option value="" disabled selected>
+                Select category...
+              </option>
+              {categories.map((category) => (
+                <option value={category}>{category}</option>
+              ))}
+            </select>
             <FormTextArea
               name="description"
               error={errors.description}
@@ -173,17 +177,20 @@ const Create = () => {
               Where's your event location?
             </h1>
             <div className="flex flex-col gap-4">
-              <FormInput
+              <select
                 name="location"
-                label="Location"
-                error={errors.location}
-                isError={!!touched.location && !!errors.location}
-                onBlur={handleBlur}
                 onChange={handleChange}
-                placeholder="Location"
-                type="text"
+                onBlur={handleBlur}
                 value={values.location}
-              />
+                className="rounded-md border p-2 text-sm text-black/70"
+              >
+                <option value="" disabled selected>
+                  Select location...
+                </option>
+                {cities.map((city) => (
+                  <option value={city}>{city}</option>
+                ))}
+              </select>
               <FormInput
                 name="address"
                 label="Address (optional)"

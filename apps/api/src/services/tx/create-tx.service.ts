@@ -13,7 +13,7 @@ export const createTransactionService = async (
   // file: Express.Multer.File,
 ) => {
   try {
-    const { eventId, userId, total, isPointUse, pointRedux = 50000 } = body;
+    const { eventId, userId, qty } = body;
 
     const user = await prisma.user.findFirst({
       where: { id: Number(userId) },
@@ -22,30 +22,29 @@ export const createTransactionService = async (
     if (!user) {
       throw new Error('user not found');
     }
-    const pointAnjing = String(user.point);
-    let point = 0;
 
-    if (isPointUse) {
-      point = user?.point;
-    }
-
+    
     const event = await prisma.event.findFirst({
       where: { id: Number(eventId) },
     });
-
+    
     if (!event) {
       throw new Error('event not found');
     }
-    const tempTotal = total - point;
-
-    const newTransaction = await prisma.transaction.create({
+    
+    const total = event?.price * qty;
+    
+    return await prisma.transaction.create({
       data: {
-        total: tempTotal,
-        // paymentProof: `/txProof/`,
-        // total: 500000,
-        userId: user.id,
-        eventId: event.id,
-        status: 'PENDING',
+        ...body,
+        paymentProof: `/txProof/${file.filename}`,
+        total: Number(total),
+        userId: Number(userId),
+        eventId: Number(eventId),
+      },
+      include: {
+        event: true,
+        user: true,
       },
     });
 
