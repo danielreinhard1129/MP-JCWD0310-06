@@ -5,7 +5,7 @@ import { addMonths } from 'date-fns';
 
 export const registerService = async (body: Omit<User, 'id'>) => {
   try {
-    const { email, password, referral_code } = body;
+    const { email, password, referralCode } = body;
 
     const existingUser = await prisma.user.findFirst({
       where: { email: email },
@@ -24,40 +24,35 @@ export const registerService = async (body: Omit<User, 'id'>) => {
       data: {
         ...body,
         password: hashedPassword,
-        referral_code: GeneratereferralCode,
+        referralCode: GeneratereferralCode,
         point: 0,
-        point_expiredDate: new Date(),
+        pointExpiredDate: new Date(),
       },
     });
-    
-    if (referral_code) {
-      const referralCode = await prisma.user.findFirst({
-        where: { referral_code: referral_code },
+
+    if (referralCode) {
+      const referral = await prisma.user.findFirst({
+        where: { referralCode: referralCode },
       });
 
-      if (!referralCode) {
+      if (!referral) {
         throw new Error('Invalid referral code');
       }
       const today = new Date();
       const expiredDate = addMonths(today, 3).toISOString();
 
       await prisma.user.update({
-        where: { id: referralCode.id },
-        data: { point: { increment: 10000 }, point_expiredDate: expiredDate },
+        where: { id: referral.id },
+        data: {
+          point: { increment: 10000 },
+          pointExpiredDate: expiredDate,
+        },
       });
 
-      const randomString = Math.random()
-        .toString(36)
-        .substring(2, 6)
-        .toUpperCase();
-      const couponCode = `${newUser.fullName.substring(0, 3).toUpperCase()}${randomString}`;
-
-      await prisma.coupon.create({
+      await prisma.user.update({
+        where: { id: newUser.id },
         data: {
-          code: couponCode,
-          discountAmount: 10,
-          expirationDate: expiredDate,
-          userId: newUser.id,
+          userReward: true,
         },
       });
 

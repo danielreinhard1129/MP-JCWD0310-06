@@ -7,7 +7,7 @@ export class TransactionController {
     try {
       const files = req.files as Express.Multer.File[];
 
-      const result = await createTransactionService(req.body, files[0]);
+      const result = await createTransactionService(req.body);
 
       return res.status(200).send(result);
     } catch (error) {
