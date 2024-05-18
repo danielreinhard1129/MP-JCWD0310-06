@@ -28,13 +28,13 @@ const CardEvent: FC<CardEventProps> = ({
 }) => {
   return (
     <Link href={`/${eventId}`}>
-      <Card className="overflow-hidden rounded-lg border-none p-3 shadow-none hover:bg-neutral-100/40">
-        <CardHeader className="relative h-[175px] w-full">
+      <Card className="group overflow-hidden rounded-lg border-none p-3 shadow-none hover:bg-neutral-100/60">
+        <CardHeader className="relative h-[175px] w-full overflow-hidden rounded-lg">
           <Image
             src={thumbnail_url}
             alt="thumbnail"
             fill
-            className="h-[175px] rounded-lg object-cover"
+            className="rounded-lg object-cover group-hover:scale-110 group-hover:transition-all group-hover:duration-500 group-hover:rotate-2"
           />
           <Badge className="absolute bottom-4 right-4 z-40">{location}</Badge>
         </CardHeader>

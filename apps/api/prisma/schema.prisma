@@ -25,6 +25,10 @@ model User {
   userReward       Boolean       @default(false)
   Event            Event[]
   Transaction      Transaction[]
+  Coupon           Coupon[]
+  Voucher          Voucher[]
+  UserCoupon       UserCoupon[]
+  UserVoucher      UserVoucher[]
 
   @@map("users")
 }
@@ -54,35 +58,82 @@ model Event {
   @@map("events")
 }
 
+model UserCoupon {
+  id       Int     @id @default(autoincrement())
+  userId   Int
+  couponId Int
+  isUse    Boolean
+
+  user        User          @relation(fields: [userId], references: [id])
+  coupon      Coupon        @relation(fields: [couponId], references: [id])
+  Transaction Transaction[]
+
+  @@map("userCoupons")
+}
+
 model Coupon {
-  id             Int           @id @default(autoincrement())
-  code           String        @unique
-  discountAmount Float
+  id             Int          @id @default(autoincrement())
+  code           String       @unique
   expirationDate DateTime
-  userId         Int?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-  Transaction    Transaction[]
+  discountAmount Int
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  userId         Int
+  user           User         @relation(fields: [userId], references: [id])
+  UserCoupon     UserCoupon[]
 
   @@map("coupons")
 }
 
-model Transaction {
-  id           Int               @id @default(autoincrement())
-  createdAt    DateTime          @default(now())
-  updatedAt    DateTime          @updatedAt
-  status       TransactionStatus @default(PENDING)
-  qty          Int
-  total        Int
-  userId       Int
-  eventId      Int               @unique
-  paymentProof String            @default("")
-  couponId     Int?
+model UserVoucher {
+  id        Int     @id @default(autoincrement())
+  userId    Int
+  voucherId Int
+  isUse     Boolean
 
-  coupon            Coupon?            @relation(fields: [couponId], references: [id])
-  event             Event              @relation(fields: [eventId], references: [id])
-  user              User               @relation(fields: [userId], references: [id])
-  TransactionDetail TransactionDetail?
+  user        User          @relation(fields: [userId], references: [id])
+  voucher     Voucher       @relation(fields: [voucherId], references: [id])
+  Transaction Transaction[]
+
+  @@map("userVouchers")
+}
+
+model Voucher {
+  id             Int      @id @default(autoincrement())
+  code           String
+  discountAmount Int
+  expirationDate DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  userId         Int
+
+  user        User          @relation(fields: [userId], references: [id])
+  UserVoucher UserVoucher[]
+
+  @@map("vouchers")
+}
+
+model Transaction {
+  id            Int               @id @default(autoincrement())
+  invoice       String
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  status        TransactionStatus @default(PENDING)
+  total         Int
+  userId        Int
+  eventId       Int
+  paymentProof  String            @default("")
+  userCouponId  Int?
+  userVoucherId Int?
+  qty           Int
+  isPointUse    Boolean
+  isUseCoupon   Boolean
+  isUseVoucher  Boolean
+
+  userCoupon  UserCoupon?  @relation(fields: [userCouponId], references: [id])
+  event       Event        @relation(fields: [eventId], references: [id])
+  user        User         @relation(fields: [userId], references: [id])
+  userVoucher UserVoucher? @relation(fields: [userVoucherId], references: [id])
 
   @@map("transactions")
 }
@@ -92,14 +143,4 @@ enum TransactionStatus {
   COMPLETE
   ERROR
   CANCELLED
-}
-
-model TransactionDetail {
-  id            Int      @id @default(autoincrement())
-  createdAt     DateTime @default(now())
-  transactionId Int      @unique
-
-  transaction Transaction @relation(fields: [transactionId], references: [id])
-
-  @@map("transactionDetails")
 }

@@ -8,7 +8,7 @@ export const registerService = async (body: Omit<User, 'id'>) => {
     const { email, password, referralCode } = body;
 
     const existingUser = await prisma.user.findFirst({
-      where: { email: email },
+      where: { email },
     });
 
     if (existingUser) {
@@ -29,6 +29,10 @@ export const registerService = async (body: Omit<User, 'id'>) => {
         pointExpiredDate: new Date(),
       },
     });
+
+    const userCoupon = String(
+      newUser.fullName.substring(0, 3) + Math.ceil(Math.random() * 1000),
+    ).toUpperCase();
 
     if (referralCode) {
       const referral = await prisma.user.findFirst({
@@ -53,6 +57,15 @@ export const registerService = async (body: Omit<User, 'id'>) => {
         where: { id: newUser.id },
         data: {
           userReward: true,
+        },
+      });
+
+      await prisma.coupon.create({
+        data: {
+          code: userCoupon,
+          discountAmount: 10000,
+          expirationDate: expiredDate,
+          userId: newUser.id,
         },
       });
 

@@ -45,7 +45,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
 
   return (
     <main className="container px-4 xl:px-0">
-      <section className="relative my-6 h-[200px] w-full overflow-hidden rounded-xl xl:h-[480px] xl:rounded-3xl">
+      <section className="relative my-6 h-[200px] w-full overflow-hidden rounded-xl xl:h-[560px] xl:rounded-3xl">
         <div className="absolute z-50 h-full w-full"></div>
         <Image
           src={`${appConfig.baseUrl}/assets${event.thumbnail_url}`}
@@ -102,18 +102,20 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
             {/* <Maps address={String(event.address)} /> */}
           </div>
           {/* ORGANIZED BY */}
-          <div className="grid gap-4 w-fit">
+          <div className="grid w-fit gap-4">
             <h2 className="text-base font-medium text-black xl:text-2xl">
               Organizer
             </h2>
-            <div className="flex justify-between rounded-md bg-[#f4f4f4] py-4 px-6">
-              <div className="flex w-full gap-4 items-center">
+            <div className="flex justify-between rounded-md bg-[#f4f4f4] px-6 py-4">
+              <div className="flex w-full items-center gap-4">
                 <Avatar>
                   <AvatarImage
                     src="https://github.com/shadcn.png"
                     alt="useravatar"
                   />
-                  <AvatarFallback>{event.user.fullName.charAt(0)}</AvatarFallback>
+                  <AvatarFallback>
+                    {event.user.fullName.charAt(0)}
+                  </AvatarFallback>
                 </Avatar>
                 <h2 className="font-semibold">{event.user.fullName}</h2>
               </div>
@@ -163,7 +165,9 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
       <ModalOrderConfirmation
         open={open}
         setOpen={setOpen}
-        onTransactionDetails={() => router.push(`/${event.id}/transaction-details`)}
+        onTransactionDetails={() =>
+          router.push(`/${event.id}/transaction-details`)
+        }
       />
     </main>
   );
