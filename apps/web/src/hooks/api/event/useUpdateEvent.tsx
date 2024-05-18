@@ -1,11 +1,9 @@
-'use client'
+'use client';
 import { axiosInstance } from '@/lib/axios';
-import { useAppSelector } from '@/redux/hooks';
 import { IFormEvent } from '@/types/event.type';
 import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FileWithPath } from 'react-dropzone';
-import { string } from 'yup';
 
 const useUpdateEvent = (eventId: number) => {
   const router = useRouter();

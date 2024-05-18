@@ -34,25 +34,31 @@ const CardEvent: FC<CardEventProps> = ({
             src={thumbnail_url}
             alt="thumbnail"
             fill
-            className="rounded-lg object-cover group-hover:scale-110 group-hover:transition-all group-hover:duration-500 group-hover:rotate-2"
+            className="rounded-lg object-cover group-hover:rotate-2 group-hover:scale-110 group-hover:transition-all group-hover:duration-500"
           />
           <Badge className="absolute bottom-4 right-4 z-40">{location}</Badge>
         </CardHeader>
         <CardContent className="px-1">
-          <h1 className="line-clamp-1 my-2 text-[20px] font-semibold">{title}</h1>
-          <p className="pb-1 text-base font-medium text-black">
+          <h1 className="mt-2 line-clamp-1 text-[20px] font-semibold">
+            {title}
+          </h1>
+          <p className="py-1 text-base font-medium text-black">
             {format(new Date(start_date), 'dd MMMM yyyy')} <span>-</span>{' '}
             {format(new Date(end_date), 'dd MMMM yyyy')}
           </p>
           <p className="line-clamp-2 text-sm">{description}</p>
-          <p className="pt-2 text-[16px] font-semibold text-black">
-            {new Intl.NumberFormat('id-ID', {
-              style: 'currency',
-              currency: 'IDR',
-              maximumSignificantDigits: Math.trunc(Math.abs(price)).toFixed()
-                .length,
-            }).format(price)}
-          </p>
+          {price === 0 ? (
+            <p className="pt-2 text-[16px] font-semibold text-black">Free</p>
+          ) : (
+            <p className="pt-2 text-[16px] font-semibold text-black">
+              {new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR',
+                maximumSignificantDigits: Math.trunc(Math.abs(price)).toFixed()
+                  .length,
+              }).format(price)}
+            </p>
+          )}
         </CardContent>
       </Card>
     </Link>
