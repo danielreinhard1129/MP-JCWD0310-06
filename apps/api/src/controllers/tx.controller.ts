@@ -1,5 +1,6 @@
 import { createTransactionService } from '@/services/tx/create-tx.service';
 import { getTransactionService } from '@/services/tx/get-tx.service';
+import { updateTransactionService } from '@/services/tx/update-tx.service';
 import { NextFunction, Request, Response } from 'express';
 
 export class TransactionController {
@@ -22,6 +23,25 @@ export class TransactionController {
     try {
       const id = req.params.id;
       const result = await getTransactionService(Number(id));
+
+      return res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+  async updateTransactionController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const files = req.files as Express.Multer.File[];
+
+      const result = await updateTransactionService(
+        Number(req.params.id),
+        req.body,
+        files[0],
+      );
 
       return res.status(200).send(result);
     } catch (error) {

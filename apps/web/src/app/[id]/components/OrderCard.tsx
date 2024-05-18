@@ -48,15 +48,17 @@ const OrderCard: FC<OrderCardProps> = ({ price, setOpen }) => {
     values,
     setFieldValue,
     errors,
-  } = useFormik<IFormTransaction>({
+  } = useFormik<Omit<IFormTransaction, 'paymentProof'>>({
     initialValues: {
-      transactionDetail: {
-        qty: 1,
-      },
+      qty: 0,
     },
     onSubmit: (values) => {
       // createTransaction({ ...values, userId: id, eventId: Number(pathname.slice(1)) });
-      console.log(values, (values.userId = id), values.eventId = Number(pathname.slice(1)));
+      console.log(
+        values,
+        (values.userId = id),
+        (values.eventId = Number(pathname.slice(1))),
+      );
     },
   });
 
@@ -101,15 +103,21 @@ const OrderCard: FC<OrderCardProps> = ({ price, setOpen }) => {
                   <div className="flex items-center justify-between">
                     <Label>Price</Label>
                     <div className="flex items-center gap-2">
-                      <p className="pt-2 text-[16px] font-semibold text-black">
-                        {new Intl.NumberFormat('id-ID', {
-                          style: 'currency',
-                          currency: 'IDR',
-                          maximumSignificantDigits: Math.trunc(
-                            Math.abs(price),
-                          ).toFixed().length,
-                        }).format(price * numCount)}
-                      </p>
+                      {price === 0 ? (
+                        <p className="pt-2 text-base font-semibold text-black">
+                          Free
+                        </p>
+                      ) : (
+                        <p className="pt-2 text-base font-semibold text-black">
+                          {new Intl.NumberFormat('id-ID', {
+                            style: 'currency',
+                            currency: 'IDR',
+                            maximumSignificantDigits: Math.trunc(
+                              Math.abs(price),
+                            ).toFixed().length,
+                          }).format(price * numCount)}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </AccordionContent>

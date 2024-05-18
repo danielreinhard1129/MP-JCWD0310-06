@@ -7,13 +7,15 @@ import { useRouter } from 'next/navigation';
 
 const useCreateTransaction = () => {
   const router = useRouter();
-  const createTransaction = async (payload: IFormTransaction) => {
+  const createTransaction = async (
+    payload: Omit<IFormTransaction, 'paymentProof'>,
+  ) => {
     try {
-      const { transactionDetail, eventId, userId } = payload;
+      const { eventId, userId, qty } = payload;
 
       const createTransactionForm = new FormData();
 
-      createTransactionForm.append('transactionDetail', JSON.stringify(transactionDetail));
+      createTransactionForm.append('qty', String(qty));
       createTransactionForm.append('userId', String(userId));
       createTransactionForm.append('eventId', String(eventId));
 
@@ -22,7 +24,7 @@ const useCreateTransaction = () => {
         createTransactionForm,
       );
 
-      router.push('/');
+      router.push('/transaction-details');
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log('Axios error:', error);

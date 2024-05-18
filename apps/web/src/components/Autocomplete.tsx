@@ -40,9 +40,21 @@ const Autocomplete = () => {
   return (
     <AsyncSelect
       placeholder="Search for events"
-      className="absolute w-full rounded-md"
+      className="absolute w-full"
       loadOptions={debouncedLoadOptions}
       isLoading={isLoading}
+      theme={(theme) => ({
+        ...theme,
+        borderRadius: 10,
+        colors: {
+          ...theme.colors,
+          primary25: '#f4f4f4',
+          primary: '#fff',
+          neutral20: '#fff',
+          neutral60: '#fff'
+
+        },
+      })}
       onChange={(blog) => {
         router.push(appConfig.baseUrlNext + `/${blog?.value}`);
       }}

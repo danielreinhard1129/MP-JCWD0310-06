@@ -10,7 +10,9 @@ import { Separator } from '@/components/ui/separator';
 import useGetEvents from '@/hooks/api/event/useGetEvents';
 import { appConfig } from '@/utils/config';
 import { Filter } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
+import noeventfound from '../../public/noevent.png';
 
 export default function Home() {
   const [page, setPage] = useState<number>(1);
@@ -38,11 +40,12 @@ export default function Home() {
             </div>
           </div>
           {/* SEARCH AND FILTER */}
-          <div className="left-0 right-0 mx-auto w-full overflow-visible rounded-xl border border-black/40 bg-white px-6 py-2 md:absolute md:-bottom-10 gap-10 md:flex md:w-4/5 md:rounded-3xl md:p-6">
+          <div className="left-0 right-0 mx-auto w-full gap-10 overflow-visible rounded-xl border border-black/40 bg-white px-6 py-2 md:absolute md:-bottom-10 md:flex md:w-4/5 md:rounded-3xl md:p-6">
             <div className="flex w-full place-items-center">
               <Autocomplete />
             </div>
             <div className="place-items-centers mx-auto w-full md:flex">
+              <Separator orientation="vertical" />
               <div className="w-full md:pl-4">
                 <DatePickerRange />
               </div>
@@ -75,25 +78,42 @@ export default function Home() {
               <Filter className="h-6 w-6" />
             </Button>
           </div>
-          <div className="container grid grid-cols-1 gap-6 p-0 py-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            {events.map((event, index) => {
-              return (
-                <CardEvent
-                  key={index}
-                  title={event.title}
-                  description={event.description}
-                  eventId={event.id}
-                  location={event.location}
-                  start_date={event.start_date}
-                  end_date={event.end_date}
-                  price={event.price}
-                  thumbnail_url={
-                    appConfig.baseUrl + `/assets${event.thumbnail_url}`
-                  }
+          {events.length === 0 ? (
+            <div className="container mb-40 mt-10 flex flex-col items-center p-0">
+              <div className="flex w-full justify-center">
+                <Image
+                  src={noeventfound}
+                  alt="no event found"
+                  height={400}
+                  className="object-contain opacity-50"
+                  draggable="false"
                 />
-              );
-            })}
-          </div>
+              </div>
+              <p className="text-md -mt-16 mb-10 font-medium text-neutral-300 xl:text-xl">
+                Sorry, we can't find any event for you
+              </p>
+            </div>
+          ) : (
+            <div className="container grid grid-cols-1 gap-6 p-0 py-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {events.map((event, index) => {
+                return (
+                  <CardEvent
+                    key={index}
+                    title={event.title}
+                    description={event.description}
+                    eventId={event.id}
+                    location={event.location}
+                    start_date={event.start_date}
+                    end_date={event.end_date}
+                    price={event.price}
+                    thumbnail_url={
+                      appConfig.baseUrl + `/assets${event.thumbnail_url}`
+                    }
+                  />
+                );
+              })}
+            </div>
+          )}
           <div className="mx-auto w-fit">
             <Pagination
               total={meta?.total || 0}

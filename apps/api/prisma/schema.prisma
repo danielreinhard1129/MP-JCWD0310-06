@@ -25,10 +25,10 @@ model User {
   userReward       Boolean       @default(false)
   Event            Event[]
   Transaction      Transaction[]
-  Coupon           Coupon[]
   Voucher          Voucher[]
   UserCoupon       UserCoupon[]
   UserVoucher      UserVoucher[]
+  Coupon           Coupon[]
 
   @@map("users")
 }
@@ -54,6 +54,7 @@ model Event {
   userId      Int
   user        User          @relation(fields: [userId], references: [id])
   Transaction Transaction[]
+  Voucher     Voucher[]
 
   @@map("events")
 }
@@ -81,6 +82,7 @@ model Coupon {
   userId         Int
   user           User         @relation(fields: [userId], references: [id])
   UserCoupon     UserCoupon[]
+  isUse          Boolean
 
   @@map("coupons")
 }
@@ -102,12 +104,15 @@ model Voucher {
   id             Int      @id @default(autoincrement())
   code           String
   discountAmount Int
+  limit          Int
   expirationDate DateTime
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   userId         Int
+  eventId        Int
 
   user        User          @relation(fields: [userId], references: [id])
+  event       Event         @relation(fields: [eventId], references: [id])
   UserVoucher UserVoucher[]
 
   @@map("vouchers")
@@ -141,6 +146,7 @@ model Transaction {
 enum TransactionStatus {
   PENDING
   COMPLETE
-  ERROR
+  WAITING
   CANCELLED
+  EXPIRED
 }

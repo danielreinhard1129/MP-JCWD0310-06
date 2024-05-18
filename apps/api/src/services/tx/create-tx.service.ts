@@ -1,15 +1,16 @@
+import { NEXT_BASE_URL } from '@/config';
+import { transporter } from '@/libs/nodemailer';
 import prisma from '@/prisma';
-import { Transaction, TransactionStatus } from '@prisma/client';
+import { appConfig } from '@/utils/config';
+import { Transaction } from '@prisma/client';
+import { sign } from 'jsonwebtoken';
 import { scheduleJob } from 'node-schedule';
 import { v4 as uuidv4 } from 'uuid';
 
 interface CreateTransactionBody
   extends Omit<Transaction, 'createdAt' | 'updatedAt' | 'id'> {}
 
-export const createTransactionService = async (
-  body: CreateTransactionBody,
-  // file: Express.Multer.File,
-) => {
+export const createTransactionService = async (body: CreateTransactionBody) => {
   try {
     const {
       eventId,
@@ -29,6 +30,14 @@ export const createTransactionService = async (
     if (!user) {
       throw new Error('user not found');
     }
+
+    const userEmail = user.email;
+
+    const token = sign({ id: user.id }, appConfig.jwtSecretKey, {
+      expiresIn: '30m',
+    });
+
+    const confirmationLink = NEXT_BASE_URL + `/confirmation?token=${token}`;
 
     const event = await prisma.event.findFirst({
       where: { id: Number(eventId) },
@@ -102,7 +111,7 @@ export const createTransactionService = async (
       },
     });
 
-    if (user.point - totalDiscount > 0) {
+    if (user.point - totalDiscount >= 0) {
       await prisma.user.update({
         where: { id: userId },
         data: {
@@ -118,64 +127,129 @@ export const createTransactionService = async (
       });
     }
 
-    const schedule = new Date(Date.now() + 10 * 1000);
+    if (newTransaction.total === 0) {
+      await prisma.transaction.update({
+        where: { id: newTransaction.id },
+        data: { status: 'COMPLETE' },
+      });
+      await prisma.event.update({
+        where: { id: eventId },
+        data: { limit: event.limit - 1 },
+      });
+      await transporter.sendMail({
+        from: 'Admin',
+        to: userEmail,
+        subject: 'Thanks for ordering',
+        html: `<p>Thanks brok!</p>`,
+      });
+    } else {
+      await transporter.sendMail({
+        from: 'Admin',
+        to: userEmail,
+        subject: 'Confirm your order',
+        html: `<a href="${confirmationLink}" target="_blank">Upload payment proof</a>`,
+      });
+    }
+
+    const schedule = new Date(Date.now() + 2 * 60 * 60 * 1000);
     scheduleJob('run every ', schedule, async () => {
       const transaction = await prisma.transaction.findFirst({
         where: {
           id: newTransaction.id,
-          paymentProof: newTransaction.paymentProof,
-        },
-        include: {
-          event: true,
+          status: 'PENDING',
         },
       });
       if (transaction) {
-        const cancelledTx = await prisma.transaction.update({
+        await prisma.transaction.update({
+          where: { id: newTransaction.id },
+          data: { status: 'EXPIRED' },
+        });
+        await prisma.user.update({
+          where: { id: newTransaction.userId },
+          data: { point: user.point },
+        });
+        if (isUseVoucher) {
+          await prisma.userVoucher.update({
+            where: { id: Number(userVoucherId) },
+            data: {
+              isUse: false,
+            },
+          });
+        }
+        if (isUseCoupon) {
+          await prisma.userCoupon.update({
+            where: { id: Number(userCouponId) },
+            data: {
+              isUse: false,
+            },
+          });
+        }
+        await transporter.sendMail({
+          from: 'Admin',
+          to: userEmail,
+          subject: 'Order expired',
+          html: `<p>Your order with invoice ${invoice} has been expired.</p>`,
+        });
+      }
+
+      console.log('Order Expired');
+
+      return {
+        message: `Order expired. Email has been sent to ${userEmail}`,
+      };
+    });
+
+    const scheduleAdmin = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    scheduleJob('run every ', scheduleAdmin, async () => {
+      const transaction = await prisma.transaction.findFirst({
+        where: {
+          id: newTransaction.id,
+          status: 'WAITING',
+        },
+      });
+      if (transaction) {
+        await prisma.transaction.update({
           where: { id: newTransaction.id },
           data: { status: 'CANCELLED' },
         });
-        if (cancelledTx) {
-          await prisma.user.update({
-            where: { id: newTransaction.userId },
-            data: { point: user.point },
+        await prisma.user.update({
+          where: { id: newTransaction.userId },
+          data: { point: user.point },
+        });
+        if (isUseVoucher) {
+          await prisma.userVoucher.update({
+            where: { id: Number(userVoucherId) },
+            data: {
+              isUse: false,
+            },
           });
-          if (isUseVoucher) {
-            await prisma.userVoucher.update({
-              where: { id: Number(userVoucherId) },
-              data: {
-                isUse: false,
-              },
-            });
-          }
-          if (isUseCoupon) {
-            await prisma.userCoupon.update({
-              where: { id: Number(userCouponId) },
-              data: {
-                isUse: false,
-              },
-            });
-          }
         }
+        if (isUseCoupon) {
+          await prisma.userCoupon.update({
+            where: { id: Number(userCouponId) },
+            data: {
+              isUse: false,
+            },
+          });
+        }
+        await transporter.sendMail({
+          from: 'Admin',
+          to: userEmail,
+          subject: 'Order cancelled',
+          html: `<p>Your order with invoice ${invoice} has been cancelled</p>`,
+        });
       }
 
-      console.log('cron executed');
-      return { data: transaction };
+      console.log('Order Cancelled');
+
+      return {
+        message: `Order cancelled. Email has been sent to ${userEmail}`,
+      };
     });
 
-    // const cancelledTx = await prisma.transaction.findFirst({
-    //   where: { id: newTransaction.id, status: 'CANCELLED' },
-    // });
-    // console.log(cancelledTx);
-
-    // if (cancelledTx) {
-    //   await prisma.user.update({
-    //     where: { id: newTransaction.userId },
-    //     data: { point: 50000 },
-    //   });
-    // }
-
-    //RETURN VALUE UNTUK DIOKIRIM KE FE
-    return { data: newTransaction };
+    return {
+      message: `Transaction created`,
+    };
   } catch (error) {
     throw error;
   }

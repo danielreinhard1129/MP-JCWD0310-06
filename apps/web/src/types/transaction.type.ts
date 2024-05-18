@@ -10,14 +10,7 @@ export interface Transaction {
   userId: number;
   eventId: number;
   paymentProof: string;
-  transactionDetail: {
-    id: number;
-    createdAt: Date;
-    qty: number;
-    transactionId: number;
-
-    transaction: Transaction;
-  };
+  qty: number;
 
   user: User;
   event: Event;
@@ -26,14 +19,14 @@ export interface Transaction {
 export enum TransactionStatus {
   PENDING,
   COMPLETE,
-  ERROR,
+  WAITING,
   CANCELLED,
+  EXPIRED,
 }
 
 export interface IFormTransaction {
-  transactionDetail: {
-    qty: number;
-  };
+  qty: number;
+  paymentProof: File[];
   userId?: number;
   eventId?: number;
 }

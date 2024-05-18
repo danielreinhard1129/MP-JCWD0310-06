@@ -166,7 +166,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
         open={open}
         setOpen={setOpen}
         onTransactionDetails={() =>
-          router.push(`/${event.id}/transaction-details`)
+          router.push(`/transaction-details`)
         }
       />
     </main>

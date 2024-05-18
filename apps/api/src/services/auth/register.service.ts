@@ -62,6 +62,7 @@ export const registerService = async (body: Omit<User, 'id'>) => {
 
       await prisma.coupon.create({
         data: {
+          isUse: false,
           code: userCoupon,
           discountAmount: 10000,
           expirationDate: expiredDate,
