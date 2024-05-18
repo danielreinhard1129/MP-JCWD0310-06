@@ -38,7 +38,6 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
     });
 
     const confirmationLink = NEXT_BASE_URL + `/confirmation?token=${token}`;
-
     const event = await prisma.event.findFirst({
       where: { id: Number(eventId) },
     });
@@ -183,6 +182,22 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
               isUse: false,
             },
           });
+          if (isUseVoucher) {
+            await prisma.userVoucher.update({
+              where: { id: Number(userVoucherId) },
+              data: {
+                isUse: false,
+              },
+            });
+          }
+          if (isUseCoupon) {
+            await prisma.userCoupon.update({
+              where: { id: Number(userCouponId) },
+              data: {
+                isUse: false,
+              },
+            });
+          }
         }
         await transporter.sendMail({
           from: 'Admin',
