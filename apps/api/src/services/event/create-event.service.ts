@@ -9,7 +9,7 @@ export const createEventService = async (
   file: Express.Multer.File,
 ) => {
   try {
-    const { title, userId, limit, price } = body;
+    const { title, userId, seat, price } = body;
 
     const existingTitle = await prisma.event.findFirst({
       where: { title },
@@ -31,7 +31,7 @@ export const createEventService = async (
       data: {
         ...body,
         thumbnail_url: `/images/${file.filename}`,
-        limit: Number(limit),
+        seat: Number(seat),
         userId: Number(userId),
         price: Number(price),
       },

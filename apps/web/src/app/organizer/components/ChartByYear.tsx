@@ -28,7 +28,7 @@ ChartJS.register(
 
 const ChartByYear = () => {
   const { id } = useAppSelector((state) => state.user);
-  const { data: event } = useGetEventsByOrganizer(id);
+  const { data: event } = useGetEventsByOrganizer({id:id});
 
   // Define the years you are interested in
   const years = [2020, 2021, 2022, 2023, 2024, 2025];

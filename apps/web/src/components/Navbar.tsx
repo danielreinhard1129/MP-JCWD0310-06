@@ -28,14 +28,6 @@ export const Navbar = () => {
 
         {Boolean(id) ? (
           <div className="flex items-center gap-8">
-            <Button
-              className="hidden sm:block"
-              variant="link"
-              onClick={() => router.push('/create')}
-            >
-              Create Event
-            </Button>
-
             {role === 'organizer' ? (
               <Button
                 variant="link"
@@ -64,13 +56,6 @@ export const Navbar = () => {
           </div>
         ) : (
           <div className="flex items-center gap-8">
-            <Button
-              className="hidden sm:block"
-              variant="link"
-              onClick={() => router.push('/create')}
-            >
-              Create Event
-            </Button>
             <Button
               className="hidden sm:block"
               variant="link"

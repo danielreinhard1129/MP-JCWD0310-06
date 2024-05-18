@@ -3,6 +3,7 @@ import { User } from './user.type';
 
 export interface Transaction {
   id: number;
+  invoice: string;
   createdAt: Date;
   updatedAt: Date;
   status: [];

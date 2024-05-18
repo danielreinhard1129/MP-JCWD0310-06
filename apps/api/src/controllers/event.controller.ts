@@ -42,8 +42,15 @@ export class EventController {
     next: NextFunction,
   ) {
     try {
-      const id = req.query.id;
-      const result = await getEventsByOrganizerService(String(id));
+      const query = {
+        id: parseInt(req.query.id as string),
+        take: parseInt(req.query.take as string) || 8,
+        page: parseInt(req.query.page as string) || 1,
+        sortBy: parseInt(req.query.sortBy as string) || 'start_date',
+        sortOrder: parseInt(req.query.sortOrder as string) || 'desc',
+        search: req.query.search as string,
+      };
+      const result = await getEventsByOrganizerService(query);
 
       return res.status(200).send(result);
     } catch (error) {

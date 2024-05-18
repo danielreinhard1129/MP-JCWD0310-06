@@ -8,7 +8,7 @@ export interface Event {
   end_date: Date;
   description: string;
   thumbnail_url: string;
-  limit: number;
+  seat: number;
   booked: number;
   isAvailable: boolean;
   deletedAt: Date | null;

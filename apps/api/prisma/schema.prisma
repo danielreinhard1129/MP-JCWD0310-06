@@ -37,7 +37,7 @@ model Event {
   deletedAt     DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  limit         Int
+  seat          Int
   isAvailable   Boolean   @default(true)
   start_date    DateTime
   end_date      DateTime?
@@ -69,6 +69,7 @@ model Coupon {
 
 model Transaction {
   id           Int               @id @default(autoincrement())
+  invoice      String
   createdAt    DateTime          @default(now())
   updatedAt    DateTime          @updatedAt
   status       TransactionStatus @default(PENDING)

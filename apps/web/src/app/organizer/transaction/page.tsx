@@ -1,175 +1,119 @@
-// 'use client';
-
-// import LeftSection from '@/components/LeftSection';
-// import {
-//   Table,
-//   TableBody,
-//   TableCaption,
-//   TableCell,
-//   TableHead,
-//   TableHeader,
-//   TableRow,
-// } from '@/components/ui/table';
-// import AuthGuard from '@/hoc/AuthGuard';
-// import Link from 'next/link';
-
-// const page = () => {
-//   return (
-//     <main className="">
-//       <div className="">
-//         <h1 className="text-center text-4xl font-bold">Transaction</h1>
-//       </div>
-//       <section className="grid w-full grid-cols-5 px-6 md:px-20 ">
-//         <LeftSection />
-//         <div className="col-span-4">
-//           <div className="container px-0">
-//             <div className="container flex place-items-center justify-between px-0 md:pt-10">
-//               <div className="relative w-fit">
-//                 <h1 className="text-[24px] font-semibold">Your Events</h1>
-//               </div>
-//             </div>
-//             <div>
-//               <Table>
-//                 <TableCaption>A list of your recent invoices.</TableCaption>
-//                 <TableHeader className="">
-//                   <TableRow>
-//                     <TableHead className="">Invoice</TableHead>
-//                     <TableHead>Status</TableHead>
-//                     <TableHead>dat</TableHead>
-//                     <TableHead className="">Amount</TableHead>
-//                   </TableRow>
-//                 </TableHeader>
-//                 <TableBody>
-//                   <TableRow>
-//                     <TableCell className="font-medium">INV001</TableCell>
-//                     <TableCell className="text-green-500">Paid</TableCell>
-//                     <TableCell>Credit Card</TableCell>
-//                     <TableCell className="">$250.00</TableCell>
-//                   </TableRow>
-//                   <TableRow>
-//                     <TableCell className="font-medium">INV002</TableCell>
-//                     <TableCell className="text-red-500">
-//                       <Link href={''}>Unpaid</Link>
-//                     </TableCell>
-//                     <TableCell>Credit Card</TableCell>
-//                     <TableCell className="">$250.00</TableCell>
-//                   </TableRow>
-//                 </TableBody>
-//               </Table>
-//             </div>
-//           </div>
-//         </div>{' '}
-//         s
-//       </section>
-//     </main>
-//   );
-// };
-
-// export default AuthGuard(page);
-
+/* eslint-disable react-hooks/rules-of-hooks */
 'use client';
 
 import LeftSection from '@/components/LeftSection';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import { Button } from '@/components/ui/button';
+import Pagination from '@/components/Pagination';
+import TableTransactions from '@/components/TableTransactions';
 import {
   Table,
-  TableBody,
   TableCaption,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AuthGuard from '@/hoc/AuthGuard';
-import { BarChart3, HomeIcon, ReceiptText, UserRound } from 'lucide-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import useGetTransactions from '@/hooks/api/tx/useGetTransactions';
+import { useAppSelector } from '@/redux/hooks';
+import { useState } from 'react';
 
-const Page = () => {
-  const router = useRouter();
+const page = () => {
+  const { id } = useAppSelector((state) => state.user);
+  const [page, setPage] = useState<number>(1);
+  const { data: transactions, meta } = useGetTransactions({
+    id: id,
+    page,
+    take: 5,
+  });
+
+  const handleChangePaginate = ({ selected }: { selected: number }) => {
+    setPage(selected + 1);
+  };
+
+  // const trx = [
+  //   {
+  //     invoice: '124',
+  //     status: 'PENDING',
+  //     total: 300000,
+  //     createdAt: '',
+  //     id: 1,
+  //     userId: 2,
+  //     eventId: 2,
+  //   },
+  //   {
+  //     invoice: '123',
+  //     status: 'SUCCESS',
+  //     total: 200000,
+  //     createdAt: '',
+  //     id: 2,
+  //     userId: 2,
+  //     eventId: 2,
+  //   },
+  // ];
+
   return (
-    <main className="flex flex-col items-center">
-      <div className="w-full p-4">
-        <h1 className="text-center text-4xl font-bold">Transaction</h1>
-        <div className="md:hidden">
-          <Accordion type="single" collapsible className="w-full">
-            <AccordionItem value="item-1">
-              <AccordionTrigger>Menu</AccordionTrigger>
-              <AccordionContent className="flex flex-col space-y-2">
-                <Button
-                  variant="ghost"
-                  className="justify-start text-left"
-                  onClick={() => router.push('/organizer')}
-                >
-                  <HomeIcon className="mr-4 h-5 w-5" /> Home
-                </Button>
-                <Button
-                  variant="ghost"
-                  className="justify-start text-left"
-                  onClick={() => router.push('/organizer/profile')}
-                >
-                  <UserRound className="mr-4 h-5 w-5" /> Profile
-                </Button>
-                <Button
-                  variant="ghost"
-                  className="justify-start text-left"
-                  onClick={() => router.push('/organizer/transaction')}
-                >
-                  <ReceiptText className="mr-4 h-5 w-5" /> Transaction
-                </Button>
-                <Button
-                  variant="ghost"
-                  className="justify-start text-left"
-                  onClick={() => router.push('/organizer/statistic')}
-                >
-                  <BarChart3 className="mr-4 h-5 w-5" /> Statistic
-                </Button>
-              </AccordionContent>
-            </AccordionItem>
-          </Accordion>
-        </div>
+    <main className="container px-0">
+      <div className="mx-auto flex flex-col gap-8 xl:gap-10">
+        <h1 className="text-center text-4xl font-bold">Organizer Dashboard</h1>
       </div>
-      <section className="flex w-full flex-col px-4 md:px-20 lg:flex-row">
-        <LeftSection />
-        <div className="mt-4 w-full lg:mt-0 lg:w-4/5">
+      <section className="grid w-full grid-cols-5 gap-4">
+        {/* LEFT SECTION */}
+        <div className="w-full">
+          <LeftSection />
+        </div>
+        {/* RIGHT SECTION */}
+        <div className="col-span-4">
           <div className="container px-0">
-            <div className="flex flex-col py-4 md:flex-row md:items-center md:justify-between">
-              <h1 className="text-2xl font-semibold">Your Events</h1>
+            <div className="container flex place-items-center justify-between px-0">
+              <div className="relative w-fit">
+                <h1 className="text-[24px] font-semibold">Your Transaction</h1>
+              </div>
             </div>
-            <div>
-              <Table>
-                <TableCaption>A list of your recent invoices.</TableCaption>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Invoice</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Payment Method</TableHead>
-                    <TableHead>Amount</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  <TableRow>
-                    <TableCell className="font-medium">INV001</TableCell>
-                    <TableCell className="text-green-500">Paid</TableCell>
-                    <TableCell>Credit Card</TableCell>
-                    <TableCell>$250.00</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell className="font-medium">INV002</TableCell>
-                    <TableCell className="text-red-500">
-                      <Link href={''}>Unpaid</Link>
-                    </TableCell>
-                    <TableCell>Credit Card</TableCell>
-                    <TableCell>$250.00</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
+            <div className="">
+              <Tabs defaultValue="account" className="w-full">
+                <TabsList>
+                  <TabsTrigger value="pending">Nedd approval</TabsTrigger>
+                  <TabsTrigger value="history">Transaction List</TabsTrigger>
+                </TabsList>
+                <TabsContent value="pending">
+                  Make changes to your account here.
+                </TabsContent>
+                <TabsContent value="history" className="">
+                  {/*TABLE*/}
+                  <Table>
+                    <TableCaption>A list of your recent invoices.</TableCaption>
+                    <TableHeader className="">
+                      <TableRow>
+                        <TableHead className="">Invoice</TableHead>
+                        <TableHead>Status</TableHead>
+                        <TableHead>Date</TableHead>
+                        <TableHead className="">Amount</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    {transactions.map((transaction, key) => {
+                      return (
+                        <TableTransactions
+                          key={key}
+                          invoice={transaction.invoice}
+                          createdAt={new Date()}
+                          status={String(transaction.status)}
+                          total={transaction.total}
+                          transactionId={transaction.id}
+                          userId={transaction.userId}
+                          eventId={transaction.eventId}
+                        />
+                      );
+                    })}
+                  </Table>
+                  <div className="mx-auto w-fit">
+                    <Pagination
+                      total={meta?.total || 0}
+                      take={meta?.take || 0}
+                      onChangePage={handleChangePaginate}
+                    />
+                  </div>
+                </TabsContent>
+              </Tabs>
             </div>
           </div>
         </div>
@@ -178,4 +122,4 @@ const Page = () => {
   );
 };
 
-export default AuthGuard(Page);
+export default AuthGuard(page);
