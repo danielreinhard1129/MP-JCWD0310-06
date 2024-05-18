@@ -23,6 +23,10 @@ const useCreateEvent = () => {
         address,
         category,
         price,
+        voucherAmount,
+        voucherCode,
+        voucherExpDate,
+        voucherLimit,
       } = payload;
 
       const createEventForm = new FormData();
@@ -44,6 +48,13 @@ const useCreateEvent = () => {
       createEventForm.append('address', String(address));
       createEventForm.append('category', category);
       createEventForm.append('price', String(price));
+      createEventForm.append('voucherAmount', String(voucherAmount));
+      createEventForm.append('voucherLimit', String(voucherLimit));
+      createEventForm.append('voucherCode', String(voucherCode));
+      createEventForm.append(
+        'voucherExpDate',
+        new Date(voucherExpDate || 0).toISOString(),
+      );
 
       thumbnail_url.forEach((file: FileWithPath) => {
         createEventForm.append('thumbnail_url', file);

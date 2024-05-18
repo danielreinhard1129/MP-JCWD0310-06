@@ -1,14 +1,17 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import { axiosInstance } from '@/lib/axios';
 import { IPaginationMeta, IPaginationQueries } from '@/types/pagination.type';
-import { Transaction } from '@/types/tx.type';
+import { Transaction, TransactionStatus } from '@/types/transaction.type';
+
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
 interface IGetTransactionsQuery extends IPaginationQueries {
   id: number;
   search?: string;
+  status?: TransactionStatus;
 }
 
 const useGetTransactionsByOrganizer = (queries: IGetTransactionsQuery) => {
@@ -18,10 +21,10 @@ const useGetTransactionsByOrganizer = (queries: IGetTransactionsQuery) => {
 
   const getTransactions = async () => {
     try {
-      const { data } = await axiosInstance.get('/transactions/organizer', {
+      const { data } = await axiosInstance.get('/transaction/organizer', {
         params: queries,
       });
- 
+
       setData(data.data);
       setMeta(data.meta);
     } catch (error) {

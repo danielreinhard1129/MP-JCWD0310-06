@@ -1,5 +1,6 @@
 'use client';
 
+import SkeletonEventDetail from '@/app/[id]/components/SkeletonEventDetail';
 import { useAppSelector } from '@/redux/hooks';
 import { redirect } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -24,9 +25,7 @@ export default function AuthGuardEvents(Component: any) {
 
     if (isLoading || !id) {
       return (
-        <h1 className="container flex h-screen justify-center px-4 pt-24 text-4xl font-extrabold">
-          Loading...
-        </h1>
+        <SkeletonEventDetail />
       );
     }
 

@@ -23,11 +23,10 @@ const useRegister = () => {
       router.push('/login');
     } catch (error) {
       if (error instanceof AxiosError) {
-        // FIXME = change alert to toast
         toast({
           variant: 'destructive',
-          title: error.response?.data,
-          description: 'There was a problem with your request.',
+          title: 'There was a problem with your request.',
+          description: error.response?.data,
           action: <ToastAction altText="Try again">Try again</ToastAction>,
         });
       }

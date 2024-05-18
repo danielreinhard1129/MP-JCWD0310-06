@@ -1,8 +1,8 @@
 'use client';
 
 import { axiosInstance } from '@/lib/axios';
-import { Event } from '@/types/event.type';
-import { Transaction } from '@/types/tx.type';
+import { Transaction } from '@/types/transaction.type';
+
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 

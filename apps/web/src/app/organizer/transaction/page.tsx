@@ -15,6 +15,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AuthGuard from '@/hoc/AuthGuard';
 import useGetTransactions from '@/hooks/api/tx/useGetTransactions';
 import { useAppSelector } from '@/redux/hooks';
+import { TransactionStatus } from '@/types/transaction.type';
 import { useState } from 'react';
 
 const page = () => {
@@ -24,32 +25,12 @@ const page = () => {
     id: id,
     page,
     take: 5,
+    status: TransactionStatus.PENDING,
   });
 
   const handleChangePaginate = ({ selected }: { selected: number }) => {
     setPage(selected + 1);
   };
-
-  // const trx = [
-  //   {
-  //     invoice: '124',
-  //     status: 'PENDING',
-  //     total: 300000,
-  //     createdAt: '',
-  //     id: 1,
-  //     userId: 2,
-  //     eventId: 2,
-  //   },
-  //   {
-  //     invoice: '123',
-  //     status: 'SUCCESS',
-  //     total: 200000,
-  //     createdAt: '',
-  //     id: 2,
-  //     userId: 2,
-  //     eventId: 2,
-  //   },
-  // ];
 
   return (
     <main className="container px-0">
@@ -85,9 +66,11 @@ const page = () => {
                     <TableHeader className="">
                       <TableRow>
                         <TableHead className="">Invoice</TableHead>
-                        <TableHead>Status</TableHead>
+                        <TableHead>Event Title</TableHead>
+                        <TableHead>Buyer</TableHead>
                         <TableHead>Date</TableHead>
-                        <TableHead className="">Amount</TableHead>
+                        <TableHead>Amount</TableHead>
+                        <TableHead className="">Status</TableHead>
                       </TableRow>
                     </TableHeader>
                     {transactions.map((transaction, key) => {
@@ -101,6 +84,9 @@ const page = () => {
                           transactionId={transaction.id}
                           userId={transaction.userId}
                           eventId={transaction.eventId}
+                          eventTitle={transaction.event.title}
+                          userName={transaction.user.fullName}
+                          qty={transaction.qty}
                         />
                       );
                     })}

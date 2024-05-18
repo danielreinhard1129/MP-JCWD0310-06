@@ -42,6 +42,10 @@ const Create = () => {
       location: '',
       price: 0,
       category: '',
+      voucherAmount: 0,
+      voucherCode: '',
+      voucherExpDate: new Date(),
+      voucherLimit: 0,
     },
     validationSchema,
     onSubmit: (values) => {
@@ -227,6 +231,52 @@ const Create = () => {
                 ...files.map((file) => file),
               ])
             }
+          />
+
+          {/* CREATE VOUCHER */}
+          <FormInput
+            name="voucherCode"
+            label="Voucher Code"
+            error={errors.voucherCode}
+            isError={!!touched.voucherCode && !!errors.voucherCode}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            placeholder="Voucher Code"
+            type="text"
+            value={String(values.voucherCode)}
+          />
+          <FormInput
+            name="voucherAmount"
+            label="Voucher Amount"
+            error={errors.voucherAmount}
+            isError={!!touched.voucherAmount && !!errors.voucherAmount}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            placeholder="Voucher Amount"
+            type="number"
+            value={values.voucherAmount || 0}
+          />
+          <FormInput
+            name="voucherLimit"
+            label="Voucher Limit"
+            error={errors.voucherLimit}
+            isError={!!touched.voucherLimit && !!errors.voucherLimit}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            placeholder="Voucher Limit"
+            type="number"
+            value={values.voucherLimit || 0}
+          />
+          <FormInput
+            name="voucherExpDate"
+            label="Voucher Expired Date"
+            error={errors.voucherExpDate}
+            isError={!!touched.voucherExpDate && !!errors.voucherExpDate}
+            onBlur={handleBlur}
+            onChange={handleChange}
+            placeholder="Voucher Expired Date"
+            type="date"
+            value={values.voucherExpDate || 0}
           />
 
           {/* SUBMIT */}

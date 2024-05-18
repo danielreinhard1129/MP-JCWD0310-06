@@ -18,6 +18,9 @@ interface CardEventProps {
   transactionId: number;
   userId: number;
   eventId: number;
+  eventTitle: string;
+  userName: string;
+  qty: number;
 }
 
 const TableTransactions: FC<CardEventProps> = ({
@@ -28,20 +31,27 @@ const TableTransactions: FC<CardEventProps> = ({
   transactionId,
   userId,
   eventId,
+  eventTitle,
+  userName,
+  qty,
 }) => {
   return (
     <TableBody>
       <TableRow>
         {/* <Link href={`/transaction/${transactionId}`}> */}
         <TableCell className="font-medium">{invoice}</TableCell>
+        <TableCell className="">{eventTitle}</TableCell>
+        <TableCell className="">{userName}</TableCell>
+        <TableCell>{format(new Date(createdAt), 'dd MMMM yyyy')}</TableCell>
+        <TableCell className="">{total}</TableCell>
         <TableCell
-          className={status === 'SUCCESS' ? 'text-green-500' : 'text-red-500'}
+          className={status === 'COMPLETE' ? 'text-green-500' : 'text-red-500'}
         >
           {status}
         </TableCell>
-        <TableCell>{format(new Date(createdAt), 'dd MMMM yyyy')}</TableCell>
-        <TableCell className="">{total}</TableCell>
+
         <TableCell className="">
+          {/*MODALS*/}
           <Dialog>
             <DialogTrigger>. . . . .</DialogTrigger>
             <DialogContent>
@@ -50,7 +60,7 @@ const TableTransactions: FC<CardEventProps> = ({
                   Transaction is{'    '}
                   <span
                     className={
-                      status === 'SUCCESS' ? 'text-green-500' : 'text-red-500'
+                      status === 'COMPLETE' ? 'text-green-500' : 'text-red-500'
                     }
                   >
                     {status}
@@ -64,16 +74,16 @@ const TableTransactions: FC<CardEventProps> = ({
                     <TableCell className="font-medium">{invoice}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium">User Id</TableCell>
-                    <TableCell className="font-medium">{userId}</TableCell>
+                    <TableCell className="font-medium">Buyer</TableCell>
+                    <TableCell className="font-medium">{userName}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium">Event Id</TableCell>
-                    <TableCell className="font-medium">{eventId}</TableCell>
+                    <TableCell className="font-medium">Event Title</TableCell>
+                    <TableCell className="font-medium">{eventTitle}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Qty</TableCell>
-                    <TableCell className="font-medium">{eventId}</TableCell>
+                    <TableCell className="font-medium">{qty}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Date</TableCell>
@@ -82,20 +92,24 @@ const TableTransactions: FC<CardEventProps> = ({
                     </TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium">Voucher Use</TableCell>
-                    <TableCell className="font-medium">{eventId}</TableCell>
+                    <TableCell className="font-medium">
+                      Voucher Discount
+                    </TableCell>
+                    <TableCell className="font-medium">{10000}</TableCell>
                   </TableRow>
                   <TableRow>
-                    <TableCell className="font-medium">Reward Use</TableCell>
-                    <TableCell className="font-medium">{eventId}</TableCell>
+                    <TableCell className="font-medium">
+                      Coupon Discount
+                    </TableCell>
+                    <TableCell className="font-medium">{10000}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Point Use</TableCell>
-                    <TableCell className="font-medium">{eventId}</TableCell>
+                    <TableCell className="font-medium">{10000}</TableCell>
                   </TableRow>
                   <TableRow>
                     <TableCell className="font-medium">Total</TableCell>
-                    <TableCell className="font-medium">{eventId}</TableCell>
+                    <TableCell className="font-medium">{total}</TableCell>
                   </TableRow>
                 </DialogDescription>
               </DialogHeader>
