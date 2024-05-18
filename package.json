@@ -30,5 +30,8 @@
     "hooks": {
       "pre-commit": "npx lint-staged"
     }
+  },
+  "dependencies": {
+    "node-schedule": "^2.1.1"
   }
 }

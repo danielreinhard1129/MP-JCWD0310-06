@@ -82,7 +82,6 @@ import {
 } from '@/components/ui/accordion';
 import { Button } from '@/components/ui/button';
 import AuthGuard from '@/hoc/AuthGuard';
-import { Filter } from 'lucide-react';
 import { useAppSelector } from '@/redux/hooks';
 import { appConfig } from '@/utils/config';
 import {
@@ -93,10 +92,11 @@ import {
   UserRound,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import useGetEventsByOrganizer from '@/hooks/api/event/useGetEventsByOrganizer';
 
-const page = () => {
+const Page = () => {
   const { id } = useAppSelector((state) => state.user);
-  const { data: event } = useGetEventsByOrganizer(id);
+  const { data: events } = useGetEventsByOrganizer(id);
 
   return (
     <main className="container px-0">
