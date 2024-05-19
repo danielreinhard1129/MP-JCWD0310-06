@@ -50,9 +50,24 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
 
     const totalPrice = event.price * qty;
 
+    let point = null;
+
+    if (String(isPointUse) === 'true') {
+      point = await prisma.user.findFirst({
+        where: { id: Number(userId) },
+      });
+
+      await prisma.user.update({
+        where: { id: Number(userId) },
+        data: {
+          point: 0,
+        },
+      });
+    }
+
     let coupon = null;
 
-    if (isUseCoupon) {
+    if (String(isUseCoupon) === 'true') {
       coupon = await prisma.userCoupon.findFirst({
         where: { id: Number(userCouponId) },
         include: { coupon: true },
@@ -70,7 +85,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
 
     let voucher = null;
 
-    if (isUseVoucher) {
+    if (String(isUseVoucher) === 'true') {
       voucher = await prisma.userVoucher.findFirst({
         where: { id: Number(userVoucherId) },
         include: { voucher: true },
@@ -112,14 +127,14 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
 
     if (user.point - totalDiscount >= 0) {
       await prisma.user.update({
-        where: { id: userId },
+        where: { id: Number(userId) },
         data: {
           point: user.point - totalDiscount,
         },
       });
     } else if (user.point - totalDiscount < 0) {
       await prisma.user.update({
-        where: { id: userId },
+        where: { id: Number(userId) },
         data: {
           point: 0,
         },
@@ -132,7 +147,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
         data: { status: 'COMPLETE' },
       });
       await prisma.event.update({
-        where: { id: eventId },
+        where: { id: Number(eventId) },
         data: { limit: event.limit - 1 },
       });
       await transporter.sendMail({
@@ -182,22 +197,14 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
               isUse: false,
             },
           });
-          if (isUseVoucher) {
-            await prisma.userVoucher.update({
-              where: { id: Number(userVoucherId) },
-              data: {
-                isUse: false,
-              },
-            });
-          }
-          if (isUseCoupon) {
-            await prisma.userCoupon.update({
-              where: { id: Number(userCouponId) },
-              data: {
-                isUse: false,
-              },
-            });
-          }
+        }
+        if (isUseCoupon) {
+          await prisma.userCoupon.update({
+            where: { id: Number(userCouponId) },
+            data: {
+              isUse: false,
+            },
+          });
         }
         await transporter.sendMail({
           from: 'Admin',

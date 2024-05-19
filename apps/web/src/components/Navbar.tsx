@@ -7,7 +7,7 @@ import { logoutAction } from '@/redux/slices/userSlice';
 
 export const Navbar = () => {
   const dispatch = useAppDispatch();
-  const { id, role } = useAppSelector((state) => state.user);
+  const { id, role, fullName } = useAppSelector((state) => state.user);
   const router = useRouter();
 
   const logout = () => {
@@ -29,20 +29,29 @@ export const Navbar = () => {
         {Boolean(id) ? (
           <div className="flex items-center gap-8">
             {role === 'organizer' ? (
-              <Button
-                variant="link"
-                className="hidden sm:block"
-                onClick={() => router.push('/organizer')}
-              >
-                Dashboard
-              </Button>
+              <div className="flex items-center gap-8">
+                <Button
+                  className="hidden sm:block"
+                  variant="link"
+                  onClick={() => router.push('/create')}
+                >
+                  Create Event
+                </Button>
+                <Button
+                  variant="link"
+                  className="hidden sm:block"
+                  onClick={() => router.push('/organizer')}
+                >
+                  Dashboard
+                </Button>
+              </div>
             ) : (
               <Button
                 variant="link"
                 className="hidden sm:block"
                 onClick={() => router.push('/profile')}
               >
-                Profile
+                {fullName}
               </Button>
             )}
 
