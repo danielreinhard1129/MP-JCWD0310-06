@@ -19,7 +19,7 @@ import AuthGuardEvents from '@/hoc/AuthGuardEvents';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 const EventDetail = ({ params }: { params: { id: string } }) => {
-  const { id, role } = useAppSelector((state) => state.user);
+  const { id, role, point } = useAppSelector((state) => state.user);
   const { event, isLoading } = useGetEvent(Number(params.id));
   const router = useRouter();
   const [page, setPage] = useState(1);
@@ -123,7 +123,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
           </div>
         </div>
         {/* RIGHT SECTION */}
-        <div className="fixed bottom-5 left-0 right-0 z-50 mx-auto flex h-fit w-[92.5%] flex-col gap-4 xl:sticky xl:top-6 xl:mx-0 xl:w-[465px]">
+        <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto flex h-fit w-full flex-col gap-4 xl:sticky xl:top-6 xl:mx-0 xl:w-[465px]">
           {role === 'user' ? (
             <div className="flex items-center gap-4">
               <OrderCard price={event.price} setOpen={() => setOpen(true)} />
@@ -164,10 +164,10 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
       </section>
       <ModalOrderConfirmation
         open={open}
+        price={event.price}
+        point={point}
         setOpen={setOpen}
-        onTransactionDetails={() =>
-          router.push(`/transaction-details`)
-        }
+        // onTransactionDetails={() => router.push(`/transaction-details`)}
       />
     </main>
   );

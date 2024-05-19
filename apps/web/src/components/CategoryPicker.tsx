@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { Check, MapPin } from 'lucide-react';
+import { Check, ListMusic, MapPin } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -19,42 +19,42 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover';
 
-const locations = [
+const categories = [
   {
     value: 'all',
-    label: 'All Location',
+    label: 'All Category',
   },
   {
-    value: 'jakarta',
-    label: 'Jakarta',
+    value: 'edm',
+    label: 'EDM',
   },
   {
-    value: 'bandung',
-    label: 'Bandung',
+    value: 'mix',
+    label: 'Mix',
   },
   {
-    value: 'denpasar',
-    label: 'Denpasar',
+    value: 'jazz',
+    label: 'Jazz',
   },
   {
-    value: 'yogyakarta',
-    label: 'Yogyakarta',
+    value: 'pop',
+    label: 'Pop',
   },
   {
-    value: 'medan',
-    label: 'Medan',
+    value: 'punk',
+    label: 'Punk',
   },
   {
-    value: 'semarang',
-    label: 'Semarang',
+    value: 'rock',
+    label: 'Rock',
   },
 ];
 
-interface LocationPickerProps {
-  onChange: (location: string) => void;
+interface CategoryPickerProps {
+  onChange: (category: string) => void;
 }
 
-export function LocationPicker({ onChange }: LocationPickerProps) {
+export function CategoryPicker({ onChange }: CategoryPickerProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState<string>('all');
 
@@ -73,10 +73,10 @@ export function LocationPicker({ onChange }: LocationPickerProps) {
           aria-expanded={open}
           className="mx-auto w-fit gap-2 rounded-none p-0 hover:bg-inherit"
         >
-          <MapPin className="h-4 w-4 shrink-0 opacity-50" />
+          <ListMusic className="h-4 w-4 shrink-0 opacity-50" />
           {value === 'all'
-            ? 'All Location'
-            : locations.find((location) => location.value === value)?.label}
+            ? 'All Category'
+            : categories.find((category) => category.value === value)?.label}
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-fit p-0">
@@ -86,19 +86,19 @@ export function LocationPicker({ onChange }: LocationPickerProps) {
             <CommandEmpty>No location found.</CommandEmpty>
             <CommandGroup>
               <CommandList>
-                {locations.map((location) => (
+                {categories.map((category) => (
                   <CommandItem
-                    key={location.value}
-                    value={location.value}
-                    onSelect={() => handleSelect(location.value)}
+                    key={category.value}
+                    value={category.value}
+                    onSelect={() => handleSelect(category.value)}
                   >
                     <Check
                       className={cn(
                         'mr-2 h-4 w-4',
-                        value === location.value ? 'opacity-100' : 'opacity-0',
+                        value === category.value ? 'opacity-100' : 'opacity-0',
                       )}
                     />
-                    {location.label}
+                    {category.label}
                   </CommandItem>
                 ))}
               </CommandList>

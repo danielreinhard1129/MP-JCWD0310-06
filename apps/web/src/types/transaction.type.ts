@@ -12,6 +12,9 @@ export interface Transaction {
   eventId: number;
   paymentProof: string;
   qty: number;
+  isPointUse?: boolean;
+  isUseCoupon?: boolean;
+  isUseVoucher?: boolean;
 
   user: User;
   event: Event;
@@ -30,4 +33,7 @@ export interface IFormTransaction {
   paymentProof: File[];
   userId?: number;
   eventId?: number;
+  isPointUse?: boolean;
+  isUseCoupon?: boolean;
+  isUseVoucher?: boolean;
 }

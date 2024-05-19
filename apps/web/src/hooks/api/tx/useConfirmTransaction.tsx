@@ -29,3 +29,5 @@ const useConfirmTransaction = (transactionId: number) => {
   };
   return { confirmTransaction, isLoading };
 };
+
+export default useConfirmTransaction;
