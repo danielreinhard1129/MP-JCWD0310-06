@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 
 interface IGetEventsQuery extends IPaginationQueries {
   search?: string;
+  id: number;
 }
 
 const useGetEvents = (queries: IGetEventsQuery) => {

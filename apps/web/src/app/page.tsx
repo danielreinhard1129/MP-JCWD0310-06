@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 'use client';
 
 import Autocomplete from '@/components/Autocomplete';
@@ -19,6 +20,7 @@ export default function Home() {
   const { data: events, meta } = useGetEvents({
     page,
     take: 8,
+    id: 0,
   });
 
   const handleChangePaginate = ({ selected }: { selected: number }) => {

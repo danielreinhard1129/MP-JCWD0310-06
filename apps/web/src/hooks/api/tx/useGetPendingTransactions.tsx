@@ -8,26 +8,25 @@ import { Transaction, TransactionStatus } from '@/types/transaction.type';
 import { AxiosError } from 'axios';
 import { useEffect, useState } from 'react';
 
-interface IGetTransactionsQuery extends IPaginationQueries {
+interface IGetPendingTransactionsQuery extends IPaginationQueries {
   id: number;
   search?: string;
   status?: TransactionStatus;
-  
 }
 
-const useGetTransactionsByOrganizer = (queries: IGetTransactionsQuery) => {
+const useGetPendingTransactions = (queries: IGetPendingTransactionsQuery) => {
   const [data, setData] = useState<Transaction[]>([]);
-  const [meta, setMeta] = useState<IPaginationMeta | null>(null);
+  const [metaPending, setMetaPending] = useState<IPaginationMeta | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
- 
-  const getTransactions = async () => {
+
+  const getPendingTransactions = async () => {
     try {
       const { data } = await axiosInstance.get('/transaction/organizer', {
         params: queries,
       });
 
       setData(data.data);
-      setMeta(data.meta);
+      setMetaPending(data.meta);
     } catch (error) {
       if (error instanceof AxiosError) {
         console.log(error);
@@ -38,10 +37,10 @@ const useGetTransactionsByOrganizer = (queries: IGetTransactionsQuery) => {
   };
 
   useEffect(() => {
-    getTransactions();
+    getPendingTransactions();
   }, [queries?.page, queries?.search, queries.id]);
 
-  return { data, isLoading, meta, refetch: getTransactions };
+  return { data, isLoading, metaPending, refetch: getPendingTransactions };
 };
 
-export default useGetTransactionsByOrganizer;
+export default useGetPendingTransactions;

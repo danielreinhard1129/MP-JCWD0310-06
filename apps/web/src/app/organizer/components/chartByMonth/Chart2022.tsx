@@ -1,3 +1,4 @@
+
 'use client';
 
 import useGetEventsByOrganizer from '@/hooks/api/event/useGetEventsByOrganizer';
@@ -16,30 +17,34 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-const ChartByMonth = () => {
+const Chart2022 = () => {
   const { id } = useAppSelector((state) => state.user);
   const { data: event } = useGetEventsByOrganizer({ id: id });
   const { data: transaction } = useGetTransactionsByOrganizer({ id: id });
 
-  console.log(transaction);
+  const targetYear = 2022;
 
-  // const events = Object.keys(event).map((key) => key);
+  // Initialize counts per month
   const eventsCountPerMonth = Array(12).fill(0);
+  const transactionsCountPerMonth = Array(12).fill(0);
+
   if (event) {
     Object.keys(event).forEach((key) => {
-      key;
-      const date = new Date(event[Number(key)].start_date);
-      const month = date.getMonth();
-      eventsCountPerMonth[month]++;
+      const date = new Date(event[Number(key)].createdAt);
+      if (date.getFullYear() === targetYear) {
+        const month = date.getMonth();
+        eventsCountPerMonth[month]++;
+      }
     });
   }
-  const transactionsCountPerMonth = Array(12).fill(0);
+
   if (transaction) {
     Object.keys(transaction).forEach((key) => {
-      key;
       const date = new Date(transaction[Number(key)].createdAt);
-      const month = date.getMonth();
-      transactionsCountPerMonth[month]++;
+      if (date.getFullYear() === targetYear) {
+        const month = date.getMonth();
+        transactionsCountPerMonth[month]++;
+      }
     });
   }
 
@@ -74,11 +79,11 @@ const ChartByMonth = () => {
     'May',
     'June',
     'July',
-    'Agustus',
+    'August',
     'September',
-    'Oktober',
+    'October',
     'November',
-    'Desember',
+    'December',
   ];
 
   const data = {
@@ -108,4 +113,4 @@ const ChartByMonth = () => {
   return <Line options={options} data={data} />;
 };
 
-export default ChartByMonth;
+export default Chart2022;

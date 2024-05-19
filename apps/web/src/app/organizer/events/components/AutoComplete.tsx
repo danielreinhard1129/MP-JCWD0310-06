@@ -1,6 +1,6 @@
 'use client';
 
-import useGetEvents from '@/hooks/api/event/useGetEvents';
+import useGetEventsByOrganizer from '@/hooks/api/event/useGetEventsByOrganizer';
 import { appConfig } from '@/utils/config';
 import { debounce } from 'lodash';
 import { useRouter } from 'next/navigation';
@@ -15,8 +15,9 @@ interface EventOption {
 const Autocomplete = () => {
   const router = useRouter();
   const [search, setSearch] = useState<string>('');
-  const { data, isLoading } = useGetEvents({
+  const { data, isLoading } = useGetEventsByOrganizer({
     search,
+    id: 0,
   });
 
   const loadOptions = (
@@ -42,7 +43,7 @@ const Autocomplete = () => {
   return (
     <AsyncSelect
       placeholder="Search for events"
-      className="absolute w-full"
+      className="absolute w-full "
       loadOptions={debouncedLoadOptions}
       isLoading={isLoading}
       theme={(theme) => ({

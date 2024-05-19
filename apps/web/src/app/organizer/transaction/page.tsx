@@ -13,23 +13,34 @@ import {
 } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import AuthGuard from '@/hoc/AuthGuard';
+import useGetPendingTransactions from '@/hooks/api/tx/useGetPendingTransactions';
 import useGetTransactions from '@/hooks/api/tx/useGetTransactions';
 import { useAppSelector } from '@/redux/hooks';
 import { TransactionStatus } from '@/types/transaction.type';
+import { appConfig } from '@/utils/config';
 import { useState } from 'react';
 
 const page = () => {
   const { id } = useAppSelector((state) => state.user);
   const [page, setPage] = useState<number>(1);
+  const [pagePending, setPagePending] = useState<number>(1);
   const { data: transactions, meta } = useGetTransactions({
     id: id,
     page,
     take: 5,
-    status: TransactionStatus.PENDING,
+  });
+  const { data: pendingTransactions, metaPending } = useGetPendingTransactions({
+    id: id,
+    page: pagePending,
+    take: 5,
+    status: TransactionStatus.WAITING,
   });
 
   const handleChangePaginate = ({ selected }: { selected: number }) => {
     setPage(selected + 1);
+  };
+  const handleChangePendingPaginate = ({ selected }: { selected: number }) => {
+    setPagePending(selected + 1);
   };
 
   return (
@@ -53,11 +64,51 @@ const page = () => {
             <div className="">
               <Tabs defaultValue="account" className="w-full">
                 <TabsList>
-                  <TabsTrigger value="pending">Nedd approval</TabsTrigger>
+                  <TabsTrigger value="pending">Need Approval</TabsTrigger>
                   <TabsTrigger value="history">Transaction List</TabsTrigger>
                 </TabsList>
                 <TabsContent value="pending">
-                  Make changes to your account here.
+                  <Table>
+                    <TableCaption>A list of your recent invoices.</TableCaption>
+                    <TableHeader className="">
+                      <TableRow>
+                        <TableHead className="">Invoice</TableHead>
+                        <TableHead>Event Title</TableHead>
+                        <TableHead>Buyer</TableHead>
+                        <TableHead>Date</TableHead>
+                        <TableHead>Amount</TableHead>
+                        <TableHead className="">Status</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    {pendingTransactions.map((transaction, key) => {
+                      return (
+                        <TableTransactions
+                          key={key}
+                          invoice={transaction.invoice}
+                          createdAt={new Date()}
+                          status={String(transaction.status)}
+                          total={transaction.total}
+                          transactionId={transaction.id}
+                          userId={transaction.userId}
+                          eventId={transaction.eventId}
+                          eventTitle={transaction.event.title}
+                          userName={transaction.user.fullName}
+                          qty={transaction.qty}
+                          paymentProof={
+                            appConfig.baseUrl +
+                            `/assets${transaction.paymentProof}`
+                          }
+                        />
+                      );
+                    })}
+                  </Table>
+                  <div className="mx-auto w-fit">
+                    <Pagination
+                      total={metaPending?.total || 0}
+                      take={metaPending?.take || 0}
+                      onChangePage={handleChangePendingPaginate}
+                    />
+                  </div>
                 </TabsContent>
                 <TabsContent value="history" className="">
                   {/*TABLE*/}
@@ -87,6 +138,7 @@ const page = () => {
                           eventTitle={transaction.event.title}
                           userName={transaction.user.fullName}
                           qty={transaction.qty}
+                          paymentProof={transaction.paymentProof}
                         />
                       );
                     })}
