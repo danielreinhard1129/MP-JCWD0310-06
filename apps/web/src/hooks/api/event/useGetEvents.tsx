@@ -31,7 +31,7 @@ const useGetEvents = (queries: IGetEventsQuery) => {
 
   useEffect(() => {
     getEvents();
-  }, [queries?.page, queries?.search]);
+  }, []);
 
   return { data, meta, isLoading };
 };

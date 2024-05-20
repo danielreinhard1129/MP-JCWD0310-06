@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import useGetUser from '@/hooks/api/auth/useGetUser';
 import useCreateTransaction from '@/hooks/api/tx/useCreateTransaction';
 import { useAppSelector } from '@/redux/hooks';
 import { IFormTransaction } from '@/types/transaction.type';
@@ -36,11 +37,13 @@ const ModalOrderConfirmation: FC<ModalOrderConfirmationProps> = ({
   const pathname = usePathname();
   const { createTransaction } = useCreateTransaction();
   const { id } = useAppSelector((state) => state.user);
+  const { user } = useGetUser(id);
   const [numCount, setNumCount] = useState(1);
 
-  useEffect(() => {
-    setFieldValue('qty', numCount);
-  }, [numCount]);
+  point = Number(user?.point);
+  const coupon = Number(user?.userCoupon?.length) | 0;
+  const voucher = Number(user?.userVoucher?.length) | 0;
+  console.log(user);
 
   const plus = () => {
     setNumCount(numCount + 1);
@@ -51,41 +54,39 @@ const ModalOrderConfirmation: FC<ModalOrderConfirmationProps> = ({
     }
   };
 
-  const {
-    handleChange,
-    handleSubmit,
-    handleBlur,
-    values,
-    setFieldValue,
-  } = useFormik<Omit<IFormTransaction, 'paymentProof'>>({
-    initialValues: {
-      qty: 1,
-      isPointUse: false,
-      isUseCoupon: false,
-      isUseVoucher: false,
-    },
-    onSubmit: (values) => {
-      const transactionData = {
-        qty: values.qty,
-        isPointUse: values.isPointUse,
-        isUseCoupon: values.isUseCoupon,
-        isUseVoucher: values.isUseVoucher,
-      };
+  const { handleChange, handleSubmit, handleBlur, values, setFieldValue } =
+    useFormik<Omit<IFormTransaction, 'paymentProof'>>({
+      initialValues: {
+        qty: 1,
+        isPointUse: false,
+        isUseCoupon: false,
+        isUseVoucher: false,
+      },
+      onSubmit: (values) => {
+        const transactionData = {
+          qty: values.qty,
+          isPointUse: values.isPointUse,
+          isUseCoupon: values.isUseCoupon,
+          isUseVoucher: values.isUseVoucher,
+        };
 
-      createTransaction({
-        ...transactionData,
-        userId: id,
-        eventId: Number(pathname.slice(1)),
-      });
+        createTransaction({
+          ...transactionData,
+          userId: id,
+          eventId: Number(pathname.slice(1)),
+        });
 
-      setOpen(false); // Close the modal after submission
-    },
-  });
+        setOpen(false);
+      },
+    });
 
-  // Calculate the final price
   const finalPrice = values.isPointUse
     ? Math.max(price * numCount - point, 0)
     : price * numCount;
+
+  useEffect(() => {
+    setFieldValue('qty', numCount);
+  }, [numCount, setFieldValue]);
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -128,6 +129,32 @@ const ModalOrderConfirmation: FC<ModalOrderConfirmationProps> = ({
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
+                  <Label>Use Coupon</Label>
+                  {coupon > 0 ? (
+                    <Switch
+                      checked={values.isUseVoucher}
+                      onCheckedChange={(checked) =>
+                        setFieldValue('isUseCoupon', checked)
+                      }
+                    />
+                  ) : (
+                    <Switch disabled />
+                  )}
+                </div>
+                <div className="flex items-center justify-between">
+                  <Label>Use Voucher</Label>
+                  {voucher > 0 ? (
+                    <Switch
+                      checked={values.isUseVoucher}
+                      onCheckedChange={(checked) =>
+                        setFieldValue('isUseVoucher', checked)
+                      }
+                    />
+                  ) : (
+                    <Switch disabled />
+                  )}
+                </div>
+                <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     <Label>Point</Label>
                     <p className="text-sm">({point})</p>
@@ -135,33 +162,19 @@ const ModalOrderConfirmation: FC<ModalOrderConfirmationProps> = ({
                   {point > 0 ? (
                     <Switch
                       checked={values.isPointUse}
-                      onCheckedChange={(checked) => setFieldValue('isPointUse', checked)}
+                      onCheckedChange={(checked) =>
+                        setFieldValue('isPointUse', checked)
+                      }
                     />
                   ) : (
                     <Switch disabled />
                   )}
                 </div>
-                <div className="flex items-center justify-between">
-                  <Label>Use Coupon</Label>
-                  <Switch
-                    checked={values.isUseCoupon}
-                    onCheckedChange={(checked) => setFieldValue('isUseCoupon', checked)}
-                  />
-                </div>
-                <div className="flex items-center justify-between">
-                  <Label>Use Voucher</Label>
-                  <Switch
-                    checked={values.isUseVoucher}
-                    onCheckedChange={(checked) => setFieldValue('isUseVoucher', checked)}
-                  />
-                </div>
-                <div className="flex items-center justify-between">
+                <div className="mb-4 flex items-center justify-between">
                   <Label>Price</Label>
                   <div className="flex items-center gap-2">
                     {price === 0 ? (
-                      <p className="pt-2 text-base font-semibold text-black">
-                        Free
-                      </p>
+                      <p className="text-base font-semibold text-black">Free</p>
                     ) : (
                       <p className="pt-2 text-base font-semibold text-black">
                         {new Intl.NumberFormat('id-ID', {

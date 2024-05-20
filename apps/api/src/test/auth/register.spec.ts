@@ -21,7 +21,10 @@ describe('POST /auth/register', () => {
       createdAt: new Date(),
       updatedAt: new Date(),
       role: 'mock role',
-      referral_code: 'mock referral code',
+      referralCode: 'mock referral code',
+      point: 0,
+      pointExpiredDate: new Date(),
+      userReward: false,
     });
 
     const response = await request(app)
@@ -41,7 +44,10 @@ describe('POST /auth/register', () => {
       createdAt: new Date(),
       updatedAt: new Date(),
       role: 'mock role',
-      referral_code: 'mock referral code',
+      referralCode: 'mock referral code',
+      point: 0,
+      pointExpiredDate: new Date(),
+      userReward: false,
     });
 
     const response = await request(app)

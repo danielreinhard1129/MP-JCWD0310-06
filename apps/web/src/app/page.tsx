@@ -105,7 +105,7 @@ export default function Home() {
             </Button>
           </div>
           {isLoading ? (
-            <div className='flex flex-col xl:flex-row w-full gap-4 pt-6'>
+            <div className="flex w-full flex-col gap-4 pt-6 xl:flex-row">
               <CardEventSkeleton />
               <CardEventSkeleton />
               <CardEventSkeleton />
@@ -125,7 +125,7 @@ export default function Home() {
                     />
                   </div>
                   <p className="text-md -mt-16 mb-10 font-medium text-neutral-300 xl:text-xl">
-                    Sorry, we can't find any event for you
+                    Sorry, we can&apos;t find any event for you
                   </p>
                 </div>
               ) : (

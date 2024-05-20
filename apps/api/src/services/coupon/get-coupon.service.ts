@@ -1,17 +1,20 @@
 import prisma from '@/prisma';
 
-export const getCouponService = async (id: number) => {
+export const getCouponService = async (userId: number) => {
   try {
-    const coupon = await prisma.coupon.findFirst({
-      where: { id },
-      include: { user: true },
+    const coupons = await prisma.coupon.findMany({
+      where: { userId },
     });
 
-    if (!coupon) {
-      throw new Error('coupon not found');
-    }
+    const claimableCoupons = coupons.filter((coupon) => {
+      const now = new Date();
+      if (now > coupon.expirationDate) {
+        return false;
+      }
+      return true;
+    });
 
-    return coupon;
+    return claimableCoupons;
   } catch (error) {
     throw error;
   }
