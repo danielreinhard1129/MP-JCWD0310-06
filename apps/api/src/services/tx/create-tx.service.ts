@@ -198,14 +198,6 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
             },
           });
         }
-        if (isUseCoupon) {
-          await prisma.userCoupon.update({
-            where: { id: Number(userCouponId) },
-            data: {
-              isUse: false,
-            },
-          });
-        }
         await transporter.sendMail({
           from: 'Admin',
           to: userEmail,

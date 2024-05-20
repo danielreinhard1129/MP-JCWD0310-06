@@ -9,8 +9,7 @@ export interface Event {
   end_date: Date;
   description: string;
   thumbnail_url: string;
-  seat: number;
-  booked: number;
+  limit: number;
   isAvailable: boolean;
   deletedAt: Date | null;
   createdAt: Date;
@@ -22,6 +21,7 @@ export interface Event {
   price: number;
   userId: number;
 
+  Review: Review[];
   Voucher: Voucher;
   user: User;
 }
@@ -43,4 +43,15 @@ export interface IFormEvent {
   voucherAmount: number | null;
   voucherLimit: number | null;
   voucherExpDate: Date | null;
+}
+
+export interface Review {
+  id: number;
+  rating: number;
+  comment: string;
+  userId: number;
+  eventId: number;
+
+  event: Event;
+  user: User;
 }

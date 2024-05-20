@@ -125,7 +125,7 @@ export default function Home() {
                     />
                   </div>
                   <p className="text-md -mt-16 mb-10 font-medium text-neutral-300 xl:text-xl">
-                    Sorry, we can't find any event for you
+                    Sorry, we can&apos;t find any event for you
                   </p>
                 </div>
               ) : (

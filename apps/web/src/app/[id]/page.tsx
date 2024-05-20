@@ -17,6 +17,12 @@ import ModalOrderConfirmation from './components/ModalOrderConfirmation';
 import useGetEvents from '@/hooks/api/event/useGetEvents';
 import AuthGuardEvents from '@/hoc/AuthGuardEvents';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import CardReview from '@/components/CardReview';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from '@/components/ui/carousel';
 
 const EventDetail = ({ params }: { params: { id: string } }) => {
   const { id, role, point } = useAppSelector((state) => state.user);
@@ -25,7 +31,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
   const [page, setPage] = useState(1);
   const { data: events } = useGetEvents({
     page,
-    take: 4,
+    take: 5,
   });
   const [open, setOpen] = useState(false);
   const excludedEvent = event?.id;
@@ -42,6 +48,8 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
   if (!event) {
     return notFound();
   }
+
+  console.log(event.Review);
 
   return (
     <main className="container px-4 xl:px-0">
@@ -121,6 +129,26 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
           </div>
+          {/* REVIEW AND RATING */}
+          <div className="grid w-fit gap-4">
+            <h2 className="text-base font-medium text-black xl:text-2xl">
+              Review and Ratings
+            </h2>
+            <Carousel>
+              <CarouselContent>
+                {event?.Review?.map((e, index) => (
+                  <CarouselItem key={index} className="basis-1/2">
+                    <CardReview
+                      key={index}
+                      fullName={e.user.fullName}
+                      comment={e.comment}
+                      rating={e.rating}
+                    />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          </div>
         </div>
         {/* RIGHT SECTION */}
         <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto flex h-fit w-full flex-col gap-4 xl:sticky xl:top-6 xl:mx-0 xl:w-[465px]">
@@ -167,7 +195,6 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
         price={event.price}
         point={point}
         setOpen={setOpen}
-        // onTransactionDetails={() => router.push(`/transaction-details`)}
       />
     </main>
   );

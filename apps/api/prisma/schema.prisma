@@ -29,6 +29,7 @@ model User {
   UserCoupon       UserCoupon[]
   UserVoucher      UserVoucher[]
   Coupon           Coupon[]
+  Review           Review[]
 
   @@map("users")
 }
@@ -55,6 +56,7 @@ model Event {
   user        User          @relation(fields: [userId], references: [id])
   Transaction Transaction[]
   Voucher     Voucher[]
+  Review      Review[]
 
   @@map("events")
 }
@@ -149,4 +151,20 @@ enum TransactionStatus {
   WAITING
   CANCELLED
   EXPIRED
+}
+
+model Review {
+  id        Int       @id @default(autoincrement())
+  comment   String
+  rating    Int
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+  userId    Int
+  eventId   Int
+
+  user  User  @relation(fields: [userId], references: [id])
+  event Event @relation(fields: [eventId], references: [id])
+
+  @@map("reviews")
 }
