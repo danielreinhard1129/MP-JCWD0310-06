@@ -13,10 +13,10 @@ interface LoginResponses {
   token: string;
 }
 
-interface LoginArgs
-  extends Omit<User, 'id' | 'fullName' | 'referral_code' | 'point'> {
+interface LoginArgs {
   role: string;
   password: string;
+  email: string;
 }
 const useLogin = () => {
   const router = useRouter();

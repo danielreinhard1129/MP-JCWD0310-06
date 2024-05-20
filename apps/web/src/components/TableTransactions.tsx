@@ -1,14 +1,8 @@
+import useAcceptTransaction from '@/hooks/api/tx/useAcceotTransaction';
+import useRejectTransaction from '@/hooks/api/tx/useRejectTransaction';
 import { format } from 'date-fns';
+import Image from 'next/image';
 import { FC } from 'react';
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from './ui/dialog';
-import { TableBody, TableCell, TableRow } from './ui/table';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,12 +15,18 @@ import {
   AlertDialogTrigger,
 } from './ui/alert-dialog';
 import { Button } from './ui/button';
-import Image from 'next/image';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from './ui/dialog';
 import { ScrollArea } from './ui/scroll-area';
-import useAcceptTransaction from '@/hooks/api/tx/useAcceotTransaction';
-import useRejectTransaction from '@/hooks/api/tx/useRejectTransaction';
+import { TableBody, TableCell, TableRow } from './ui/table';
 
-interface CardEventProps {
+interface TableTransactionsTab {
   invoice: string;
   status: string;
   total: number;
@@ -40,7 +40,7 @@ interface CardEventProps {
   paymentProof: string;
 }
 
-const TableTransactions: FC<CardEventProps> = ({
+const TableTransactions: FC<TableTransactionsTab> = ({
   invoice,
   status,
   total,
@@ -72,7 +72,6 @@ const TableTransactions: FC<CardEventProps> = ({
         </TableCell>
 
         <TableCell className="">
-          {/*MODALS*/}
           <Dialog>
             <DialogTrigger>Details...</DialogTrigger>
             <DialogContent>
@@ -122,22 +121,6 @@ const TableTransactions: FC<CardEventProps> = ({
                         <TableCell className="font-medium">
                           {format(new Date(createdAt), 'dd MMMM yyyy')}
                         </TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">
-                          Voucher Discount
-                        </TableCell>
-                        <TableCell className="font-medium">{10000}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">
-                          Coupon Discount
-                        </TableCell>
-                        <TableCell className="font-medium">{10000}</TableCell>
-                      </TableRow>
-                      <TableRow>
-                        <TableCell className="font-medium">Point Use</TableCell>
-                        <TableCell className="font-medium">{10000}</TableCell>
                       </TableRow>
                       <TableRow>
                         <TableCell className="font-medium">Total</TableCell>

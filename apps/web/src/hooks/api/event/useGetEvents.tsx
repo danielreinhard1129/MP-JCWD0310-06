@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import { axiosInstance } from '@/lib/axios';
@@ -7,7 +8,7 @@ import { useEffect, useState } from 'react';
 
 interface IGetEventsQuery extends IPaginationQueries {
   search?: string;
-  id: number;
+  id?: number;
 }
 
 const useGetEvents = (queries: IGetEventsQuery) => {

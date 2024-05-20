@@ -3,7 +3,7 @@ import purwapora from 'public/purwapora.svg';
 
 export const Footer = () => {
   return (
-    <main className="mt-10 px-6 pb-10 md:px-20">
+    <main className="mb-10 mt-10 px-6 pb-10 xl:mb-0 xl:px-20">
       <div className="container h-fit overflow-hidden rounded-3xl bg-[#1e1e1e] px-0 md:h-[366px]">
         <div className="relative h-full w-full flex-col">
           <div className="right-10 top-10 grid gap-4 px-6 pb-8 pt-6 text-white md:absolute md:flex md:gap-10 md:p-0">

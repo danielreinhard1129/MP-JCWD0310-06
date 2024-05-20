@@ -97,7 +97,7 @@ const page = () => {
                           paymentProof={
                             appConfig.baseUrl +
                             `/assets${transaction.paymentProof}`
-                          }
+                          } 
                         />
                       );
                     })}

@@ -12,7 +12,7 @@ interface RegisterResponse {
   data: User;
 }
 
-interface RegisterArgs extends Omit<User, 'id'> {
+interface RegisterArgs {
   password: string;
 }
 const useRegister = () => {

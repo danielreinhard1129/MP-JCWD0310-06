@@ -1,5 +1,5 @@
 import { User } from './user.type';
-import { Voucher } from './voucher.type';
+import { Voucher } from './userVoucher.type';
 
 export interface Event {
   date: string | number | Date;
@@ -9,7 +9,7 @@ export interface Event {
   end_date: Date;
   description: string;
   thumbnail_url: string;
-  seat: number;
+  limit: number;
   booked: number;
   isAvailable: boolean;
   deletedAt: Date | null;
@@ -22,7 +22,7 @@ export interface Event {
   price: number;
   userId: number;
 
-  Voucher: Voucher;
+  Voucher: Voucher[];
   user: User;
 }
 

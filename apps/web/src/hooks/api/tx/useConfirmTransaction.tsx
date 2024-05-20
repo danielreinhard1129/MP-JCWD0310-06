@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FileWithPath } from 'react-dropzone';
 
-const useConfirmTransaction = (transactionId: number) => {
+const UseConfirmTransaction = (transactionId: number) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -15,9 +15,11 @@ const useConfirmTransaction = (transactionId: number) => {
 
       const confirmTransactionForm = new FormData();
 
-      paymentProof?.forEach((file: FileWithPath) => {
-        confirmTransactionForm.append('paymentProof', file);
-      });
+      if (paymentProof)
+        paymentProof.forEach((file: FileWithPath) => {
+          confirmTransactionForm.append('paymentProof', file);
+        });
+
       await axiosInstance.patch<Transaction>(
         `/transaction/${transactionId}`,
         confirmTransactionForm,
@@ -29,3 +31,5 @@ const useConfirmTransaction = (transactionId: number) => {
   };
   return { confirmTransaction, isLoading };
 };
+
+export default UseConfirmTransaction;

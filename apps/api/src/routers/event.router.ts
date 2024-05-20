@@ -23,6 +23,10 @@ export class EventRouter {
       '/organizer',
       this.eventController.getEventsByOrganizerController,
     );
+    this.router.get(
+      '/filter',
+      this.eventController.getEventsByParamsController,
+    );
     this.router.get('/', this.eventController.getEventsController);
     this.router.patch(
       '/:id',
