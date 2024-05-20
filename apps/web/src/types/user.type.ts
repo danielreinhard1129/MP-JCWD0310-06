@@ -12,7 +12,6 @@ export interface User {
   referralCode?: string;
   point: number;
   pointExpiredDate: Date;
-  role?: string;
   userReward: boolean;
 
   Review?: Review[];

@@ -24,7 +24,7 @@ const Login = () => {
       },
       validationSchema,
       onSubmit: (values) => {
-        login(values);
+        login(values as any);
       },
     });
   return (

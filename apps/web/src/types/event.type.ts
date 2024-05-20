@@ -21,9 +21,7 @@ export interface Event {
   userId: number;
 
   Review: Review[];
-  Voucher: Voucher;
   user: User;
-  Review: Review[];
 }
 
 export interface IFormEvent {

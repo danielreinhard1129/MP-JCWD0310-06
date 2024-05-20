@@ -23,13 +23,14 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
+import useGetUser from '@/hooks/api/auth/useGetUser';
 
 const EventDetail = ({ params }: { params: { id: string } }) => {
-  const { id, role, point } = useAppSelector((state) => state.user);
+  const { id: userId, role, point } = useAppSelector((state) => state.user);
   const { event, isLoading } = useGetEvent(Number(params.id));
-  const { user, isLoading: userLoading } = useGetUser(userId);
-  const [userCouponAmount, setUserCouponAmount] = useState(0);
-  const [userCouponCode, setUserCouponCode] = useState('');
+  // const { user, isLoading: userLoading } = useGetUser(userId);
+  // const [userCouponAmount, setUserCouponAmount] = useState(0);
+  // const [userCouponCode, setUserCouponCode] = useState('');
   const router = useRouter();
   const [page, setPage] = useState(1);
   const { data: events } = useGetEvents({
@@ -40,15 +41,15 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
   const excludedEvent = event?.id;
   const filteredEvent = events.filter((event) => event.id !== excludedEvent);
 
-  useEffect(() => {
-    if (!userLoading && user) {
-      const userCoupons = user.coupon || [];
-      const applicableCoupon = userCoupons[0];
+  // useEffect(() => {
+  //   if (!userLoading && user) {
+  //     const userCoupons = user.coupon || [];
+  //     const applicableCoupon = userCoupons[0];
 
-      setUserCouponAmount(applicableCoupon?.discountAmount || 0);
-      setUserCouponCode(applicableCoupon?.code || '');
-    }
-  }, [user, userLoading]);
+  //     setUserCouponAmount(applicableCoupon?.discountAmount || 0);
+  //     setUserCouponCode(applicableCoupon?.code || '');
+  //   }
+  // }, [user, userLoading]);
 
   if (isLoading) {
     return (
