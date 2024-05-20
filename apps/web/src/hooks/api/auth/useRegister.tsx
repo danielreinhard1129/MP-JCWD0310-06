@@ -12,8 +12,7 @@ interface RegisterResponse {
   data: User;
 }
 
-interface RegisterArgs
-  extends Omit<User, 'id' | 'pointExpiredDate' | 'userReward'> {
+interface RegisterArgs {
   password: string;
 }
 const useRegister = () => {

@@ -68,7 +68,7 @@ export const registerService = async (body: Omit<User, 'id'>) => {
           expirationDate: expiredDate,
           userId: newUser.id,
         },
-      });
+      }); 
 
       return {
         message: 'Register success !',

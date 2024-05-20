@@ -31,7 +31,6 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
   const { data: events } = useGetEvents({
     page,
     take: 4,
-    id: 0,
   });
   const [open, setOpen] = useState(false);
   const excludedEvent = event?.id;
@@ -98,7 +97,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
             </h2>
             <p className="break-words text-justify text-sm xl:text-base">
               {event.description}
-            </p>
+            </p> 
           </div>
           {/* GENRE */}
           <div className="grid gap-4">

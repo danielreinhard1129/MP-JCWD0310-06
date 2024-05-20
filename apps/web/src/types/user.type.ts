@@ -8,7 +8,6 @@ export interface User {
   email: string;
   password: string;
   avatar?: string;
-  role: string;
   createdAt: Date;
   updatedAt: Date;
   referralCode?: string;

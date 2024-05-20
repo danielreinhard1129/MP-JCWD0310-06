@@ -9,6 +9,8 @@ const initialState: Omit<User, 'event' | 'pointExpiredDate' | 'userReward'> = {
   referralCode: '',
   role: '',
   point: 0,
+  createdAt: new Date(),
+  updatedAt: new Date(),
 };
 
 export const userSlice = createSlice({

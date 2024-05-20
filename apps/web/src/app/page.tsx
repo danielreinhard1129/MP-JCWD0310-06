@@ -1,20 +1,18 @@
-/* eslint-disable react/no-unescaped-entities */
 'use client';
 
 import Autocomplete from '@/components/Autocomplete';
 import CardEvent from '@/components/CardEvent';
 import { LocationPicker } from '@/components/LocationPicker';
 import Pagination from '@/components/Pagination';
-import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { appConfig } from '@/utils/config';
-import { Filter } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import noeventfound from '../../public/noevent.png';
 import { CategoryPicker } from '@/components/CategoryPicker';
 import useGetEventsByFilter from '@/hooks/api/event/useGetEventsByFilter';
 import CardEventSkeleton from '@/components/CardEventSkeleton';
+import useGetEvents from '@/hooks/api/event/useGetEvents';
 
 export default function Home() {
   const [page, setPage] = useState<number>(1);
@@ -23,15 +21,19 @@ export default function Home() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const {
-    data: events,
+    data: events = [],
     meta,
     refetch,
   } = useGetEventsByFilter({
     page,
-    take: 8,
+    take: 4,
     location,
     category,
   });
+
+  // const {data: events, meta} = useGetEvents({
+  //   page: page, take: 4
+  // })
 
   const handleChangePaginate = ({ selected }: { selected: number }) => {
     setPage(selected + 1);
@@ -39,16 +41,17 @@ export default function Home() {
 
   const handleLocationChange = (newLocation: string) => {
     setLocation(newLocation);
-    setPage(1);
+    setPage(page);
   };
 
   const handleCategoryChange = (newCategory: string) => {
     setCategory(newCategory);
-    setPage(1);
+    setPage(page);
   };
 
   useEffect(() => {
-    refetch().finally(() => setIsLoading(false));
+    // refetch().finally(() => setIsLoading(false));
+    setIsLoading(false)
   }, [location, category, page]);
 
   return (
@@ -97,16 +100,9 @@ export default function Home() {
                 </span>
               </h1>
             </div>
-            <Button
-              variant="ghost"
-              className="flex gap-2 rounded-none p-0 text-[#767676] hover:bg-inherit"
-            >
-              <p className="text-[16px] font-medium">Filters</p>
-              <Filter className="h-6 w-6" />
-            </Button>
           </div>
           {isLoading ? (
-            <div className="flex w-full flex-col gap-4 pt-6 xl:flex-row">
+            <div className='flex flex-col xl:flex-row w-full gap-4 pt-6'>
               <CardEventSkeleton />
               <CardEventSkeleton />
               <CardEventSkeleton />
@@ -131,7 +127,7 @@ export default function Home() {
                 </div>
               ) : (
                 <div className="container grid grid-cols-1 gap-6 p-0 py-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {events.map((event, index) => {
+                  { events.map((event, index) => {
                     return (
                       <CardEvent
                         key={index}

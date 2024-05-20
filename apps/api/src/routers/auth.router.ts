@@ -18,7 +18,6 @@ export class AuthRouter {
       verifyToken,
       this.authController.keepLoginController,
     );
-    this.router.get('/:id', this.authController.getUserController);
     this.router.post('/register', this.authController.registerController);
     this.router.post('/login', this.authController.loginController);
     this.router.get(
@@ -35,6 +34,7 @@ export class AuthRouter {
       verifyToken,
       this.authController.resetPasswordController,
     );
+    this.router.get('/:id', this.authController.getUserController);
   }
 
   getRouter(): Router {

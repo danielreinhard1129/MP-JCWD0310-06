@@ -25,7 +25,7 @@ const Login = () => {
       validationSchema,
       onSubmit: (values) => {
         login(values);
-      },
+      }, 
     });
   return (
     <main className="container fixed left-0 right-0 z-50 mx-auto grid h-[90vh] w-screen grid-flow-col grid-cols-1 bg-inherit p-0 xl:grid-cols-2">
