@@ -1,145 +1,33 @@
-// import CardEvent from '@/components/CardEvent';
-// import LeftSection from '@/components/LeftSection';
-// import { Button } from '@/components/ui/button';
-// import AuthGuard from '@/hoc/AuthGuard';
-// import useGetEventsByOrganizer from '@/hooks/api/event/useGetEventsByOrganizer';
-// import { useAppSelector } from '@/redux/hooks';
-// import { appConfig } from '@/utils/config';
-// import { Filter } from 'lucide-react';
-
-// const page = () => {
-//   const { id } = useAppSelector((state) => state.user);
-//   const { data: event } = useGetEventsByOrganizer(id);
-
-//   return (
-//     <main className="container px-0">
-//       <div className="mx-auto flex flex-col gap-8 xl:gap-10">
-//         <h1 className="text-center text-4xl font-bold">Organizer Dashboard</h1>
-//       </div>
-//       <section className="grid w-full grid-cols-5 gap-4">
-//         {/* LEFT SECTION */}
-//         <div className="w-full">
-//           <LeftSection />
-//         </div>
-//         {/* RIGHT SECTION */}
-//         <div className="col-span-4">
-//           <div className="container px-0">
-//             <div className="container flex place-items-center justify-between px-0">
-//               <div className="relative w-fit">
-//                 <h1 className="text-[24px] font-semibold">Your Events</h1>
-//               </div>
-//               <Button
-//                 variant="ghost"
-//                 className="flex gap-2 rounded-none p-0 text-[#767676] hover:bg-inherit"
-//               >
-//                 <Filter className="h-6 w-6" />
-//               </Button>
-//             </div>
-//             <div className="grid grid-cols-1 gap-6 p-0 py-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-//               {event.map((event, index) => (
-//                 <CardEvent
-//                   key={index}
-//                   title={event.title}
-//                   description={event.description}
-//                   start_date={new Date(event.start_date)}
-//                   end_date={new Date(event.end_date)}
-//                   location={event.location}
-//                   thumbnail_url={`${appConfig.baseUrl}/assets${event.thumbnail_url}`}
-//                   eventId={event.id}
-//                   price={event.price}
-//                 />
-//               ))}
-//             </div>
-//           </div>
-//         </div>
-//       </section>
-//     </main>
-//   );
-// };
-
-// export default AuthGuard(page);
-
-/* eslint-disable react-hooks/rules-of-hooks */
-// 'use client';
-
-// import CardEvent from '@/components/CardEvent';
-// import { Button } from '@/components/ui/button';
-// import AuthGuard from '@/hoc/AuthGuard';
-// import useGetEvents from '@/hooks/api/event/useGetEventsByOrganizer';
-// import { Filter } from 'lucide-react';
-// import LeftSection from '../../components/LeftSection';
-// import { useAppSelector } from '@/redux/hooks';
-// import { appConfig } from '@/utils/config';
-// import useGetEventsByOrganizer from '@/hooks/api/event/useGetEventsByOrganizer';
-
-// const page = () => {
-//   // eslint-disable-next-line react-hooks/rules-of-hooks
-//   const { id } = useAppSelector((state) => state.user);
-//   // eslint-disable-next-line react-hooks/rules-of-hooks
-//   const { data: event } = useGetEventsByOrganizer(id);
-//   // console.log(event.length);
-
-//   return (
-//     <main className="">
-//       <div className="">
-//         <h1 className="text-center text-4xl font-bold">Organizer Dashboard</h1>
-//       </div>
-//       <section className="grid w-full grid-cols-5 px-6 md:px-20 ">
-//         <LeftSection />
-//         <div className="col-span-4">
-//           <div className="container px-0">
-//             <div className="container flex place-items-center justify-between px-0 md:pt-10">
-//               <div className="relative w-fit">
-//                 <h1 className="text-[24px] font-semibold">Your Events</h1>
-//               </div>
-//               <Button
-//                 variant="ghost"
-//                 className="flex gap-2 rounded-none p-0 text-[#767676] hover:bg-inherit"
-//               >
-//                 <p className="text-[16px] font-medium">Filters</p>
-//                 <Filter className="h-6 w-6" />
-//               </Button>
-//             </div>
-//             <div className="container grid grid-cols-1 gap-6 p-0 py-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-//               {event.map((event, index) => {
-//                 return (
-//                   <CardEvent
-//                     key={index}
-//                     title={event.title}
-//                     description={event.description}
-//                     start_date={new Date()}
-//                     end_date={new Date()}
-//                     location={event.location}
-//                     thumbnail_url={
-//                       appConfig.baseUrl + `/assets${event.thumbnail_url}`
-//                     }
-//                     eventId={event.id}
-//                     price={event.price}
-//                   />
-//                 );
-//               })}
-//             </div>
-//             <div className="flex w-full place-items-center">
-//               <Button variant="secondary" className="mx-auto rounded-md px-16">
-//                 Show More
-//               </Button>
-//             </div>
-//           </div>
-//         </div>
-//       </section>
-//     </main>
-//   );
-// };
-
-// export default AuthGuard(page);
+/* eslint-disable react/no-unescaped-entities */
 'use client';
 
 import LeftSection from '@/components/LeftSection';
-import { Button } from '@/components/ui/button';
 import AuthGuard from '@/hoc/AuthGuard';
-import { Filter } from 'lucide-react';
-import ChartByMonth from './components/ChartByMonth';
+import ChartByMonth from './components/chartByMonth/Chart2021';
 import ChartByYear from './components/ChartByYear';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import Chart2021 from './components/chartByMonth/Chart2021';
+import Chart2022 from './components/chartByMonth/Chart2022';
+import Chart2023 from './components/chartByMonth/Chart2023';
+import Chart2024 from './components/chartByMonth/Chart2024';
+import Chart2025 from './components/chartByMonth/Chart2025';
 
 const page = () => {
   return (
@@ -157,12 +45,49 @@ const page = () => {
           <div className="container px-0">
             <div className="container flex place-items-center justify-between px-0">
               <div className="relative w-fit">
-                <h1 className="text-[24px] font-semibold">Your Events</h1>
+                <h1 className="text-[24px] font-semibold">
+                  Your Data Analytic
+                </h1>
+                {/* <div>
+                  <Accordion type="single" collapsible className="w-full">
+                    <AccordionItem value="item-1">
+                      <AccordionTrigger>Is it accessible?</AccordionTrigger>
+                      <AccordionContent>
+                        Yes. It adheres to the WAI-ARIA design pattern.
+                      </AccordionContent>
+                    </AccordionItem>
+                  </Accordion>
+                </div> */}
               </div>
             </div>
-            <div className="">
-              <ChartByMonth />
-              <ChartByYear />
+            <div className="w-full">
+              <Tabs defaultValue="account" className="w-full">
+                <TabsList>
+                  <TabsTrigger value="2021">2021</TabsTrigger>
+                  <TabsTrigger value="2022">2022</TabsTrigger>
+                  <TabsTrigger value="2023">2023</TabsTrigger>
+                  <TabsTrigger value="2024">2024</TabsTrigger>
+                  <TabsTrigger value="2025">2025</TabsTrigger>
+                </TabsList>
+                <TabsContent value="2021">
+                  <Chart2021 />
+                </TabsContent>
+                <TabsContent value="2022">
+                  <Chart2022 />
+                </TabsContent>
+                <TabsContent value="2023">
+                  <Chart2023 />
+                </TabsContent>
+                <TabsContent value="2024">
+                  <Chart2024 />
+                </TabsContent>
+                <TabsContent value="2025">
+                  <Chart2025 />
+                </TabsContent>
+              </Tabs>
+              <div className='mt-5'>
+                <ChartByYear />
+              </div>
             </div>
           </div>
         </div>

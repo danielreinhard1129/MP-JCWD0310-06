@@ -13,6 +13,7 @@ import { appConfig } from '@/utils/config';
 import { useState } from 'react';
 import Pagination from '@/components/Pagination';
 import { useRouter } from 'next/navigation';
+import Autocomplete from '@/components/Autocomplete';
 
 const page = () => {
   const { id } = useAppSelector((state) => state.user);
@@ -20,7 +21,7 @@ const page = () => {
   const { data: events, meta } = useGetEventsByOrganizer({
     id: id,
     page,
-    take: 8,
+    take: 9,
   });
 
   const handleChangePaginate = ({ selected }: { selected: number }) => {
@@ -39,15 +40,18 @@ const page = () => {
         <LeftSection />
         <div className="col-span-4">
           <div className="container px-0">
-            <div className="container flex place-items-center justify-between px-0 md:pt-10">
+            <div className="container flex place-items-center justify-between px-0">
               <div className="relative w-fit">
                 <h1 className="text-[24px] font-semibold">Your Events</h1>
               </div>
+            </div>
+            <div className="flex w-full place-items-center justify-between rounded-xl">
+              <Autocomplete />
               <Button
                 variant="ghost"
                 className="flex gap-2 rounded-none p-0 text-[#767676] hover:bg-inherit"
                 onClick={() => {
-                  router.push("/create")
+                  router.push('/create');
                 }}
               >
                 <p className="text-[16px] font-medium">Create Event</p>

@@ -25,6 +25,7 @@ interface LoginArgs
   > {
   role: string;
   password: string;
+  email: string;
 }
 const useLogin = () => {
   const router = useRouter();

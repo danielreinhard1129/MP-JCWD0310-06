@@ -31,6 +31,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
   const { data: events } = useGetEvents({
     page,
     take: 4,
+    id: 0,
   });
   const [open, setOpen] = useState(false);
   const excludedEvent = event?.id;

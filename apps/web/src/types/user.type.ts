@@ -7,6 +7,10 @@ export interface User {
   fullName: string;
   email: string;
   password: string;
+  avatar?: string;
+  role: string;
+  createdAt: Date;
+  updatedAt: Date;
   referralCode?: string;
   point: number;
   pointExpiredDate: Date;
