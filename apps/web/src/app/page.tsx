@@ -106,7 +106,7 @@ export default function Home() {
             </Button>
           </div>
           {isLoading ? (
-            <div className="flex w-full flex-col gap-4 pt-6 xl:flex-row">
+            <div className='flex flex-col xl:flex-row w-full gap-4 pt-6'>
               <CardEventSkeleton />
               <CardEventSkeleton />
               <CardEventSkeleton />

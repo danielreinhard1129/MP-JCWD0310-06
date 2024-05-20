@@ -1,6 +1,4 @@
-import { Event, Voucher } from './event.type';
-import { Coupon } from './coupon.type';
-import { Transaction } from './transaction.type';
+import { Event, Review } from './event.type';
 
 export interface User {
   id: number;
@@ -17,32 +15,6 @@ export interface User {
   role?: string;
   userReward: boolean;
 
-  userVoucher?: UserVoucher[];
-  userCoupon?: UserCoupon[];
-  event?: Event[];
-  transaction?: Transaction[];
-  voucher?: Voucher[];
-  coupon?: Coupon[];
-}
-
-export interface UserCoupon {
-  id: number;
-  userId: number;
-  couponId: number;
-  isUse: boolean;
-
-  user: User;
-  transaction: Transaction[];
-  coupon: Coupon[];
-}
-
-export interface UserVoucher {
-  id: number;
-  userId: number;
-  couponId: number;
-  isUse: boolean;
-
-  user: User;
-  voucher: Voucher;
-  transaction: Transaction[];
+  Review?: Review[];
+  event?: Event;
 }

@@ -20,7 +20,8 @@ export interface Event {
   price: number;
   userId: number;
 
-  Voucher?: Voucher[];
+  Review: Review[];
+  Voucher: Voucher;
   user: User;
   Review: Review[];
 }
@@ -44,26 +45,13 @@ export interface IFormEvent {
   voucherExpDate: Date | null;
 }
 
-export interface Voucher {
-  id: number;
-  code: string;
-  discountAmount: number;
-  limit: number;
-  expirationDate: Date;
-  createdAt: Date;
-  updatedAt: Date;
-
-  user: User;
-  event: Event;
-}
-
 export interface Review {
   id: number;
   rating: number;
   comment: string;
   userId: number;
   eventId: number;
-
-  user: User;
+  
   event: Event;
+  user: User;
 }

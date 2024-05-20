@@ -32,4 +32,4 @@ const UseConfirmTransaction = (transactionId: number) => {
   return { confirmTransaction, isLoading };
 };
 
-export default UseConfirmTransaction;
+export default useConfirmTransaction;
