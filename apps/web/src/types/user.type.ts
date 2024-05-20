@@ -1,7 +1,6 @@
-import { Event } from './event.type';
+import { Event, Voucher } from './event.type';
+import { Coupon } from './coupon.type';
 import { Transaction } from './transaction.type';
-import { Coupon, UserCoupon } from './userCoupon.type';
-import { UserVoucher, Voucher } from './userVoucher.type';
 
 export interface User {
   id: number;
@@ -15,12 +14,35 @@ export interface User {
   referralCode?: string;
   point: number;
   pointExpiredDate: Date;
+  role?: string;
   userReward: boolean;
 
-  Event: Event;
-  Transaction: Transaction;
-  Voucher: Voucher[]
-  UserCoupon: UserCoupon;
-  UserVoucher: UserVoucher;
-  Coupon: Coupon;
+  userVoucher?: UserVoucher[];
+  userCoupon?: UserCoupon[];
+  event?: Event[];
+  transaction?: Transaction[];
+  voucher?: Voucher[];
+  coupon?: Coupon[];
+}
+
+export interface UserCoupon {
+  id: number;
+  userId: number;
+  couponId: number;
+  isUse: boolean;
+
+  user: User;
+  transaction: Transaction[];
+  coupon: Coupon[];
+}
+
+export interface UserVoucher {
+  id: number;
+  userId: number;
+  couponId: number;
+  isUse: boolean;
+
+  user: User;
+  voucher: Voucher;
+  transaction: Transaction[];
 }

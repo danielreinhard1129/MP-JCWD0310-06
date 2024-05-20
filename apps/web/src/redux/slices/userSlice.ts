@@ -1,7 +1,7 @@
 import { User } from '@/types/user.type';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
+const initialState: Omit<User, 'event' | 'pointExpiredDate' | 'userReward'> = {
   id: 0,
   fullName: '',
   email: '',

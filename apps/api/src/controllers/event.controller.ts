@@ -1,4 +1,5 @@
 import { createEventService } from '@/services/event/create-event.service';
+import { createReviewService } from '@/services/event/create-review.service';
 import { getEventService } from '@/services/event/get-event.service';
 import { getEventsByParamsService } from '@/services/event/get-events-by-params.service';
 import { getEventsService } from '@/services/event/get-events.service';
@@ -17,6 +18,17 @@ export class EventController {
       }
 
       const result = await createEventService(req.body, files[0]);
+
+      return res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // CREATE REVIEW
+  async createReview(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await createReviewService(req.body);
 
       return res.status(200).send(result);
     } catch (error) {

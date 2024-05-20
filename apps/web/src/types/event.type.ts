@@ -1,5 +1,4 @@
 import { User } from './user.type';
-import { Voucher } from './userVoucher.type';
 
 export interface Event {
   date: string | number | Date;
@@ -10,7 +9,6 @@ export interface Event {
   description: string;
   thumbnail_url: string;
   limit: number;
-  booked: number;
   isAvailable: boolean;
   deletedAt: Date | null;
   createdAt: Date;
@@ -22,8 +20,9 @@ export interface Event {
   price: number;
   userId: number;
 
-  Voucher: Voucher[];
+  Voucher?: Voucher[];
   user: User;
+  Review: Review[];
 }
 
 export interface IFormEvent {
@@ -43,4 +42,28 @@ export interface IFormEvent {
   voucherAmount: number | null;
   voucherLimit: number | null;
   voucherExpDate: Date | null;
+}
+
+export interface Voucher {
+  id: number;
+  code: string;
+  discountAmount: number;
+  limit: number;
+  expirationDate: Date;
+  createdAt: Date;
+  updatedAt: Date;
+
+  user: User;
+  event: Event;
+}
+
+export interface Review {
+  id: number;
+  rating: number;
+  comment: string;
+  userId: number;
+  eventId: number;
+
+  user: User;
+  event: Event;
 }

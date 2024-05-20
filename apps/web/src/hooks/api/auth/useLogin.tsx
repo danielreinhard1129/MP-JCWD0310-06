@@ -13,7 +13,16 @@ interface LoginResponses {
   token: string;
 }
 
-interface LoginArgs {
+interface LoginArgs
+  extends Omit<
+    User,
+    | 'id'
+    | 'fullName'
+    | 'referral_code'
+    | 'point'
+    | 'pointExpiredDate'
+    | 'userReward'
+  > {
   role: string;
   password: string;
   email: string;

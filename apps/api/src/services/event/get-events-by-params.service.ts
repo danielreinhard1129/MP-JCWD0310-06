@@ -6,9 +6,7 @@ interface getEventsByParams extends PaginationQueryParams {
   location?: string;
 }
 
-export const getEventsByParamsService = async (
-  query: getEventsByParams,
-) => {
+export const getEventsByParamsService = async (query: getEventsByParams) => {
   try {
     const { category, location, take, page, sortBy, sortOrder } = query;
 
@@ -29,10 +27,11 @@ export const getEventsByParamsService = async (
       },
     });
 
-    return {
-      data: events,
-      meta: { page, take },
-    };
+    if (events.length === 0) {
+      throw new Error('no event found');
+    }
+
+    return events;
   } catch (error) {
     throw error;
   }
