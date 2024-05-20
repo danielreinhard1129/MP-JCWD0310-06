@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FileWithPath } from 'react-dropzone';
 
-const UseConfirmTransaction = (transactionId: number) => {
+const useConfirmTransaction = (transactionId: number) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 

@@ -1,4 +1,4 @@
-import { User, UserCoupon } from './user.type';
+import { User } from './user.type';
 
 export interface Coupon {
   id: number;
@@ -11,5 +11,4 @@ export interface Coupon {
   isUse: boolean;
 
   user: User;
-  userCoupon: UserCoupon;
 }
