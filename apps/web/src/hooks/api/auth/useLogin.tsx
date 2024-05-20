@@ -14,9 +14,18 @@ interface LoginResponses {
 }
 
 interface LoginArgs
-  extends Omit<User, 'id' | 'fullName' | 'referral_code' | 'point'> {
+  extends Omit<
+    User,
+    | 'id'
+    | 'fullName'
+    | 'referral_code'
+    | 'point'
+    | 'pointExpiredDate'
+    | 'userReward'
+  > {
   role: string;
   password: string;
+  email: string;
 }
 const useLogin = () => {
   const router = useRouter();

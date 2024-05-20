@@ -1,11 +1,14 @@
+import { acceptTransactionService } from '@/services/tx/accept-tx.service';
 import { createTransactionService } from '@/services/tx/create-tx.service';
 import { getTransactionService } from '@/services/tx/get-tx.service';
 import { getTransactionsService } from '@/services/tx/get-txs.service';
+import { rejectTransactionService } from '@/services/tx/reject-tx.service';
 import { updateTransactionService } from '@/services/tx/update-tx.service';
 import { TransactionStatus } from '@/types/transactionStatus.type';
 import { NextFunction, Request, Response } from 'express';
 
 export class TransactionController {
+  // CREATE TX
   async createTransaction(req: Request, res: Response, next: NextFunction) {
     try {
       const files = req.files as Express.Multer.File[];
@@ -17,6 +20,37 @@ export class TransactionController {
       next(error);
     }
   }
+  // ACCEPT TX
+  async acceptTransactionController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const result = await acceptTransactionService(req.body);
+
+      return res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // REJECT TX
+  async rejectTransactionController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const result = await rejectTransactionService(req.body);
+
+      return res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // GET TX
   async getTransactionController(
     req: Request,
     res: Response,
@@ -31,6 +65,8 @@ export class TransactionController {
       next(error);
     }
   }
+
+  // UPDATE TX
   async updateTransactionController(
     req: Request,
     res: Response,

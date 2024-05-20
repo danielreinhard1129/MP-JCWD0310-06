@@ -25,7 +25,7 @@ const CardEvent: FC<CardEventProps> = ({
   thumbnail_url,
   eventId,
   price,
-}) => {
+}) => { 
   return (
     <Link href={`/${eventId}`}>
       <Card className="group overflow-hidden rounded-lg border-none p-3 shadow-none hover:bg-neutral-100/60">

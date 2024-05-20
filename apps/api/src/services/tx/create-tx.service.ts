@@ -37,7 +37,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
       expiresIn: '30m',
     });
 
-    const confirmationLink = NEXT_BASE_URL + `/confirmation?token=${token}`;
+    
     const event = await prisma.event.findFirst({
       where: { id: Number(eventId) },
     });
@@ -140,7 +140,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
         },
       });
     }
-
+    const confirmationLink = NEXT_BASE_URL + `/confirmation?token=${token}&id=${newTransaction.id}`;
     if (newTransaction.total === 0) {
       await prisma.transaction.update({
         where: { id: newTransaction.id },

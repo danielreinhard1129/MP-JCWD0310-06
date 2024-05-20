@@ -1,5 +1,4 @@
 import { User } from './user.type';
-import { Voucher } from './voucher.type';
 
 export interface Event {
   date: string | number | Date;
@@ -24,6 +23,7 @@ export interface Event {
   Review: Review[];
   Voucher: Voucher;
   user: User;
+  Review: Review[];
 }
 
 export interface IFormEvent {
@@ -51,7 +51,7 @@ export interface Review {
   comment: string;
   userId: number;
   eventId: number;
-
+  
   event: Event;
   user: User;
 }

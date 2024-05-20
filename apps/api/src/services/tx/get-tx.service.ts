@@ -11,7 +11,7 @@ export const getTransactionService = async (id: number) => {
     });
 
     if (!transaction) {
-      throw new Error('transaction not found');
+      throw new Error('Transaction not found');
     }
     
     return transaction;

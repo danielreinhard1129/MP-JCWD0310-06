@@ -12,7 +12,7 @@ import CardEvent from '@/components/CardEvent';
 import SkeletonEventDetail from './components/SkeletonEventDetail';
 import { useAppSelector } from '@/redux/hooks';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ModalOrderConfirmation from './components/ModalOrderConfirmation';
 import useGetEvents from '@/hooks/api/event/useGetEvents';
 import AuthGuardEvents from '@/hoc/AuthGuardEvents';
@@ -27,6 +27,9 @@ import {
 const EventDetail = ({ params }: { params: { id: string } }) => {
   const { id, role, point } = useAppSelector((state) => state.user);
   const { event, isLoading } = useGetEvent(Number(params.id));
+  const { user, isLoading: userLoading } = useGetUser(userId);
+  const [userCouponAmount, setUserCouponAmount] = useState(0);
+  const [userCouponCode, setUserCouponCode] = useState('');
   const router = useRouter();
   const [page, setPage] = useState(1);
   const { data: events } = useGetEvents({
@@ -36,6 +39,16 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
   const [open, setOpen] = useState(false);
   const excludedEvent = event?.id;
   const filteredEvent = events.filter((event) => event.id !== excludedEvent);
+
+  useEffect(() => {
+    if (!userLoading && user) {
+      const userCoupons = user.coupon || [];
+      const applicableCoupon = userCoupons[0];
+
+      setUserCouponAmount(applicableCoupon?.discountAmount || 0);
+      setUserCouponCode(applicableCoupon?.code || '');
+    }
+  }, [user, userLoading]);
 
   if (isLoading) {
     return (
@@ -48,8 +61,6 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
   if (!event) {
     return notFound();
   }
-
-  console.log(event.Review);
 
   return (
     <main className="container px-4 xl:px-0">
@@ -107,7 +118,6 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
                 <p className="text-xs text-[#767676]">{event.address}</p>
               </div>
             </div>
-            {/* <Maps address={String(event.address)} /> */}
           </div>
           {/* ORGANIZED BY */}
           <div className="grid w-fit gap-4">
@@ -200,4 +210,4 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
   );
 };
 
-export default AuthGuardEvents(EventDetail);
+export default EventDetail;
