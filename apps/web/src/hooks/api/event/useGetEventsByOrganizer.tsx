@@ -35,7 +35,7 @@ const useGetEventsByOrganizer = (queries: IGetEventsQuery) => {
 
   useEffect(() => {
     getEvents();
-  }, [queries?.page, queries?.search, queries.id]);
+  }, []);
 
   return { data, isLoading, meta, refetch: getEvents };
 };

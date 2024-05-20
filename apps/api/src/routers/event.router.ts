@@ -34,6 +34,7 @@ export class EventRouter {
       this.eventController.updateEventsController,
     );
     this.router.get('/:id', this.eventController.getEventController);
+    this.router.post('/:id/reviews', this.eventController.createReview);
   }
 
   getRouter(): Router {
