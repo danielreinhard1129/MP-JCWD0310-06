@@ -6,11 +6,11 @@ export const getEventService = async (id: number) => {
       where: { id },
       include: {
         user: true,
-        Voucher: true,
         Review: {
-          where: { userId: id },
+          where: { eventId: id },
           include: { user: true },
         },
+        Transaction: true,
       },
     });
 

@@ -1,4 +1,5 @@
-import { User, UserCoupon } from './user.type';
+import { User } from './user.type';
+import { UserCoupon } from './userCoupon.type';
 
 export interface Coupon {
   id: number;

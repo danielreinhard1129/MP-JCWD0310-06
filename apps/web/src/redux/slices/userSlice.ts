@@ -1,7 +1,15 @@
 import { User } from '@/types/user.type';
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
-const initialState: Omit<User, 'event' | 'pointExpiredDate' | 'userReward'> = {
+const initialState: Omit<
+  User,
+  | 'event'
+  | 'createdAt'
+  | 'updatedAt'
+  | 'pointExpiredDate'
+  | 'userReward'
+  | 'coupon'
+> = {
   id: 0,
   fullName: '',
   email: '',
@@ -9,8 +17,6 @@ const initialState: Omit<User, 'event' | 'pointExpiredDate' | 'userReward'> = {
   referralCode: '',
   role: '',
   point: 0,
-  createdAt: new Date(),
-  updatedAt: new Date(),
 };
 
 export const userSlice = createSlice({

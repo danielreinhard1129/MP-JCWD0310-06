@@ -2,32 +2,12 @@
 'use client';
 
 import LeftSection from '@/components/LeftSection';
-import AuthGuard from '@/hoc/AuthGuard';
-import ChartByMonth from './components/chartByMonth/Chart2021';
-import ChartByYear from './components/ChartByYear';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import Chart2021 from './components/chartByMonth/Chart2021';
-import Chart2022 from './components/chartByMonth/Chart2022';
+import AuthGuard from '@/hoc/AuthGuard';
 import Chart2023 from './components/chartByMonth/Chart2023';
 import Chart2024 from './components/chartByMonth/Chart2024';
 import Chart2025 from './components/chartByMonth/Chart2025';
+import ChartByYear from './components/ChartByYear';
 
 const page = () => {
   return (
@@ -63,18 +43,10 @@ const page = () => {
             <div className="w-full">
               <Tabs defaultValue="account" className="w-full">
                 <TabsList>
-                  <TabsTrigger value="2021">2021</TabsTrigger>
-                  <TabsTrigger value="2022">2022</TabsTrigger>
                   <TabsTrigger value="2023">2023</TabsTrigger>
                   <TabsTrigger value="2024">2024</TabsTrigger>
                   <TabsTrigger value="2025">2025</TabsTrigger>
                 </TabsList>
-                <TabsContent value="2021">
-                  <Chart2021 />
-                </TabsContent>
-                <TabsContent value="2022">
-                  <Chart2022 />
-                </TabsContent>
                 <TabsContent value="2023">
                   <Chart2023 />
                 </TabsContent>
@@ -85,7 +57,7 @@ const page = () => {
                   <Chart2025 />
                 </TabsContent>
               </Tabs>
-              <div className='mt-5'>
+              <div className="mt-5">
                 <ChartByYear />
               </div>
             </div>

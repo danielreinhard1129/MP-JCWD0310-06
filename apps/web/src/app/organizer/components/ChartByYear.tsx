@@ -16,6 +16,8 @@ import { faker } from '@faker-js/faker';
 import { useAppSelector } from '@/redux/hooks';
 import useGetEventsByOrganizer from '@/hooks/api/event/useGetEventsByOrganizer';
 import useGetTransactionsByOrganizer from '@/hooks/api/tx/useGetTransactions';
+import useGetPendingTransactions from '@/hooks/api/tx/useGetPendingTransactions';
+import { TransactionStatus } from '@/types/transaction.type';
 
 ChartJS.register(
   CategoryScale,
@@ -31,9 +33,14 @@ const ChartByYear = () => {
   const { id } = useAppSelector((state) => state.user);
   const { data: event } = useGetEventsByOrganizer({ id: id });
   const { data: transaction } = useGetTransactionsByOrganizer({ id: id });
+  const { data: attendees } = useGetPendingTransactions({
+    id: id,
+    take: 100,
+    status: TransactionStatus.COMPLETE,
+  });
 
   // Define the years you are interested in
-  const years = [2020, 2021, 2022, 2023, 2024, 2025];
+  const years = [2023, 2024, 2025];
   const eventsCountPerYear = Array(years.length).fill(0);
 
   if (event) {
@@ -55,6 +62,19 @@ const ChartByYear = () => {
       const yearIndex = years.indexOf(year);
       if (yearIndex !== -1) {
         transactionsCountPerYear[yearIndex]++;
+      }
+    });
+  }
+
+  const attendeesCountPerYear = Array(years.length).fill(0);
+
+  if (attendees) {
+    Object.keys(attendees).forEach((key: any) => {
+      const date = new Date(attendees[key].createdAt);
+      const year = date.getFullYear();
+      const yearIndex = years.indexOf(year);
+      if (yearIndex !== -1) {
+        attendeesCountPerYear[yearIndex]++;
       }
     });
   }
@@ -89,7 +109,7 @@ const ChartByYear = () => {
       },
       {
         label: 'Attendees',
-        data: years.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+        data: attendeesCountPerYear,
         borderColor: '#14C11A',
         backgroundColor: '#0D9111',
       },

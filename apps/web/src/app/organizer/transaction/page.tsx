@@ -85,7 +85,7 @@ const page = () => {
                         <TableTransactions
                           key={key}
                           invoice={transaction.invoice}
-                          createdAt={new Date()}
+                          createdAt={new Date(transaction.createdAt)}
                           status={String(transaction.status)}
                           total={transaction.total}
                           transactionId={transaction.id}
@@ -97,7 +97,7 @@ const page = () => {
                           paymentProof={
                             appConfig.baseUrl +
                             `/assets${transaction.paymentProof}`
-                          } 
+                          }
                         />
                       );
                     })}

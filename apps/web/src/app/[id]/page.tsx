@@ -1,50 +1,53 @@
 'use client';
 
+import CardEvent from '@/components/CardEvent';
+import CardReview from '@/components/CardReview';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from '@/components/ui/carousel';
 import useGetEvent from '@/hooks/api/event/useGetEvent';
+import useGetEvents from '@/hooks/api/event/useGetEvents';
+import { useAppSelector } from '@/redux/hooks';
 import { appConfig } from '@/utils/config';
 import { format } from 'date-fns';
+import { Edit, MapPinned } from 'lucide-react';
 import Image from 'next/image';
 import { notFound, useRouter } from 'next/navigation';
-import { Badge } from '@/components/ui/badge';
-import { Edit, MapPinned } from 'lucide-react';
-import OrderCard from './components/OrderCard';
-import CardEvent from '@/components/CardEvent';
-import SkeletonEventDetail from './components/SkeletonEventDetail';
-import { useAppSelector } from '@/redux/hooks';
-import { Button } from '@/components/ui/button';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import ModalOrderConfirmation from './components/ModalOrderConfirmation';
-import useGetEvents from '@/hooks/api/event/useGetEvents';
-import AuthGuardEvents from '@/hoc/AuthGuardEvents';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import useGetUser from '@/hooks/api/auth/useGetUser';
-import { Review } from '@/types/event.type';
+import OrderCard from './components/OrderCard';
+import SkeletonEventDetail from './components/SkeletonEventDetail';
 
 const EventDetail = ({ params }: { params: { id: string } }) => {
-  const { id: userId, role, point } = useAppSelector((state) => state.user);
+  const { id, role, point } = useAppSelector((state) => state.user);
   const { event, isLoading } = useGetEvent(Number(params.id));
-  const { user, isLoading: userLoading } = useGetUser(userId);
-  const [userCouponAmount, setUserCouponAmount] = useState(0);
-  const [userCouponCode, setUserCouponCode] = useState('');
+  // const { user, isLoading: userLoading } = useGetUser(userId);
+  // const [userCouponAmount, setUserCouponAmount] = useState(0);
+  // const [userCouponCode, setUserCouponCode] = useState('');
   const router = useRouter();
   const [page, setPage] = useState(1);
   const { data: events } = useGetEvents({
     page,
-    take: 4,
+    take: 5,
   });
   const [open, setOpen] = useState(false);
   const excludedEvent = event?.id;
   const filteredEvent = events.filter((event) => event.id !== excludedEvent);
 
-  useEffect(() => {
-    if (!userLoading && user) {
-      const userCoupons = user.coupon || [];
-      const applicableCoupon = userCoupons[0];
+  // useEffect(() => {
+  //   if (!userLoading && user) {
+  //     const userCoupons = user.coupon || [];
+  //     const applicableCoupon = userCoupons[0];
 
-      setUserCouponAmount(applicableCoupon?.discountAmount || 0);
-      setUserCouponCode(applicableCoupon?.code || '');
-    }
-  }, [user, userLoading]);
+  //     setUserCouponAmount(applicableCoupon?.discountAmount || 0);
+  //     setUserCouponCode(applicableCoupon?.code || '');
+  //   }
+  // }, [user, userLoading]);
 
   if (isLoading) {
     return (
@@ -57,14 +60,6 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
   if (!event) {
     return notFound();
   }
-
-  // Enhanced logging to inspect the structure
-  console.log('Event Data:', event);
-  console.dir(event);
-
-  // Try to access the reviews property directly and log it
-  const reviews = event.Review || [];
-  console.log('Reviews:', reviews);
 
   return (
     <main className="container px-4 xl:px-0">
@@ -143,25 +138,26 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
               </div>
             </div>
           </div>
-          {/* REVIEW  */}
-          {reviews.length > 0 ? (
-            <div className="grid w-fit gap-4">
-              <h2>Review</h2>
-              <div className="flex justify-between rounded-md bg-[#f4f4f4] px-6 py-4">
-                <div className="flex w-full items-center gap-4">
-                  {reviews.map((review: Review, idx: number) => (
-                    <div key={idx}>
-                      {/* <h2>{review.user.fullName}</h2> */}
-                      <div>{review.rating}</div>
-                      <p>{review.comment}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          ) : (
-            <p>No reviews available.</p>
-          )}
+          {/* REVIEW AND RATING */}
+          <div className="grid w-fit gap-4">
+            <h2 className="text-base font-medium text-black xl:text-2xl">
+              Review and Ratings
+            </h2>
+            <Carousel>
+              <CarouselContent>
+                {event?.Review?.map((e, index) => (
+                  <CarouselItem key={index} className="basis-1/2">
+                    <CardReview
+                      key={index}
+                      fullName={e.user.fullName}
+                      comment={e.comment}
+                      rating={e.rating}
+                    />
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          </div>
         </div>
         {/* RIGHT SECTION */}
         <div className="fixed bottom-0 left-0 right-0 z-50 mx-auto flex h-fit w-full flex-col gap-4 xl:sticky xl:top-6 xl:mx-0 xl:w-[465px]">

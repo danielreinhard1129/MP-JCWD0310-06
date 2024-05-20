@@ -1,8 +1,10 @@
 'use client';
 
 import useGetEventsByOrganizer from '@/hooks/api/event/useGetEventsByOrganizer';
+import useGetPendingTransactions from '@/hooks/api/tx/useGetPendingTransactions';
 import useGetTransactionsByOrganizer from '@/hooks/api/tx/useGetTransactions';
 import { useAppSelector } from '@/redux/hooks';
+import { TransactionStatus } from '@/types/transaction.type';
 import { faker } from '@faker-js/faker';
 import {
   CategoryScale,
@@ -18,14 +20,24 @@ import { Line } from 'react-chartjs-2';
 
 const Chart2025 = () => {
   const { id } = useAppSelector((state) => state.user);
-  const { data: event } = useGetEventsByOrganizer({ id: id });
+  const { data: event } = useGetEventsByOrganizer({
+    id: id,
+    take: 100,
+    page: 1,
+  });
   const { data: transaction } = useGetTransactionsByOrganizer({ id: id });
+  const { data: attendees } = useGetPendingTransactions({
+    id: id,
+    take: 100,
+    status: TransactionStatus.COMPLETE,
+  });
 
   const targetYear = 2025;
 
   // Initialize counts per month
   const eventsCountPerMonth = Array(12).fill(0);
   const transactionsCountPerMonth = Array(12).fill(0);
+  const attendeesCountPerMonth = Array(12).fill(0);
 
   if (event) {
     Object.keys(event).forEach((key) => {
@@ -33,6 +45,7 @@ const Chart2025 = () => {
       if (date.getFullYear() === targetYear) {
         const month = date.getMonth();
         eventsCountPerMonth[month]++;
+        console.log(Object.keys(event));
       }
     });
   }
@@ -43,6 +56,16 @@ const Chart2025 = () => {
       if (date.getFullYear() === targetYear) {
         const month = date.getMonth();
         transactionsCountPerMonth[month]++;
+      }
+    });
+  }
+
+  if (attendees) {
+    Object.keys(attendees).forEach((key) => {
+      const date = new Date(attendees[Number(key)].createdAt);
+      if (date.getFullYear() === targetYear) {
+        const month = date.getMonth();
+        attendeesCountPerMonth[month]++;
       }
     });
   }
@@ -102,7 +125,7 @@ const Chart2025 = () => {
       },
       {
         label: 'Attendees',
-        data: labels.map(() => faker.datatype.number({ min: 0, max: 1000 })),
+        data: attendeesCountPerMonth,
         borderColor: '#14C11A',
         backgroundColor: '#0D9111',
       },

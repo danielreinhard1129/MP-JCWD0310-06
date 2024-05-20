@@ -36,6 +36,13 @@ const LeftSection = () => {
         >
           <Ticket className="mr-4 h-4 w-4" /> Your Event
         </Button>
+        <Button
+          variant="ghost"
+          className="justify-normal"
+          onClick={() => router.push('/organizer/attendees')}
+        >
+          <Ticket className="mr-4 h-4 w-4" /> Attendees List
+        </Button>
       </div>
     </div>
   );

@@ -35,7 +35,7 @@ const useGetPendingTransactions = (queries: IGetPendingTransactionsQuery) => {
       setIsLoading(false);
     }
   };
-
+ 
   useEffect(() => {
     getPendingTransactions();
   }, [queries?.page, queries?.search, queries.id]);

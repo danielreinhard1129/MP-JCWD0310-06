@@ -34,5 +34,5 @@ const useRegister = () => {
   };
   return { register };
 };
-
+ 
 export default useRegister;
