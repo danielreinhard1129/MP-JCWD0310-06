@@ -136,6 +136,7 @@ model Transaction {
   isPointUse    Boolean
   isUseCoupon   Boolean
   isUseVoucher  Boolean
+  pointUse      Int?              @default(0)
 
   userCoupon  UserCoupon?  @relation(fields: [userCouponId], references: [id])
   event       Event        @relation(fields: [eventId], references: [id])

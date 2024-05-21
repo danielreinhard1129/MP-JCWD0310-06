@@ -10,6 +10,13 @@ import {
   CarouselContent,
   CarouselItem,
 } from '@/components/ui/carousel';
+import {
+  Table,
+  TableCaption,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
 import useGetEvent from '@/hooks/api/event/useGetEvent';
 import useGetEvents from '@/hooks/api/event/useGetEvents';
 import { useAppSelector } from '@/redux/hooks';
@@ -22,6 +29,9 @@ import { useState } from 'react';
 import ModalOrderConfirmation from './components/ModalOrderConfirmation';
 import OrderCard from './components/OrderCard';
 import SkeletonEventDetail from './components/SkeletonEventDetail';
+import Attendee from './components/Attendee';
+import useGetAttendees from '@/hooks/api/tx/useGetAttendees';
+import { TransactionStatus } from '@/types/transaction.type';
 
 const EventDetail = ({ params }: { params: { id: string } }) => {
   const { id: userId, role, point } = useAppSelector((state) => state.user);
@@ -35,6 +45,14 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
     page,
     take: 5,
   });
+  const { data: attendees } = useGetAttendees({
+    id: 2,
+    page,
+    status: TransactionStatus.COMPLETE,
+    take: 10,
+  });
+  console.log(attendees);
+
   const [open, setOpen] = useState(false);
   const excludedEvent = event?.id;
   const filteredEvent = events.filter((event) => event.id !== excludedEvent);
@@ -92,7 +110,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
             </h2>
             <p className="break-words text-justify text-sm xl:text-base">
               {event.description}
-            </p> 
+            </p>
           </div>
           {/* GENRE */}
           <div className="grid gap-4">
@@ -166,14 +184,39 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
               <OrderCard price={event.price} setOpen={() => setOpen(true)} />
             </div>
           ) : (
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={() => router.push(`/${params.id}/update`)}
-              className="rounded-full"
-            >
-              <Edit size="20px" />
-            </Button>
+            <div>
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={() => router.push(`/${params.id}/update`)}
+                className="rounded-full"
+              >
+                <Edit size="20px" />
+              </Button>
+              <Table>
+                <TableCaption>A list of your recent invoices.</TableCaption>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="w-[100px]">Invoice</TableHead>
+                    <TableHead>Attendee</TableHead>
+                    <TableHead>Qty</TableHead>
+                    <TableHead className="text-right">Date</TableHead>
+                  </TableRow>
+                </TableHeader>
+                {attendees.map((attendee, key) => {
+                  return (
+                    <Attendee
+                      no={key}
+                      eventTitle={attendee.event.title}
+                      qty={attendee.qty}
+                      startDate={new Date(attendee.event.start_date)}
+                      userName={attendee.user.fullName}
+                      key={key}
+                    />
+                  );
+                })}
+              </Table>
+            </div>
           )}
         </div>
       </section>

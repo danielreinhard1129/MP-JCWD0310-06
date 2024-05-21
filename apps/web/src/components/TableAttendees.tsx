@@ -38,6 +38,7 @@ const TableAttendees: FC<TableAttendeesList> = ({
         <TableCell className="font-medium">{no + 1}</TableCell>
         <TableCell className="">{eventTitle}</TableCell>
         <TableCell className="">{userName}</TableCell>
+        <TableCell className="">{qty}</TableCell>
         <TableCell>{format(new Date(createdAt), 'dd MMMM yyyy')}</TableCell>
       </TableRow>
     </TableBody>

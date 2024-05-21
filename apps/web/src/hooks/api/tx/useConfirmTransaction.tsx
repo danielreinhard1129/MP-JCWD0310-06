@@ -1,3 +1,4 @@
+'use client';
 import { axiosInstance } from '@/lib/axios';
 import { IFormTransaction, Transaction } from '@/types/transaction.type';
 import { useRouter } from 'next/navigation';
@@ -25,7 +26,7 @@ const useConfirmTransaction = (id: number) => {
         console.log(pair[0] + ', ' + pair[1]);
       }
 
-      await axiosInstance.post<Transaction>(
+      await axiosInstance.patch<Transaction>(
         `/transaction/${id}`,
         confirmTransactionForm,
       );

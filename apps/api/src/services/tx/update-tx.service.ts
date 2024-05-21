@@ -21,7 +21,9 @@ export const updateTransactionService = async (
 
     if (file) {
       body.paymentProof = `/txProof/${file.filename}`;
-      const imagePath = resolve(__dirname, '../../../public' + tx.paymentProof);
+      
+      
+      const imagePath = join(__dirname, '../../../public' + body.paymentProof);
 
       if (fs.existsSync(imagePath)) {
         fs.unlinkSync(imagePath);
@@ -34,10 +36,10 @@ export const updateTransactionService = async (
     });
   } catch (error) {
     if (file) {
-      const imagePath = resolve(__dirname, defaultDir, file.filename);
-      if (fs.existsSync(imagePath)) {
-        fs.unlinkSync(imagePath);
-      }
+      // const imagePath = join(__dirname, defaultDir, file.filename);
+      // if (fs.existsSync(imagePath)) {
+      //   fs.unlinkSync(imagePath);
+      // }
     }
     console.log(error);
     throw error;

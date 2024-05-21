@@ -1,8 +1,12 @@
+'use client';
+
 import useAcceptTransaction from '@/hooks/api/tx/useAcceotTransaction';
+import useGetTransaction from '@/hooks/api/tx/useGetTransaction';
 import useRejectTransaction from '@/hooks/api/tx/useRejectTransaction';
 import { format } from 'date-fns';
 import Image from 'next/image';
 import { FC } from 'react';
+import Countdown from 'react-countdown';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -40,22 +44,26 @@ interface TableTransactionsTab {
   paymentProof: string;
 }
 
-const TableTransactions: FC<TableTransactionsTab> = ({
-  invoice,
-  status,
-  total,
-  createdAt,
-  transactionId,
-  userId,
-  eventId,
-  eventTitle,
-  userName,
-  qty,
-  paymentProof,
-}) => {
+const TableTransactions: FC<TableTransactionsTab> = (
+  {
+    invoice,
+    status,
+    total,
+    createdAt,
+    transactionId,
+    userId,
+    eventId,
+    eventTitle,
+    userName,
+    qty,
+    paymentProof,
+  },
+  id,
+) => {
   const { accepting } = useAcceptTransaction();
   const { rejecting } = useRejectTransaction();
   const values = { id: Number(transactionId) };
+  const { transaction } = useGetTransaction(Number(id));
   return (
     <TableBody>
       <TableRow>
@@ -77,6 +85,13 @@ const TableTransactions: FC<TableTransactionsTab> = ({
             <DialogContent>
               <DialogHeader>
                 <DialogTitle className="text-center text-3xl">
+                  {status === 'WAITING' ? (
+                    <Countdown
+                      className="text-black"
+                      date={new Date(createdAt).getTime() + 24 * 60 * 60 * 1000}
+                    />
+                  ) : null}{' '}
+                  <br></br>
                   Transaction is{'    '}
                   <span
                     className={

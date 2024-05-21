@@ -17,11 +17,15 @@ export class TransactionRouter {
       '/',
       uploader('IMG', '/txProof').array('paymentProof', 1),
       this.transactionController.createTransaction,
-      );
-      this.router.get(
-        '/organizer',
-        this.transactionController.getTransactionsController,
-      );
+    );
+    this.router.get(
+      '/organizer',
+      this.transactionController.getTransactionsController,
+    );
+    this.router.get(
+      '/attendees',
+      this.transactionController.getTransactionByEvent,
+    );
     this.router.post(
       '/accepting',
       this.transactionController.acceptTransactionController,
@@ -34,7 +38,7 @@ export class TransactionRouter {
       '/:id',
       this.transactionController.getTransactionController,
     );
-    this.router.post(
+    this.router.patch(
       '/:id',
       uploader('IMG', '/txProof').array('paymentProof', 1),
       this.transactionController.updateTransactionController,

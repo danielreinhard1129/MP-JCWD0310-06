@@ -32,11 +32,11 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
     }
 
     const userEmail = user.email;
-    
+
     const event = await prisma.event.findFirst({
       where: { id: Number(eventId) },
     });
-    
+
     if (!event) {
       throw new Error('event not found');
     }
@@ -153,6 +153,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
       });
     }
 
+    // COMPLETE
     const confirmationLink =
       NEXT_BASE_URL + `/confirmation?id=${newTransaction.id}&token=${token}`;
     if (newTransaction.total === 0) {
@@ -183,6 +184,8 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
           status: 'PENDING',
         },
       });
+
+      //EXPIRED
       if (transaction) {
         await prisma.transaction.update({
           where: { id: newTransaction.id },

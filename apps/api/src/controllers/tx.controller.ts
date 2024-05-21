@@ -74,8 +74,10 @@ export class TransactionController {
   ) {
     try {
       const files = req.files as Express.Multer.File[];
+      console.log(req.params.id);
+      console.log(req.body);
+      console.log(req.files);
 
-      const userId = Number(req.body.user.id);
       const result = await updateTransactionService(
         Number(req.params.id),
         req.body,
@@ -90,6 +92,29 @@ export class TransactionController {
 
   // GET TRANSACTIONS
   async getTransactionsController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const query = {
+        id: parseInt(req.query.id as string),
+        take: parseInt(req.query.take as string) || 8,
+        page: parseInt(req.query.page as string) || 1,
+        sortBy: parseInt(req.query.sortBy as string) || 'createdAt',
+        sortOrder: parseInt(req.query.sortOrder as string) || 'desc',
+        search: req.query.search as string,
+        status: req.query.status as TransactionStatus,
+      };
+      const result = await getTransactionsService(query);
+
+      return res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async getTransactionByEvent(
     req: Request,
     res: Response,
     next: NextFunction,

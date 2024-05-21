@@ -13,6 +13,6 @@
     }
   },
   // "include": ["src/**/*"],
-  "include": ["**/*.ts"],
+  "include": ["**/*.ts", "src/services/tx/get-tsx-byEvent.service.tsx"],
   "exclude": ["node_modules"]
 }

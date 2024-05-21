@@ -45,7 +45,7 @@ const AttendeesList = () => {
           <div className="container px-0">
             <div className="container flex place-items-center justify-between px-0">
               <div className="relative w-fit">
-                <h1 className="text-[24px] font-semibold">Your Transaction</h1>
+                <h1 className="text-[24px] font-semibold">Attendees List</h1>
               </div>
             </div>
             <div className="">
@@ -58,6 +58,7 @@ const AttendeesList = () => {
 
                       <TableHead>Event Title</TableHead>
                       <TableHead>Buyer</TableHead>
+                      <TableHead>Qty</TableHead>
                       <TableHead>Date</TableHead>
                     </TableRow>
                   </TableHeader>

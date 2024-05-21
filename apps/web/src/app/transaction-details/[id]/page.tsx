@@ -35,7 +35,9 @@ const TransactionDetails = ({ params }: { params: { id: string } }) => {
           {trxStatus === 'PENDING' ? (
             <Countdown
               className="text-white"
-              date={new Date(transaction.createdAt).getTime() + 2 * 60 * 60 * 1000}
+              date={
+                new Date(transaction.createdAt).getTime() + 2 * 60 * 60 * 1000
+              }
             />
           ) : (
             <div className="hidden"></div>
