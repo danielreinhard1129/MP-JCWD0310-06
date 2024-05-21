@@ -3,17 +3,18 @@
 import { Formik } from 'formik';
 import { validationSchema } from './validationSchema';
 
+import useConfirmTransaction from '@/hooks/api/tx/useConfirmTransaction';
 import { getChangedValues } from '@/utils/getChangedValues';
 import { useSearchParams } from 'next/navigation';
 import UploadPaymentProofForm from './components/ConfirmTransactionForm';
-import { UseConfirmTransaction } from '@/hooks/api/tx/useConfirmTransaction';
+
 
 const Confirm = () => {
   // const { id } = useAppSelector((state) => state.user);
   const searchParam = useSearchParams();
   const id = searchParam.get('id');
 
-  const { isLoading, confirmTransaction } = UseConfirmTransaction(Number(id));
+  const { isLoading, confirmTransaction } = useConfirmTransaction(Number(id));
 
   const initialValues = {
     paymentProof: [],

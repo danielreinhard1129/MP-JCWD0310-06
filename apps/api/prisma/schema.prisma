@@ -91,7 +91,7 @@ model Coupon {
 
 model UserVoucher {
   id        Int     @id @default(autoincrement())
-  userId    Int
+  userId    Int     @unique
   voucherId Int
   isUse     Boolean
 

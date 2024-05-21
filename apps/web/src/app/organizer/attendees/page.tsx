@@ -2,7 +2,6 @@
 import LeftSection from '@/components/LeftSection';
 import Pagination from '@/components/Pagination';
 import TableAttendees from '@/components/TableAttendees';
-import TableTransactions from '@/components/TableTransactions';
 
 import {
   Table,
@@ -11,12 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs } from '@/components/ui/tabs';
 import useGetPendingTransactions from '@/hooks/api/tx/useGetPendingTransactions';
 import { useAppSelector } from '@/redux/hooks';
 import { TransactionStatus } from '@/types/transaction.type';
 import { appConfig } from '@/utils/config';
-import { tr } from '@faker-js/faker';
 import { useState } from 'react';
 
 const AttendeesList = () => {

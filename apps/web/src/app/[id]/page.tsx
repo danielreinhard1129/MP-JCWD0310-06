@@ -24,7 +24,7 @@ import OrderCard from './components/OrderCard';
 import SkeletonEventDetail from './components/SkeletonEventDetail';
 
 const EventDetail = ({ params }: { params: { id: string } }) => {
-  const { id, role, point } = useAppSelector((state) => state.user);
+  const { id: userId, role, point } = useAppSelector((state) => state.user);
   const { event, isLoading } = useGetEvent(Number(params.id));
   // const { user, isLoading: userLoading } = useGetUser(userId);
   // const [userCouponAmount, setUserCouponAmount] = useState(0);

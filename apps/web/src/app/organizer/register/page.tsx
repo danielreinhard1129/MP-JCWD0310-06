@@ -25,7 +25,7 @@ const OrganizerRegister = () => {
 
       validationSchema,
       onSubmit: (values) => {
-        register(values);
+        register(values as any);
       },
     });
   return (
@@ -77,10 +77,10 @@ const OrganizerRegister = () => {
                   value={values.password}
                 />
               </div>
-              <Button className="mt-6 mb-2 w-full rounded-md" type="submit">
+              <Button className="mb-2 mt-6 w-full rounded-md" type="submit">
                 Register
               </Button>
-              <div className="grid xl:flex justify-between">
+              <div className="grid justify-between xl:flex">
                 <div className="flex pt-0">
                   <p className="text-xs">
                     Already have account?{' '}

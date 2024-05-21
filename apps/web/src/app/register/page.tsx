@@ -25,7 +25,7 @@ const Register = () => {
 
       validationSchema,
       onSubmit: (values) => {
-        register(values);
+        register(values as any);
       },
     });
   return (

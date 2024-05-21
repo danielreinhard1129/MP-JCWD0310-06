@@ -75,6 +75,7 @@ export class TransactionController {
     try {
       const files = req.files as Express.Multer.File[];
 
+      const userId = Number(req.body.user.id);
       const result = await updateTransactionService(
         Number(req.params.id),
         req.body,

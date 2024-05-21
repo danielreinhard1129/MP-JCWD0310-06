@@ -1,7 +1,7 @@
 import { Event, Review } from './event.type';
 
 export interface User {
-  coupon: never[];
+  
   id: number;
   fullName: string;
   email: string;

@@ -6,6 +6,7 @@ import {
   ReceiptText,
   Ticket,
   UserRound,
+  Users,
 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 
@@ -41,7 +42,7 @@ const LeftSection = () => {
           className="justify-normal"
           onClick={() => router.push('/organizer/attendees')}
         >
-          <Ticket className="mr-4 h-4 w-4" /> Attendees List
+          <Users className="mr-4 h-4 w-4" /> Attendees List
         </Button>
       </div>
     </div>

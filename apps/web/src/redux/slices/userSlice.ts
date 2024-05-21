@@ -3,12 +3,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 
 const initialState: Omit<
   User,
-  | 'event'
-  | 'createdAt'
-  | 'updatedAt'
-  | 'pointExpiredDate'
-  | 'userReward'
-  | 'coupon'
+  'event' | 'createdAt' | 'updatedAt' | 'userReward' | 'pointExpiredDate'
 > = {
   id: 0,
   fullName: '',
