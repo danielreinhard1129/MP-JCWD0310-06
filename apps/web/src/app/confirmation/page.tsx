@@ -2,18 +2,15 @@
 
 import { Formik } from 'formik';
 import { validationSchema } from './validationSchema';
-
 import { getChangedValues } from '@/utils/getChangedValues';
-import { useSearchParams } from 'next/navigation';
 import UploadPaymentProofForm from './components/ConfirmTransactionForm';
-import UseConfirmTransaction from '@/hooks/api/tx/useConfirmTransaction';
+import useConfirmTransaction from '@/hooks/api/tx/useConfirmTransaction';
+import { useSearchParams } from 'next/navigation';
 
 const Confirm = () => {
-  // const { id } = useAppSelector((state) => state.user);
-  const searchParam = useSearchParams();
-  const id = searchParam.get('id');
-
-  const { isLoading, confirmTransaction } = UseConfirmTransaction(Number(id));
+  const searchParams = useSearchParams();
+  const search = searchParams.get('id');
+  const { isLoading, confirmTransaction } = useConfirmTransaction(Number(search));
 
   const initialValues = {
     paymentProof: [],
@@ -25,7 +22,6 @@ const Confirm = () => {
         initialValues={initialValues}
         onSubmit={(values) => {
           const payload = getChangedValues(values, initialValues);
-
           if (!payload.paymentProof?.length) {
             delete payload.paymentProof;
           }
@@ -41,6 +37,3 @@ const Confirm = () => {
 };
 
 export default Confirm;
-// function useUpdate(arg0: number): { isLoading: any; updateEvent: any } {
-//   throw new Error('Function not implemented.');
-// }
