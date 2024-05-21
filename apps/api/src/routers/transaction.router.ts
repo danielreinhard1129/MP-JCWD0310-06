@@ -34,7 +34,7 @@ export class TransactionRouter {
       '/:id',
       this.transactionController.getTransactionController,
     );
-    this.router.patch(
+    this.router.post(
       '/:id',
       uploader('IMG', '/txProof').array('paymentProof', 1),
       this.transactionController.updateTransactionController,

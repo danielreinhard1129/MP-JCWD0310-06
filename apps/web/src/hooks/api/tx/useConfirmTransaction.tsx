@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { FileWithPath } from 'react-dropzone';
 
-const useConfirmTransaction = (transactionId: number) => {
+const useConfirmTransaction = (id: number) => {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -12,23 +12,31 @@ const useConfirmTransaction = (transactionId: number) => {
     setIsLoading(true);
     try {
       const { paymentProof } = payload;
-
       const confirmTransactionForm = new FormData();
 
-      if (paymentProof)
+      if (paymentProof) {
         paymentProof.forEach((file: FileWithPath) => {
           confirmTransactionForm.append('paymentProof', file);
         });
+      }
 
-      await axiosInstance.patch<Transaction>(
-        `/transaction/${transactionId}`,
+      // Log FormData content
+      for (let pair of confirmTransactionForm.entries()) {
+        console.log(pair[0] + ', ' + pair[1]);
+      }
+
+      await axiosInstance.post<Transaction>(
+        `/transaction/${id}`,
         confirmTransactionForm,
       );
       router.push('/');
     } catch (error) {
-      console.log(error);
+      console.error(error);
+    } finally {
+      setIsLoading(false);
     }
   };
+
   return { confirmTransaction, isLoading };
 };
 export default useConfirmTransaction;

@@ -1,6 +1,6 @@
 import prisma from '@/prisma';
 import { Transaction } from '@prisma/client';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import fs from 'fs';
 
 const defaultDir = '../../../public/txProof';
@@ -21,7 +21,7 @@ export const updateTransactionService = async (
 
     if (file) {
       body.paymentProof = `/txProof/${file.filename}`;
-      const imagePath = join(__dirname, '../../../public' + tx.paymentProof);
+      const imagePath = resolve(__dirname, '../../../public' + tx.paymentProof);
 
       if (fs.existsSync(imagePath)) {
         fs.unlinkSync(imagePath);
@@ -33,11 +33,13 @@ export const updateTransactionService = async (
       data: { ...body, status: 'WAITING' },
     });
   } catch (error) {
-    const imagePath = join(__dirname, defaultDir + file?.filename);
-
-    if (fs.existsSync(imagePath)) {
-      fs.unlinkSync(imagePath);
+    if (file) {
+      const imagePath = resolve(__dirname, defaultDir, file.filename);
+      if (fs.existsSync(imagePath)) {
+        fs.unlinkSync(imagePath);
+      }
     }
+    console.log(error);
     throw error;
   }
 };

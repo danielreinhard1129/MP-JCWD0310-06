@@ -32,18 +32,18 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
     }
 
     const userEmail = user.email;
+    
+    const event = await prisma.event.findFirst({
+      where: { id: Number(eventId) },
+    });
+    
+    if (!event) {
+      throw new Error('event not found');
+    }
 
     const token = sign({ id: user.id }, appConfig.jwtSecretKey, {
       expiresIn: '30m',
     });
-
-    const event = await prisma.event.findFirst({
-      where: { id: Number(eventId) },
-    });
-
-    if (!event) {
-      throw new Error('event not found');
-    }
 
     const baseLimit = event.limit;
 
@@ -130,7 +130,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
     const newTransaction = await prisma.transaction.create({
       data: {
         ...body,
-        paymentProof: `/txProof/`,
+        paymentProof: ``,
         invoice,
         total: Number(total),
         userId: Number(userId),
@@ -154,7 +154,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
     }
 
     const confirmationLink =
-      NEXT_BASE_URL + `/confirmation?id=${newTransaction.id}`;
+      NEXT_BASE_URL + `/confirmation?id=${newTransaction.id}&token=${token}`;
     if (newTransaction.total === 0) {
       await prisma.transaction.update({
         where: { id: newTransaction.id },
