@@ -13,6 +13,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import useClaimCoupon from '@/hooks/api/promo/useClaimCoupon';
+import useClaimVoucher from '@/hooks/api/promo/useClaimVoucher';
 import useCreateTransaction from '@/hooks/api/tx/useCreateTransaction';
 import { useAppSelector } from '@/redux/hooks';
 import { IFormTransaction } from '@/types/transaction.type';
@@ -37,6 +39,10 @@ const ModalOrderConfirmation: FC<ModalOrderConfirmationProps> = ({
   const { createTransaction } = useCreateTransaction();
   const { id } = useAppSelector((state) => state.user);
   const [numCount, setNumCount] = useState(1);
+  const [couponCode, setCouponCode] = useState('');
+  const [voucherCode, setVoucherCode] = useState('');
+  const { claimCoupon } = useClaimCoupon();
+  const { claimVoucher } = useClaimVoucher();
 
   useEffect(() => {
     setFieldValue('qty', numCount);
@@ -64,7 +70,7 @@ const ModalOrderConfirmation: FC<ModalOrderConfirmationProps> = ({
       isUseCoupon: false,
       isUseVoucher: false,
     },
-    onSubmit: (values) => {
+    onSubmit: async (values, { setSubmitting }) => {
       const transactionData = {
         qty: values.qty,
         isPointUse: values.isPointUse,
@@ -72,20 +78,38 @@ const ModalOrderConfirmation: FC<ModalOrderConfirmationProps> = ({
         isUseVoucher: values.isUseVoucher,
       };
 
-      createTransaction({
+      await createTransaction({
         ...transactionData,
         userId: id,
         eventId: Number(pathname.slice(1)),
       });
 
-      setOpen(false); // Close the modal after submission
+      setSubmitting(false);
+      setOpen(false);
     },
   });
 
-  // Calculate the final price
   const finalPrice = values.isPointUse
     ? Math.max(price * numCount - point, 0)
     : price * numCount;
+
+  const handleClaimCoupon = async () => {
+    if (couponCode) {
+      await claimCoupon({ code: couponCode, userId: id });
+      setFieldValue('isUseCoupon', true);
+    }
+  };
+
+  const handleClaimVoucher = async () => {
+    if (voucherCode) {
+      await claimVoucher({
+        code: voucherCode,
+        eventId: Number(pathname.slice(1)),
+        userId: id
+      });
+      setFieldValue('isUseVoucher', true);
+    }
+  };
 
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
@@ -135,25 +159,47 @@ const ModalOrderConfirmation: FC<ModalOrderConfirmationProps> = ({
                   {point > 0 ? (
                     <Switch
                       checked={values.isPointUse}
-                      onCheckedChange={(checked) => setFieldValue('isPointUse', checked)}
+                      onCheckedChange={(checked) =>
+                        setFieldValue('isPointUse', checked)
+                      }
                     />
                   ) : (
                     <Switch disabled />
                   )}
                 </div>
                 <div className="flex items-center justify-between">
-                  <Label>Use Coupon</Label>
-                  <Switch
-                    checked={values.isUseCoupon}
-                    onCheckedChange={(checked) => setFieldValue('isUseCoupon', checked)}
+                  <Label>Coupon Code</Label>
+                  <Input
+                    name="couponCode"
+                    onBlur={handleBlur}
+                    onChange={(e) => setCouponCode(e.target.value)}
+                    value={couponCode}
+                    className="w-full"
                   />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleClaimCoupon}
+                  >
+                    Claim Coupon
+                  </Button>
                 </div>
                 <div className="flex items-center justify-between">
-                  <Label>Use Voucher</Label>
-                  <Switch
-                    checked={values.isUseVoucher}
-                    onCheckedChange={(checked) => setFieldValue('isUseVoucher', checked)}
+                  <Label>Voucher Code</Label>
+                  <Input
+                    name="voucherCode"
+                    onBlur={handleBlur}
+                    onChange={(e) => setVoucherCode(e.target.value)}
+                    value={voucherCode}
+                    className="w-full"
                   />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={handleClaimVoucher}
+                  >
+                    Claim Voucher
+                  </Button>
                 </div>
                 <div className="flex items-center justify-between">
                   <Label>Price</Label>
@@ -182,7 +228,7 @@ const ModalOrderConfirmation: FC<ModalOrderConfirmationProps> = ({
             <AlertDialogCancel type="button" onClick={() => setOpen(false)}>
               Cancel
             </AlertDialogCancel>
-            <Button type="submit">Confirm</Button>
+            <Button type="submit">Confirm Order</Button>
           </AlertDialogFooter>
         </form>
       </AlertDialogContent>

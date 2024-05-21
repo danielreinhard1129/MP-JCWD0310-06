@@ -142,10 +142,10 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
           </div>
           {/* REVIEW AND RATING */}
           <div className="grid w-fit gap-4">
-            <h2 className="text-base font-medium text-black xl:text-2xl">
+            <h2 className="text-sm font-medium text-black xl:text-2xl">
               Review and Ratings
             </h2>
-            <Carousel>
+            <Carousel orientation='vertical'>
               <CarouselContent>
                 {event?.Review?.map((e, index) => (
                   <CarouselItem key={index} className="basis-1/2">
