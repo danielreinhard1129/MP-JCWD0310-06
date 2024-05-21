@@ -5,6 +5,7 @@ import { Separator } from '@/components/ui/separator';
 import useGetEvent from '@/hooks/api/event/useGetEvent';
 import useGetTransaction from '@/hooks/api/tx/useGetTransaction';
 import { format } from 'date-fns';
+import Countdown from 'react-countdown';
 
 const TransactionDetails = ({ params }: { params: { id: string } }) => {
   // const {event} = useGetEvent(id);
@@ -31,6 +32,14 @@ const TransactionDetails = ({ params }: { params: { id: string } }) => {
         <CardHeader
           className={`relative flex h-[120px] w-full flex-col items-center justify-center rounded-lg p-6 ${statusClass}`}
         >
+          {trxStatus === 'PENDING' ? (
+            <Countdown
+              className="text-white"
+              date={new Date(transaction.createdAt).getTime() + 2 * 60 * 60 * 1000}
+            />
+          ) : (
+            <div className="hidden"></div>
+          )}
           <h1 className="font-bold text-white">
             Your order is {trxStatus.charAt(0)}
             {trxStatus.slice(1).toLowerCase()}
