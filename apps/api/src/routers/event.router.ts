@@ -35,6 +35,7 @@ export class EventRouter {
     );
     this.router.get('/:id', this.eventController.getEventController);
     this.router.post('/:id/reviews', this.eventController.createReview);
+    this.router.post('/:id', this.eventController.claimVoucherController);
   }
 
   getRouter(): Router {

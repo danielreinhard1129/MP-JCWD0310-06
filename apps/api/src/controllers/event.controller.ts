@@ -1,3 +1,4 @@
+import { claimVoucherService } from '@/services/event/claim-voucher.service';
 import { createEventService } from '@/services/event/create-event.service';
 import { createReviewService } from '@/services/event/create-review.service';
 import { getEventService } from '@/services/event/get-event.service';
@@ -128,6 +129,22 @@ export class EventController {
         req.body,
         files[0],
       );
+
+      return res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  // CLAIM VOUCHER
+  async claimVoucherController(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    try {
+      const id = req.params.id;
+      const result = await claimVoucherService(Number(id), req.body);
 
       return res.status(200).send(result);
     } catch (error) {

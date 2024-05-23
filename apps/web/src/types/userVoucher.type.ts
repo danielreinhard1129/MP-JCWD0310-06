@@ -20,7 +20,9 @@ export interface Voucher {
   expirationDate: Date;
   createdAt: Date;
   updatedAt: Date;
+  eventId: number;
+  userId: number;
 
   user: User;
-  event: Event;
+  event: Event[];
 }

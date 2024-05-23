@@ -76,7 +76,7 @@ model UserCoupon {
 
 model Coupon {
   id             Int          @id @default(autoincrement())
-  code           String       @unique
+  code           String       
   expirationDate DateTime
   discountAmount Int
   createdAt      DateTime     @default(now())
@@ -91,7 +91,7 @@ model Coupon {
 
 model UserVoucher {
   id        Int     @id @default(autoincrement())
-  userId    Int     @unique
+  userId    Int     
   voucherId Int
   isUse     Boolean
 
