@@ -184,7 +184,7 @@ const EventDetail = ({ params }: { params: { id: string } }) => {
               <OrderCard price={event.price} setOpen={() => setOpen(true)} />
             </div>
           ) : (
-            <div>
+            <div className=''>
               <Button
                 variant="outline"
                 size="icon"

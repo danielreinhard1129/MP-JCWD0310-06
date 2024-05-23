@@ -19,7 +19,7 @@ const Attendee: FC<TableAttendeesList> = ({
   return (
     <TableBody>
       <TableRow>
-        <TableCell>{no}</TableCell>
+        <TableCell>{no+1}</TableCell>
         <TableCell>{eventTitle}</TableCell>
         <TableCell>{userName}</TableCell>
         <TableCell>{qty}</TableCell>

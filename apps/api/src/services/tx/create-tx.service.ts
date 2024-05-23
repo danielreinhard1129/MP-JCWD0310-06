@@ -176,7 +176,7 @@ export const createTransactionService = async (body: CreateTransactionBody) => {
       });
     }
 
-    const schedule = new Date(Date.now() + 10 * 1000);
+    const schedule = new Date(Date.now() + 2 * 60 * 1000);
     scheduleJob('run every ', schedule, async () => {
       const transaction = await prisma.transaction.findFirst({
         where: {
